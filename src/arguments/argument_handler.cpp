@@ -1,5 +1,5 @@
 #include "pch.h"
-
+#include "argument_handler.h"
 
 static int	argumentError(const char *argv);
 
@@ -10,56 +10,9 @@ static int handleHelp() {
 	std::cout << "|    --help      |" << std::endl;
 	std::cout << "-================-\n" << std::endl;
 
-	std::cout << "--info-monitor : show monitors available" << std::endl;
+	std::cout << "--info-monitor : show available monitors" << std::endl;
 	return 0;
 }
-
-
-static int	printMonitorInfo() {
-
-	int count;
-	int xpos, ypos;
-
-	GLFWmonitor** monitors = glfwGetMonitors(&count);
-
-	std::cout << "-================-" << std::endl;
-	std::cout << "| --info-monitor |" << std::endl;
-	std::cout << "-================-\n" << std::endl;
-
-	std::cout << "----------------------------------------------------------" << std::endl;
-	std::cout << "Index	Name	Adress		Size		Pos\n" << std::endl;
-
-	for (int i = 0; i < count; i ++)
-	{
-		const GLFWvidmode *mode = glfwGetVideoMode(monitors[i]);
-		glfwGetMonitorPos(monitors[i], &xpos, &ypos);
-
-		std::cout << i << "	";
-		std::cout << glfwGetMonitorName(monitors[i]) << "	";
-		std::cout << monitors[i] << "	";
-		std::cout << mode->width << " - " << mode->height << "	";
-		std::cout << xpos << " - " << ypos;
-		std::cout << std::endl;
-	}
-
-	std::cout << "----------------------------------------------------------" << std::endl;
-	std::cout << "\n\nCheckout GL doc for information about gamma ramp" << std::endl;
-
-	return 0;
-}
-
-int	printWindowInfo(GLFWwindow* window) {
-	std::cout << "-================-" << std::endl;
-	std::cout << "| --info-window  |" << std::endl;
-	std::cout << "-================-\n" << std::endl;
-
-	(void) window;
-
-
-	return 0;
-}
-
-
 
 static int	handleInfo(std::string arg, GLFWwindow* window) {
 
@@ -69,7 +22,6 @@ static int	handleInfo(std::string arg, GLFWwindow* window) {
 		return (printWindowInfo(window));
 	return argumentError(arg.c_str());
 }
-
 
 int	handleArgument(char* argv, GLFWwindow* window) {
 

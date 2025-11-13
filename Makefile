@@ -1,5 +1,5 @@
 
-# .SILENT: # You can uncomment this if you prefer a quieter build process
+ .SILENT: # You can uncomment this if you prefer a quieter build process
 
 # --- 1. CONFIGURATION VARIABLES ---
 
@@ -11,7 +11,7 @@ BUILDDIR := build
 
 CXX = clang++
 
-STD_FLAGS := -Wall -Wextra -Werror -std=c++17 -MMD -MP
+STD_FLAGS := -Wall -Wextra -Werror -std=c++17 -MMD -MP -g
 
 INC_PATHS := -I$(INCDIR)
 INC_PATHS += -I$(INCDIR)/info
@@ -40,51 +40,42 @@ PURPLE = \033[0;34m
 GREEN = \033[0;32m
 RESET = \033[0m
 
-.PHONY: all
+.PHONY: all clean re debug release dev valgrind info_monitor info_window test
+
+
 all: $(BUILDDIR) $(NAME)
 
-.PHONY: clean
 clean:
 	@echo "--- Cleaning up build artifacts ---"
 	@rm -rf $(BUILDDIR) $(NAME)
 	@echo "Clean complete."
 
-.PHONY: fclean
 fclean: clean
 	@rm -rf $(NAME)
 
-.PHONY: re
 re: fclean all
 
-.PHONY: debug
 debug: CFLAGS := $(COMMON_FLAGS) -g -O0
 debug: CXXFLAGS := $(COMMON_FLAGS) -g -O0
 debug: $(BUILDDIR) $(NAME)
 
-.PHONY: release
 release: all
 
-.PHONY: dev
 dev: all
 	@./$(NAME)
 
-.PHONY: valgrind
 valgrind: all
-	@valgrind --leack-check=full show-leak-kinds=all --log-file="log/valgrind.log" ./$(NAME)
+	@valgrind --leak-check=full --log-file="log/valgrind.log" env DISPLAY=:0  ./$(NAME)
 
-
-.PHONY: info_monitor
 info_monitor: all
 	@./$(NAME) --info-monitor
 
-.PHONY: info_window
-info_window: all
+info_window: CXXFLAGS += -DINFO_MODE=1
+info_window: fclean $(NAME)
 	@./$(NAME) --info-window
 
-
-.PHONY: test
 test: $(NAME)
-	./$(NAME) --run-tests
+	./$(NAME) --run-test $(NAME)
 
 
 # --- 4. BUILD RULES ---
