@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "argument_handler.h"
+#include "Application.hpp"
 
 static int	argumentError(const char *argv);
 
@@ -11,19 +12,21 @@ static int handleHelp() {
 	std::cout << "-================-\n" << std::endl;
 
 	std::cout << "--info-monitor : show available monitors" << std::endl;
+	std::cout << "--info-window : show windows info" << std::endl;
 	return 0;
 }
 
-static int	handleInfo(std::string arg, GLFWwindow* window) {
+static int	handleInfo(std::string arg, Application& app) {
 
-	if (arg == "monitor")
-		return (printMonitorInfo());
 	if (arg == "window")
-		return (printWindowInfo(window));
+	{
+		printMonitorInfo();
+		return (printWindowInfo(app.getWindow()));
+	}
 	return argumentError(arg.c_str());
 }
 
-int	handleArgument(char* argv, GLFWwindow* window) {
+int	handleArgument(char* argv, Application& app) {
 
 	std::stringstream ss(argv);
 	std::string field;
@@ -51,7 +54,7 @@ int	handleArgument(char* argv, GLFWwindow* window) {
 	}
 
 	if (first == "info")
-		return (handleInfo(second, window));
+		return (handleInfo(second, app));
 	if (first == "help")
 		return (handleHelp());
 	return 0;

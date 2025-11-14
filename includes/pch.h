@@ -18,3 +18,5 @@
 
 #include "config.h"
 #include "ansi_code.h"
+#include "utils.h"
+#include "debug.h"

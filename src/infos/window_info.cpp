@@ -7,7 +7,10 @@ void	key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	(void) mods;
 	(void) scancode;
 	if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
+	{
+		printMonitorInfo();
 		printWindowInfo(window);
+	}
 }
 
 void	setWindowHintEvent(GLFWwindow *window) {
@@ -47,10 +50,7 @@ int	printWindowInfo(GLFWwindow* window) {
 
 
 
-
 	(void) window;
-
-
 
 
 

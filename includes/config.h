@@ -1,13 +1,15 @@
 #ifndef CONFIG_H
 # define CONFIG_H
 
-typedef enum e_infoMode {
+typedef enum e_debugMode {
 	DEFAULT,
-	WINDOW
-}			t_infoMode;
+	WINDOW,
+	TEST
+}			t_debugMode;
 
-#ifndef INFO_MODE
-# define INFO_MODE 0
+
+#ifndef DEBUG_MODE
+# define DEBUG_MODE 0
 #endif
 
 #define WINDOW_WIDTH 800

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "argument_handler.h"
 #include "Application.hpp"
+#include "tests.h"
 
 
 int exitProgramm(const char *error_message, int return_value) {
@@ -9,46 +10,43 @@ int exitProgramm(const char *error_message, int return_value) {
 	return return_value;
 }
 
+void	print_mode() {
 
-//void framebuffer_size_callback(GLFWwindow* window, int width, int height)
-//{
-//	(void)window;
-//	glViewport(0, 0, width, height);
-//}
-
-
+	switch (DEBUG_MODE)
+	{
+		case 0:
+			std::cout << "Dev";
+			break;
+		case 1:
+			std::cout << "Info";
+			break;
+		case 2:
+			std::cout << "Test";
+			break;
+		default:
+			break;
+	}
+	std::cout << " Mode\n"  << std::endl;
+}
 
 int main(int argc, char** argv)
 {
-
 	if (!glfwInit())
 		return (exitProgramm("Failed to initialize GLFW", EXIT_FAILURE));
+
+	print_mode();
 
 	Application	app;
 	if (app.init())
 		return (exitProgramm("Failed to create GLFW window", EXIT_FAILURE));
 
-	if (argc == 2)
-	{
-		if (handleArgument(argv[1], app.getWindow()))
-			return 1;
-	}
+	if (DEBUG_MODE == TEST)
+		return runShaderTests(app);
+	if (argc == 2 && handleArgument(argv[1], app))
+		return 1;
 
 
 	app.run();
-	//glfwWindowHint(GLFW_MAXIMIZED, GLFW_FALSE);
-
-	// this will go on a class
-
-
-	//glfwMakeContextCurrent(app.getWindow());
-
-	//glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-
-	//glfwSetFramebufferSizeCallback(app.getWindow(), framebuffer_size_callback);
-
-
-
 
 	return 0;
 }

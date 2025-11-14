@@ -1,18 +1,23 @@
 #pragma once
 
 #include "pch.h"
-#include "argument_handler.h"
+#include "Theme.hpp"
 
 class Application {
 
 private:
 	GLFWwindow			*_window = NULL;
 	GLFWmonitor			*_monitor = NULL;
-	//const GLFWvidmode	*_mode = NULL;
+	GLFWmonitor			**_monitor_list = NULL;
+	const GLFWvidmode	*_mode = NULL;
+	int					_nbMonitors;
+
 	int					_window_width;
 	int					_window_height;
 	int					_monitor_width;
 	int					_monitor_height;
+
+	//Theme&				_theme;
 
 public:
 	Application();

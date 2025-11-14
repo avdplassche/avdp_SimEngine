@@ -1,4 +1,3 @@
-
  .SILENT: # You can uncomment this if you prefer a quieter build process
 
 # --- 1. CONFIGURATION VARIABLES ---
@@ -14,7 +13,7 @@ CXX = clang++
 STD_FLAGS := -Wall -Wextra -Werror -std=c++17 -MMD -MP -g
 
 INC_PATHS := -I$(INCDIR)
-INC_PATHS += -I$(INCDIR)/info
+INC_PATHS += -I$(INCDIR)/infos
 INC_PATHS += -I$(INCDIR)/lib/avdp_ui
 
 COMMON_FLAGS := $(STD_FLAGS) $(INC_PATHS)
@@ -26,13 +25,16 @@ LD_FLAGS = -lsfml-graphics -lsfml-window -lsfml-system -lGL -lglfw
 
 # --- 2. FILE DEFINITIONS ---
 
-SOURCES := $(wildcard $(SRCDIR)/*.cpp)
-SOURCES += $(wildcard $(SRCDIR)/*/*.cpp)
-SOURCES += $(wildcard $(SRCDIR)/*/*/*.cpp)
+APP_SOURCES := $(shell find $(SRCDIR) -name "*.cpp")
+#TEST_SOURCES = $(wildcard tests/*.cpp)
 
-OBJECTS := $(patsubst $(SRCDIR)/%.cpp, $(BUILDDIR)/%.o, $(SOURCES))
+SOURCES = $(APP_SOURCES) $(TEST_SOURCES)
 
-DEPENDS := $(patsubst %.o, %.d, $(OBJECTS))
+APP_OBJECTS := $(patsubst $(SRCDIR)/%.cpp, $(BUILDDIR)/%.o, $(APP_SOURCES))
+TEST_OBJECTS := $(patsubst tests/%.cpp, $(BUILDDIR)/%.o, $(TEST_SOURCES))
+
+OBJECTS = $(APP_OBJECTS) $(TEST_OBJECTS)
+DEPENDS := $(patsubst %.o, %.d, $(APP_OBJECTS))
 
 # --- 3. COLORS & UTILITY TARGETS ---
 
@@ -40,7 +42,7 @@ PURPLE = \033[0;34m
 GREEN = \033[0;32m
 RESET = \033[0m
 
-.PHONY: all clean re debug release dev valgrind info_monitor info_window test
+.PHONY: all clean re debug release dev valgrind info_window test
 
 
 all: $(BUILDDIR) $(NAME)
@@ -70,12 +72,13 @@ valgrind: all
 info_monitor: all
 	@./$(NAME) --info-monitor
 
-info_window: CXXFLAGS += -DINFO_MODE=1
+info_window: CXXFLAGS += -DDEBUG_MODE=1
 info_window: fclean $(NAME)
 	@./$(NAME) --info-window
 
-test: $(NAME)
-	./$(NAME) --run-test $(NAME)
+test: CXXFLAGS += -DDEBUG_MODE=2
+test: fclean all
+	./$(NAME)
 
 
 # --- 4. BUILD RULES ---
@@ -83,7 +86,8 @@ test: $(NAME)
 $(NAME): $(OBJECTS)
 	@echo "--- Linking executable: $@ ---"
 	$(CXX) $^ $(LD_FLAGS) -o $(NAME)
-	@printf "$(GREEN)Success!$(RESET)\n\n"
+	@printf "$(GREEN)Compilation complete.$(RESET)\n\n"
+
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.cpp | $(BUILDDIR)/%/
 	@printf "$(PURPLE)Compiling $<...$(RESET)\n"
@@ -97,4 +101,5 @@ $(BUILDDIR):
 
 # --- 5. AUTOMATIC DEPENDENCY INCLUSION ---
 
-#-include $(DEPENDS)
+-include $(DEPENDS)
+
