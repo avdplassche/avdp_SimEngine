@@ -8,8 +8,8 @@
 
 #### Other
 
+- [ ] Print UI table, to be able to change UI
 - [ ] Make a Resolution class
-- [ ] make bash auto completion for arguments
 
 ### Ideas
 

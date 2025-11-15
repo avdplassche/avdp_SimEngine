@@ -16,6 +16,8 @@ private:
 	bool					_hasBorder;
 	bool					_active;
 
+	t_size					_window_size;
+
 	void					_setCoordinates();
 
 public:
@@ -24,7 +26,7 @@ public:
 	~MenuButton();
 
 
-	void		setValues(int x, int y, int width, int height);
+	void		setValues(int x, int y, int width, int height, t_size window_size);
 
 	void		setPos(int x, int y);
 	void		setSize(int width, int height);
@@ -36,6 +38,7 @@ public:
 	bool		hasBorder() const;
 	bool		isActive() const;
 
+	void		printCoordinates();
 
 };
 

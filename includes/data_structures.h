@@ -17,12 +17,10 @@ typedef enum e_coordinates_tb {
 	BOTTOM
 }				t_coordinates_tb;
 
-
 typedef struct s_size {
 	float		width;
 	float		height;
 }				t_size;
-
 
 typedef struct s_pos {
 	float		x;

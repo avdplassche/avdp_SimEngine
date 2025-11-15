@@ -12,8 +12,11 @@ int	runShaderTests(Application &app) {
 	std::cout << GREEN << "Window loop ready." << CRESET << std::endl;
 
 	Container c;
+	MenuButton button;
 
-
+	//std::cout << "Size : " << app.getWindowSize().width << "x" << app.getWindowSize().height << std::endl;
+	button.setValues(10, 10, 50, 50, app.getWindowSize());
+	//button.printCoordinates();
 
 	while (!glfwWindowShouldClose(app.getWindow()))
 	{
@@ -22,15 +25,7 @@ int	runShaderTests(Application &app) {
 		glClearColor(0.1f, 0.4f, 0.7f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		//glBegin(GL_LINE_LOOP);
-		//glColor3f(.0f, 1.0f, 1.0f); // White color
-		//glVertex2f(-0.5555555f,  -0.5f); // Top-left vertex
-		//glVertex2f( 0.5f,  0.5f); // Top-right vertex
-		//glVertex2f( 0.5f, -0.5f); // Bottom-right vertex
-		//glVertex2f(-0.5f, -0.5f); // Bottom-left vertex
-		//glEnd();
-		MenuButton button;
-		button.setValues(20, 20, 50, 50);
+
 		button.draw();
 		c.draw();
 
