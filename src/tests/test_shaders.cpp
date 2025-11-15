@@ -12,6 +12,11 @@ int	runShaderTests(Application &app) {
 
 	Container c;
 
+	std::cout << "normalize : " << normalize(500, 2000) << std::endl;
+	std::cout << "normalize : " << normalize(1500, 2000) << std::endl;
+
+
+
 	while (!glfwWindowShouldClose(app.getWindow()))
 	{
 		app.processInput();

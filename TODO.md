@@ -2,7 +2,9 @@
 
 #### Important
 
+- [ ] Think about color
 - [ ] Buttons for Menu
+- [ ] Conversion -1 | 1 -> 0 | width/height
 
 #### Other
 

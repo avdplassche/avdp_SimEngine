@@ -69,14 +69,8 @@ int	Application::run() {
 		glClearColor(0.1f, 0.4f, 0.7f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		//glBegin(GL_QUADS);
-		//glColor3f(1.0f, 1.0f, 1.0f); // White color
-		//glColor4f(1.0f, 1.0f, 1.0f, 0.f);
-		//glVertex2f(-0.5f,  0.5f); // Top-left vertex
-		//glVertex2f( 0.5f,  0.5f); // Top-right vertex
-		//glVertex2f( 0.5f, -0.5f); // Bottom-right vertex
-		//glVertex2f(-0.5f, -0.5f); // Bottom-left vertex
-		//glEnd();
+
+
 
 		glfwSwapBuffers(_window);
 		glfwPollEvents();

@@ -30,7 +30,7 @@ public:
 
 	void				processInput();
 
-
+	void				recalculateData(); // used if resolution is changed
 
 	int					getWindowWidth() const;
 	int					getWindowHeight() const;

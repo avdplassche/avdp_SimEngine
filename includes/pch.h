@@ -16,6 +16,12 @@
 #include <GLFW/glfw3.h>
 #include <GL/gl.h>
 
+#include <SFML/Window/Event.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/Window/Mouse.hpp>
+#include <SFML/System/Vector2.hpp>
+#include <SFML/System/Angle.hpp>
+
 #include "config.h"
 #include "ansi_code.h"
 #include "utils.h"
