@@ -34,17 +34,3 @@ public:
 
 };
 
-
-
-class MenuButton : public Container {
-private:
-	std::string				_content;
-
-
-
-public:
-
-	MenuButton();
-
-};
-

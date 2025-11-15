@@ -6,7 +6,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	glViewport(0, 0, width, height);
 }
 
-float	normalize(int val, int total) {
+float	normalizePosition(int val, int total) {
 
 	int	half = total / 2;
 
@@ -18,6 +18,9 @@ float	normalize(int val, int total) {
 	{
 		return ((float)val - (float)half) / half;
 	}
-
 }
 
+float	normalizeColor(int color) {
+	assert(color < 256 && color >= 0);
+	return ((float)color / 255);
+}

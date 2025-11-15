@@ -1,5 +1,6 @@
 #include "tests.h"
 #include "uiSkeleton.hpp"
+#include "MenuButton.hpp"
 
 int	runShaderTests(Application &app) {
 
@@ -11,9 +12,6 @@ int	runShaderTests(Application &app) {
 	std::cout << GREEN << "Window loop ready." << CRESET << std::endl;
 
 	Container c;
-
-	std::cout << "normalize : " << normalize(500, 2000) << std::endl;
-	std::cout << "normalize : " << normalize(1500, 2000) << std::endl;
 
 
 
@@ -31,7 +29,9 @@ int	runShaderTests(Application &app) {
 		//glVertex2f( 0.5f, -0.5f); // Bottom-right vertex
 		//glVertex2f(-0.5f, -0.5f); // Bottom-left vertex
 		//glEnd();
-
+		MenuButton button;
+		button.setValues(20, 20, 50, 50);
+		button.draw();
 		c.draw();
 
 		glfwSwapBuffers(app.getWindow());

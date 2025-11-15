@@ -78,7 +78,11 @@ info_window: fclean $(NAME)
 	@./$(NAME) --info-window
 
 test: CXXFLAGS += -DDEBUG_MODE=2
-test: fclean all
+test:  all
+	./$(NAME)
+
+re_test: CXXFLAGS += -DDEBUG_MODE=2
+re_test: fclean all
 	./$(NAME)
 
 

@@ -1,11 +1,6 @@
 #ifndef CONFIG_H
 # define CONFIG_H
 
-typedef enum e_debugMode {
-	DEFAULT,
-	WINDOW,
-	TEST
-}			t_debugMode;
 
 
 #ifndef DEBUG_MODE
@@ -14,8 +9,6 @@ typedef enum e_debugMode {
 
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
-
-
 
 
 //const int WINDOW_WIDTH = 800;

@@ -14,7 +14,7 @@ public:
 	virtual void		setPos(int x, int y) = 0;
 	virtual void		setSize(int width, int height) = 0;
 	virtual void		draw() = 0;
-	virtual bool		hasBorder() = 0;
+	virtual bool		hasBorder() const = 0;
 };
 
 
