@@ -2,7 +2,7 @@
 
 #define c _coordinates
 
-MenuButton::MenuButton():_text(""), _pos({0, 0}), _size({0,0}){}
+MenuButton::MenuButton(): _text("") {}
 
 MenuButton::~MenuButton() {}
 
@@ -15,15 +15,6 @@ void		MenuButton::setValues(int x, int y, int width, int height, t_size window_s
 	_setCoordinates();
 }
 
-void		MenuButton::setPos(int x, int y) {
-	_pos.x = x;
-	_pos.y = y;
-}
-
-void		MenuButton::setSize(int width, int height) {
-	_size.width = width;
-	_size.height = height;
-}
 
 void		MenuButton::setText(std::string text) {
 	_text = text;
@@ -59,9 +50,7 @@ void	MenuButton::draw() {
 }
 
 
-bool		MenuButton::hasBorder() const {
-	return	_hasBorder;
-}
+
 
 bool		MenuButton::isActive() const {
 	return	_active;

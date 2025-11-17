@@ -4,9 +4,9 @@
 #include "Application.hpp"
 
 
-int			handleArgument(char *argv, Application& app);
-int			printMonitorInfo();
-int			printWindowInfo(GLFWwindow* window);
+void		handleArgument(char *argv, Application& app);
+void		printMonitorInfo();
+void		printWindowInfo(GLFWwindow* window);
 void		setWindowHintEvent(GLFWwindow *window);
 
 

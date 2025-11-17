@@ -5,7 +5,10 @@
 #include <iostream>
 #include <string>
 #include <sstream>
-
+#include <exception>
+#include <fstream>
+#include <cstring>
+#include <sstream>
 
 
 #include <vector>
@@ -23,8 +26,10 @@
 #include <SFML/System/Angle.hpp>
 
 #include "config.h"
+#include "graphics.h"
 #include "ansi_code.h"
 #include "utils.h"
 #include "debug.h"
 #include "data_structures.h"
+#include "exceptions.hpp"
 

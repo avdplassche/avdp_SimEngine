@@ -18,7 +18,7 @@ void	setWindowHintEvent(GLFWwindow *window) {
 }
 
 
-int	printWindowInfo(GLFWwindow* window) {
+void	printWindowInfo(GLFWwindow* window) {
 
 	int		width;
 	int		height;
@@ -48,11 +48,4 @@ int	printWindowInfo(GLFWwindow* window) {
 	std::cout << std::endl;
 	std::cout << std::endl;
 
-
-
-	(void) window;
-
-
-
-	return 0;
 }

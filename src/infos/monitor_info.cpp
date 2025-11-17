@@ -2,7 +2,7 @@
 #include "argument_handler.h"
 
 
-int	printMonitorInfo() {
+void	printMonitorInfo() {
 
 	int count;
 	int xpos, ypos;
@@ -31,7 +31,5 @@ int	printMonitorInfo() {
 
 	std::cout << SEPARATOR << std::endl;
 	std::cout << "\n\nCheckout GL doc for information about gamma ramp\n" << std::endl;
-
-	return 0;
 }
 

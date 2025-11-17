@@ -29,7 +29,7 @@ public:
 	Application& operator=(const Application&);
 	~Application();
 
-	int					init();
+	void				init();
 	int					run();
 
 	void				processInput();

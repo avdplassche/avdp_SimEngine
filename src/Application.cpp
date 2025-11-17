@@ -1,6 +1,6 @@
 #include "Application.hpp"
-#include <cstring>
 #include "argument_handler.h"
+#include "Menu.hpp"
 
 
 Application::Application() {}
@@ -23,12 +23,15 @@ Application::~Application() {
 	glfwTerminate();
 }
 
-int	Application::init() {
-	_initMonitor();
-	if (_initWindow())
-		return 1;
-	_initCursor();
-	return 0;
+void	Application::init() {
+	try {
+		_initMonitor();
+		_initWindow();
+		_initCursor();
+	}
+	catch (std::exception &e){
+		std::cout << e.what() << std::endl;
+	}
 }
 
 int	Application::_initMonitor() {
@@ -36,7 +39,7 @@ int	Application::_initMonitor() {
 	_monitor = glfwGetPrimaryMonitor();
 	_mode = glfwGetVideoMode(_monitor);
 	if (_nbMonitors > 1)
-	glfwSetWindowMonitor(_window, _monitor_list[1],0, 0, _mode->width, _mode->height, _mode->refreshRate);
+		glfwSetWindowMonitor(_window, _monitor_list[1],0, 0, _mode->width, _mode->height, _mode->refreshRate);
 	return 0;
 }
 
@@ -46,7 +49,7 @@ int	Application::_initWindow() {
 
 	_window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Pure OpenGL via GLFW", NULL, NULL);
 	if (_window == NULL)
-	return 1;
+		throw GlWindow();
 	glfwGetWindowSize(_window, &width, &height);
 	_window_size.width = width;
 	_window_size.height = height;
@@ -68,14 +71,25 @@ int	Application::_initCursor() {
 
 
 
-
 int	Application::run() {
 
 	glfwMakeContextCurrent(_window);
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 	glfwSetFramebufferSizeCallback(_window, framebuffer_size_callback);
 
-	std::cout << GREEN << "Window loop ready." << CRESET << std::endl;
+	std::cout << GREEN << "[INFO]	Window loop ready." << CRESET << std::endl;
+
+	Menu	menus;
+
+	try {
+		menus.loadMenus();
+	}
+	catch (std::exception &e) {
+		std::cerr << e.what();
+		return -1;
+	}
+
+	std::cout << GREEN << "[INFO]	Menus loaded.\n" << CRESET << std::endl;
 
 
 	while (!glfwWindowShouldClose(_window))
@@ -84,6 +98,8 @@ int	Application::run() {
 
 		glClearColor(0.1f, 0.4f, 0.7f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+
+
 
 		// [...]
 

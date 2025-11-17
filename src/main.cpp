@@ -12,6 +12,7 @@ int exitProgramm(const char *error_message, int return_value) {
 
 void	print_mode() {
 
+	std::cout << GREEN << "[INFO]	";
 	switch (DEBUG_MODE)
 	{
 		case 0:
@@ -26,29 +27,62 @@ void	print_mode() {
 		default:
 			break;
 	}
-	std::cout << " Mode\n"  << std::endl;
+	std::cout << " mode started"  << std::endl;
 }
 
 int main(int argc, char** argv)
 {
 	if (!glfwInit())
-		return (exitProgramm("Failed to initialize GLFW", EXIT_FAILURE));
+	{
+		std::cerr << "Failed to initialize GLFW" << std::endl;
+		return EXIT_FAILURE;
+	}
 
 	print_mode();
 
 	Application	app;
-	if (app.init())
-		return (exitProgramm("Failed to create GLFW window", EXIT_FAILURE));
+
+	try {
+		app.init();
+	}
+	catch (std::exception &e){
+		glfwTerminate();
+		std::cout << e.what() << std::endl;
+	}
 
 	if (DEBUG_MODE == TEST)
-		return runShaderTests(app);
-	if (argc == 2 && handleArgument(argv[1], app))
-		return 1;
+	{
+		try {
+			runShaderTests(app);
+			return 0;
+		}
+		catch (std::exception &e) {
+			glfwTerminate();
+			std::cerr << "Exception catched" << std::endl;
+			std::cerr << e.what() << std::endl;
+			return EXIT_FAILURE;
+		}
+		return EXIT_SUCCESS;
+	}
+	if (argc == 2)
+	{
+		try {
+			handleArgument(argv[1], app);
+		}
+		catch (std::exception &e) {
+			std::cerr << e.what() << std::endl;
+			return EXIT_FAILURE;
+		}
+	}
+	try {
+		app.run();
+	}
+	catch (std::exception &e) {
+		std::cerr << e.what() << std::endl;
+		return EXIT_FAILURE;
+	}
 
-
-	app.run();
-
-	return 0;
+	return EXIT_SUCCESS;;
 }
 
 

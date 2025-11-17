@@ -14,7 +14,7 @@ STD_FLAGS := -Wall -Wextra -Werror -std=c++17 -MMD -MP -g
 
 INC_PATHS := -I$(INCDIR)
 INC_PATHS += -I$(INCDIR)/infos
-INC_PATHS += -I$(INCDIR)/UI
+INC_PATHS += -I$(INCDIR)/ui
 INC_PATHS += -I$(INCDIR)/lib/avdp_ui
 
 COMMON_FLAGS := $(STD_FLAGS) $(INC_PATHS)

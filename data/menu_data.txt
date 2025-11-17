@@ -1,0 +1,12 @@
+Game of Life
+Colour
+Attraction
+Settings
+	Resolution
+		$cb Fullscreen
+		800x600
+		1280×720
+		1920x1080
+		2560×1440
+		3840x2160
+	Themes
