@@ -20,5 +20,77 @@ float	normalizeColor(int color) {
 	return ((float)color / 255);
 }
 
-//val -> total
-//? -> 2
+void	info_log(std::string s, int c)
+{
+	switch (c)
+	{
+		case GREEN_LOG:
+			std::cout << C_FG_GREEN_CODE;
+			break;
+		case RED_LOG:
+			std::cout << C_FG_RED_CODE;
+			break;
+		case BLUE_LOG:
+			std::cout << C_FG_BLUE_CODE;
+			break;
+		case YELLOW_LOG:
+			std::cout << C_FG_YELLOW_CODE;
+			break;
+		default:
+			break;
+	}
+	std::cout << "[INFO]	" << s << C_RESET << std::endl;
+
+}
+
+t_color	newColor(float r, float g, float b, float a) {
+
+	assert (0.0f <= r && r <= 1.0f);
+	assert (0.0f <= g && g <= 1.0f);
+	assert (0.0f <= b && b <= 1.0f);
+	assert (0.0f <= a && a <= 1.0f);
+
+	t_color c;
+	c.r = r;
+	c.g = g;
+	c.b = b;
+	c.a = a;
+	return c;
+}
+
+
+t_color	newRgbColor(int r, int g, int b, int a) {
+	assert (0 <= r && r <= 255);
+	assert (0 <= g && g <= 255);
+	assert (0 <= b && b <= 255);
+	assert (0 <= a && a <= 100);
+
+	t_color c;
+	c.r = (float)r / 255.0f;
+	c.g = (float)g / 255.0f;
+	c.b = (float)b / 255.0f;
+	c.a = (float)a / 100.0f;
+	return c;
+}
+
+static int hexConverter(char c) {
+	assert(isdigit(c) || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F'));
+	if (isdigit(c))
+		return c - 48;
+	else if ('a' <= c && c <= 'f')
+		return c - 87;
+	return c - 55;
+}
+
+t_color		newHexColor(std::string hex) {
+
+	assert(hex[0] == '#');
+	assert(hex.size() == 7);
+
+	int	r = hexConverter(hex[1]) * 15 + hexConverter(hex[2]);
+	int	g = hexConverter(hex[3]) * 15 + hexConverter(hex[4]);
+	int	b = hexConverter(hex[5]) * 15 + hexConverter(hex[6]);
+	int a = 100;
+
+	return newRgbColor(r, g, b, a);
+}

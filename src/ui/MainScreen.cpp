@@ -1,14 +1,18 @@
 #include "MainScreen.hpp"
-#include "UIElementFactory.hpp"
 
 MainScreen::MainScreen() {}
 
-MainScreen::MainScreen(int nbButtons, t_size window_size, Color main_color, Color incative_color):
-					_nbButtons(nbButtons),
-					_window_size(window_size),
-					_main_color(main_color),
-					_inactive_color(incative_color)
+MainScreen::MainScreen(Menu& menu_tree, t_mainScreenConfig& config):
+					_nbButtons(config.nbButtons),
+					_window_size(config.window_size),
+					_menu_tree(menu_tree),
+					_default_color(config.default_color),
+					_hover_color(config.hover_color),
+					_inactive_color(config.inactive_color)
 {
+
+	(void)_hover_color;
+	(void)_inactive_color;
 	_menu_size = _nbButtons * MENU_BUTTON_HEIGHT + ((_nbButtons - 2) * MENU_BUTTON_SPACING);
 	assert(_menu_size < _window_size.height);
 
@@ -16,7 +20,7 @@ MainScreen::MainScreen(int nbButtons, t_size window_size, Color main_color, Colo
 
 		MenuButton button;
 		button.setSize(MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT);
-		button.setColor(_main_color);
+		button.setColor(_default_color);
 		_menu_buttons.push_back(button);
 	}
 	_calculateStartingPos();

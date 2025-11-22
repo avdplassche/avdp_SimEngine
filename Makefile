@@ -16,6 +16,7 @@ INC_PATHS := -I$(INCDIR)
 INC_PATHS += -I$(INCDIR)/infos
 INC_PATHS += -I$(INCDIR)/ui
 INC_PATHS += -I$(INCDIR)/lib/avdp_ui
+INC_PATHS += -I$(INCDIR)/tests
 
 COMMON_FLAGS := $(STD_FLAGS) $(INC_PATHS)
 

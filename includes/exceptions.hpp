@@ -37,12 +37,12 @@ class FileError : public std::exception {
 };
 
 
-class FileFormat : public std::exception {
+class MenuFileFormat : public std::exception {
 	private:
 	std::string full_message;
 
 	public:
-	FileFormat(const std::string& file) : full_message( "Menu format error at line " + file) {}
+	MenuFileFormat(const std::string& file) : full_message( "Menu format error at line " + file) {}
 	const char * what() const throw() {
 		return full_message.c_str();
 	}

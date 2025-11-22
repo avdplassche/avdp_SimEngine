@@ -4,7 +4,7 @@
 #include "Application.hpp"
 
 
-void		handleArgument(char *argv, Application& app);
+int			handleInfos(char* argv, Application& app);
 void		printMonitorInfo();
 void		printWindowInfo(GLFWwindow* window);
 void		setWindowHintEvent(GLFWwindow *window);

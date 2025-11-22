@@ -28,6 +28,8 @@ void	Application::init() {
 		_initMonitor();
 		_initWindow();
 		_initCursor();
+		_app_menu.load(APP_MENU_FILE);
+		_theme.setTheme(THEME);
 	}
 	catch (std::exception &e){
 		std::cout << e.what() << std::endl;
@@ -51,8 +53,8 @@ int	Application::_initWindow() {
 	if (_window == NULL)
 		throw GlWindow();
 	glfwGetWindowSize(_window, &width, &height);
-	_window_size.width = width;
-	_window_size.height = height;
+	_window_resolution.width = width;
+	_window_resolution.height = height;
 	return 0;
 }
 
@@ -77,19 +79,7 @@ int	Application::run() {
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 	glfwSetFramebufferSizeCallback(_window, framebuffer_size_callback);
 
-	std::cout << GREEN << "[INFO]	Window loop ready." << CRESET << std::endl;
-
-	Menu	menus;
-
-	try {
-		menus.loadMenus();
-	}
-	catch (std::exception &e) {
-		std::cerr << e.what();
-		return -1;
-	}
-
-	std::cout << GREEN << "[INFO]	Menus loaded.\n" << CRESET << std::endl;
+	info_log("Window loop ready.", GREEN_LOG);
 
 
 	while (!glfwWindowShouldClose(_window))
@@ -98,7 +88,6 @@ int	Application::run() {
 
 		glClearColor(0.1f, 0.4f, 0.7f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-
 
 
 		// [...]
@@ -112,39 +101,37 @@ int	Application::run() {
 
 
 
+
 void Application::processInput()
 {
-	if (DEBUG_MODE == WINDOW)
+	if (DEBUG_MODE == WINDOW_INFO_MODE)
 		setWindowHintEvent(_window);
 	if(glfwGetKey(_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(_window, true);
 }
 
 
-
-
-
-GLFWwindow			*Application::getWindow() const {
+GLFWwindow*		Application::getWindow() const {
 	return (_window);
 }
 
-GLFWmonitor			*Application::getMonitor() const {
+GLFWmonitor*	Application::getMonitor() const {
 	return (_monitor);
 }
 
-t_size Application::getWindowSize() const {
-	return (_window_size);
+t_size			Application::getWindowSize() const {
+	return (_window_resolution);
 }
 
-int Application::getWindowHeight() const {
-	return (_window_height);
+t_size			Application::getMonitorResolution() const {
+	return (_monitor_resolution);
 }
 
-int Application::getMonitorWidth() const {
-	return (_monitor_width);
+Menu&			Application::getAppMenus(){
+	return (_app_menu);
 }
 
-int Application::getMonitorHeight() const {
-	return (_monitor_height);
+Theme&			Application::getTheme() {
+	return (_theme);
 }
 

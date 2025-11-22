@@ -9,6 +9,7 @@
 #include <fstream>
 #include <cstring>
 #include <sstream>
+#include <algorithm>
 
 
 #include <vector>
@@ -28,8 +29,8 @@
 #include "config.h"
 #include "graphics.h"
 #include "ansi_code.h"
+#include "data_structures.h"
 #include "utils.h"
 #include "debug.h"
-#include "data_structures.h"
 #include "exceptions.hpp"
 

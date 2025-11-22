@@ -2,6 +2,7 @@
 
 #include "pch.h"
 #include "Theme.hpp"
+#include "Menu.hpp"
 
 class Application {
 
@@ -12,16 +13,15 @@ private:
 	const GLFWvidmode	*_mode = NULL;
 	int					_nbMonitors;
 
-	int					_window_width;
-	int					_window_height;
-	t_size				_window_size;
-	int					_monitor_width;
-	int					_monitor_height;
+	t_size				_window_resolution;
+	t_size				_monitor_resolution;
 
 	int					_initWindow();
 	int					_initMonitor();
 	int					_initCursor();
-	//Theme&				_theme;
+
+	Menu				_app_menu;
+	Theme				_theme;
 
 public:
 	Application();
@@ -37,13 +37,13 @@ public:
 	void				recalculateData(); // used if resolution is changed
 
 	t_size				getWindowSize() const;
-	int					getWindowHeight() const;
-	int					getMonitorWidth() const;
-	int					getMonitorHeight() const;
+	t_size				getMonitorResolution() const;
 
 	GLFWwindow			*getWindow() const;
 	GLFWmonitor			*getMonitor() const;
 
+	Menu&				getAppMenus();
+	Theme&				getTheme();
 
 };
 

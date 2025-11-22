@@ -11,23 +11,20 @@ int exitProgramm(const char *error_message, int return_value) {
 }
 
 void	print_mode() {
-
-	std::cout << GREEN << "[INFO]	";
 	switch (DEBUG_MODE)
 	{
 		case 0:
-			std::cout << "Dev";
+			info_log("Dev mode started", GREEN_LOG);
 			break;
 		case 1:
-			std::cout << "Info";
+			info_log("Info mode started", GREEN_LOG);
 			break;
 		case 2:
-			std::cout << "Test";
+			info_log("Test mode started", GREEN_LOG);
 			break;
 		default:
 			break;
 	}
-	std::cout << " mode started"  << std::endl;
 }
 
 int main(int argc, char** argv)
@@ -48,32 +45,14 @@ int main(int argc, char** argv)
 	catch (std::exception &e){
 		glfwTerminate();
 		std::cout << e.what() << std::endl;
+		return EXIT_FAILURE;
 	}
 
-	if (DEBUG_MODE == TEST)
-	{
-		try {
-			runShaderTests(app);
-			return 0;
-		}
-		catch (std::exception &e) {
-			glfwTerminate();
-			std::cerr << "Exception catched" << std::endl;
-			std::cerr << e.what() << std::endl;
-			return EXIT_FAILURE;
-		}
-		return EXIT_SUCCESS;
-	}
+	if (DEBUG_MODE == TEST_MODE)
+		return runTests(app);
 	if (argc == 2)
-	{
-		try {
-			handleArgument(argv[1], app);
-		}
-		catch (std::exception &e) {
-			std::cerr << e.what() << std::endl;
-			return EXIT_FAILURE;
-		}
-	}
+		return handleInfos(argv[1], app);
+
 	try {
 		app.run();
 	}

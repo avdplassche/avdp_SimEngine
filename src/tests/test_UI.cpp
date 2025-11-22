@@ -3,32 +3,45 @@
 #include "MainScreen.hpp"
 #include "Menu.hpp"
 
-int	runShaderTests(Application &app) {
+static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
+{
+	(void) window;
+	std::cout << xpos << " - " << ypos << std::endl;
+}
+
+
+int	runUITests(Application &app) {
 
 	glfwMakeContextCurrent(app.getWindow());
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 	glfwSetFramebufferSizeCallback(app.getWindow(), framebuffer_size_callback);
 
-	std::cout << GREEN << "[INFO]	Window loop ready." << CRESET << std::endl;
+	info_log("TEST - Window loop ready", BLUE_LOG);
 
 	Container c;
+	Theme&		theme = app.getTheme();
+	t_color		background = theme.getBackground();
 
-	Color	color(1.0f, 1.0f, 1.0f, 1.0f);
-	MainScreen	main_screen(5,app.getWindowSize(), color, color);
-	Menu	menus;
+	app.getAppMenus().printMenu(app.getAppMenus().getMenuTree());
+
+	t_mainScreenConfig	main_screen_config;
+	main_screen_config.default_color = theme.getMenuDefault();
+	main_screen_config.hover_color = theme.getMenuHover();
+	main_screen_config.inactive_color = theme.getMenuInactive();
+
+	MainScreen	main_screen(app.getAppMenus(), main_screen_config);
 
 	try {
-		menus.loadMenus();
-		menus.printMenu(menus.getMenu());
 		while (!glfwWindowShouldClose(app.getWindow()))
 		{
+			glfwSetCursorPosCallback(app.getWindow(), cursor_position_callback);
 			app.processInput();
 
-			glClearColor(0.1f, 0.4f, 0.7f, 1.0f);
+			glClearColor(background.r, background.g, background.b, background.a);
 			glClear(GL_COLOR_BUFFER_BIT);
 
 			main_screen.draw();
-			//c.draw();
+			c.draw();
 
 			glfwSwapBuffers(app.getWindow());
 			glfwPollEvents();

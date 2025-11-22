@@ -11,85 +11,91 @@ Menu::~Menu() {
 
 
 
-void	Menu::loadMenus() {
+void	Menu::load(std::string menu_filename) {
 
-	std::ifstream	ifstream(MENU_FILE);
-
-	//char			*line;
-	//int				old_inde = 0;
-	//int				new_inde = 0;
+	std::ifstream	ifstream(menu_filename);
 
 	if (!ifstream.is_open())
-		throw (FileError(MENU_FILE));
+		throw (FileError(menu_filename));
 
-	t_menu	base;
+	t_menu	root;
 
-	base.level = 0;
-	base.current = "";
-	_menu.push_back(base);
+	root.level = -1;
+	root.content = "ROOT";
+	_fillNodes(ifstream, root);
+	_finalizeTypes(root);
+	_menu = std::move(root.sub);
+	info_log("Menu loaded - " + menu_filename, GREEN_LOG);
+}
+void Menu::_fillNodes(std::ifstream& ifstream, t_menu& root) {
 
-	_fillNodes(ifstream, _menu[0]);
+	std::vector<t_menu*> parent_stack;
+	parent_stack.push_back(&root);
 
-	//while (ifstream.getline(line, 256))
-	//{
-	//	std::string sline(line);
+	char line_buffer[256];
 
-	//	new_inde = _getIndentationLevel(sline);
-	//	if (new_inde == old_inde)
-	//	{
-	//		t_menu	sub;
+	while (ifstream.getline(line_buffer, 256))
+	{
+		std::string sline(line_buffer);
 
-	//		sub.current = sline;
-	//	}
-	//	else if (new_inde > old_inde)
-	//	{
+		if (sline.find_first_not_of(" \t") == std::string::npos)
+		{
+			continue;
+		}
 
+		int new_level = _getIndentationLevel(sline);
 
-	//	}
+		t_menu* current_parent = parent_stack.back();
 
 
-	//}
+		while (new_level <= current_parent->level && current_parent != &root) {
+			parent_stack.pop_back();
+			current_parent = parent_stack.back();
+		}
+
+		if (new_level <= root.level) {
+			continue;
+		}
+
+		t_menu new_node;
+		new_node.level = new_level;
+		new_node.parent = current_parent;
+
+
+		new_node.content = sline.substr(sline.find_first_not_of(" \t"));
+
+		if (new_node.content.find("$cb") == 0)
+		{
+			new_node.type = CHECKBOX;
+			new_node.content.erase(0, 3);
+			new_node.content.erase(0, new_node.content.find_first_not_of(" \t"));
+		}
+		else {
+			new_node.type = ROUTE;
+		}
+
+		current_parent->sub.push_back(new_node);
+
+		if (new_level == current_parent->level + 1) {
+
+			parent_stack.push_back(&current_parent->sub.back());
+		}
+		else if (new_level > current_parent->level + 1) {
+		}
+	}
 
 }
 
-void	Menu::_fillNodes(std::ifstream& ifstream, t_menu& current) {
-
-	char			line[256];
-	int				new_level;
-
-	if (ifstream.getline(line, 256).eof())
-		return ;
-	std::string sline(line);
-	PRINT_DEBUG("line = " << sline);
-	new_level = _getIndentationLevel(sline);
-	PRINT_DEBUG("Indentation = " << new_level);
-
-
-	if (new_level == current.level)
-	{
-		t_menu	sub;
-
-		sub.current = sline;
-		sub.level = new_level;
-		current.sub.push_back(sub);
-		_fillNodes(ifstream, current);
-		return;
+void Menu::_finalizeTypes(t_menu& node) {
+	if (!node.sub.empty()) {
+		node.type = ROUTE;
+		for (t_menu& child : node.sub) {
+			_finalizeTypes(child);
+		}
 	}
-	else if (new_level > current.level)
-	{
-		t_menu	sub;
-
-		sub.current = sline;
-		sub.level = new_level;
-		current.sub.push_back(sub);
-		_fillNodes(ifstream, current);
+	else if (node.type != CHECKBOX) {
+		node.type = ACTION;
 	}
-	//else
-	//{
-
-
-	//}
-
 }
 
 int	Menu::_getIndentationLevel(std::string line) const {
@@ -101,14 +107,14 @@ int	Menu::_getIndentationLevel(std::string line) const {
 	while (line[i] == '\t')
 		i++;
 	if (isspace(line[i]) && line[i] != '\t')
-		throw FileFormat(line);
+		throw MenuFileFormat(line);
 	while (ite != it && isspace(*ite))
 		line.erase(ite--);
-	return i;
+	return i ;
 }
 
 
-std::vector<t_menu>	Menu::getMenu() const {
+std::vector<t_menu>	Menu::getMenuTree() const {
 	return _menu;
 }
 
@@ -117,13 +123,27 @@ void	Menu::printMenu(std::vector<t_menu> menu) {
 
 	for (size_t i = 0; i < menu.size(); i++)
 	{
-		std::cout << menu[i].current;
-		if (!menu[i].sub.empty())
+		for (int k = 0; k < menu[i].level; k++)
+			std::cout << "	";
+		if (menu[i].level != 0)
+			std::cout << "-> ";
+		std::cout << menu[i].content << " (" << menu[i].level << ") - ";
+		switch (menu[i].type)
 		{
-			std::cout << " -> ";
-			printMenu(menu[i].sub);
+			case ROUTE:
+				std::cout << "ROUTE " << std::endl;
+				break;
+			case CHECKBOX:
+				std::cout << "CHECKBOX " << std::endl;
+				break;
+			case ACTION:
+				std::cout << "ACTION " << std::endl;
+				break;
+			default:
+				break;
 		}
-		std::cout << std::endl;
+		if (!menu[i].sub.empty())
+			printMenu(menu[i].sub);
 	}
 }
 

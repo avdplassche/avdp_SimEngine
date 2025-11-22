@@ -2,7 +2,7 @@
 
 #define c _coordinates
 
-MenuButton::MenuButton(): _text("") {}
+MenuButton::MenuButton(): _text("") { (void)_hoverColor;}
 
 MenuButton::~MenuButton() {}
 
@@ -20,7 +20,7 @@ void		MenuButton::setText(std::string text) {
 	_text = text;
 }
 
-void		MenuButton::setColor(Color& color) {
+void		MenuButton::setColor(t_color& color) {
 	_color.r = color.r;
 	_color.g = color.g;
 	_color.b = color.b;

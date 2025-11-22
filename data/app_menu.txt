@@ -1,5 +1,6 @@
 Game of Life
-Colour
+	Classic
+	Colour
 Attraction
 Settings
 	Resolution

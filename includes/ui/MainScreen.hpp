@@ -1,6 +1,6 @@
 #pragma once
 #include "MenuButton.hpp"
-#include "Color.hpp"
+#include "Menu.hpp"
 #include "Div.hpp"
 
 class MainScreen {
@@ -13,18 +13,21 @@ private:
 	t_pos						_starting_pos;
 	Div							_div;
 
-	Color						_main_color;
-	Color						_inactive_color;
+	Menu						_menu_tree;
+
+	t_color						_default_color;
+	t_color						_hover_color;
+	t_color						_inactive_color;
 
 	std::vector<std::string>	_text_strings;
 
 
 	void						_calculateStartingPos();
+	MainScreen();
 
 
 public:
-	MainScreen();
-	MainScreen(int nbButtons, t_size window_size, Color main_colour, Color incative_colour);
+	MainScreen(Menu& menu_tree, t_mainScreenConfig& config);
 
 
 	void				draw();
