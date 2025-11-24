@@ -10,13 +10,18 @@ private:
 
 	std::string				_text;
 	t_pos					_coordinates[2][2];
-	t_color					_color;
-	t_color					_hoverColor;
+	t_color					_default_color;
+	t_color					_border_color;
+	//t_color					_hover_color;
+
 	bool					_active;
+	bool					_hasBorder;
+
+	SDL_FRect				_rect;
 
 	t_size					_window_size;
 
-	void					_setCoordinates();
+	//void					_setCoordinates();
 
 public:
 
@@ -30,7 +35,7 @@ public:
 	void		setColor(t_color& color);
 
 
-	void		draw();
+	void		draw(SDL_Renderer *renderer);
 	bool		isActive() const;
 
 	void		printCoordinates();

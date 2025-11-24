@@ -5,7 +5,8 @@
 - [ ] Main Menu screen
 	- [X] Fill constants graphics.h menu button width, height, space
 	- [ ] make the structure (is Main Screen the all tree or just one menu )
-	- [ ] Make the Div
+	- [ ] add back and quit to the structure
+	- [X] Make the Div
 	- [ ] add Border class
 	- [ ] Main Screen must become Abstract
 	- [ ] Make the window size callback

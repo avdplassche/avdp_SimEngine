@@ -1,17 +1,20 @@
-#include "Menu.hpp"
+#include "MenuTree.hpp"
 
 
-Menu::Menu() {
-
-}
-
-Menu::~Menu() {
+MenuTree::MenuTree() {
 
 }
 
+MenuTree::~MenuTree() {
+
+}
 
 
-void	Menu::load(std::string menu_filename) {
+
+void	MenuTree::load(std::string menu_filename) {
+
+	if (!_menu.empty())
+		_menu.clear();
 
 	std::ifstream	ifstream(menu_filename);
 
@@ -25,9 +28,10 @@ void	Menu::load(std::string menu_filename) {
 	_fillNodes(ifstream, root);
 	_finalizeTypes(root);
 	_menu = std::move(root.sub);
-	info_log("Menu loaded - " + menu_filename, GREEN_LOG);
+	new_log("Menu loaded - " + menu_filename, GREEN_LOG);
 }
-void Menu::_fillNodes(std::ifstream& ifstream, t_menu& root) {
+
+void MenuTree::_fillNodes(std::ifstream& ifstream, t_menu& root) {
 
 	std::vector<t_menu*> parent_stack;
 	parent_stack.push_back(&root);
@@ -61,7 +65,6 @@ void Menu::_fillNodes(std::ifstream& ifstream, t_menu& root) {
 		new_node.level = new_level;
 		new_node.parent = current_parent;
 
-
 		new_node.content = sline.substr(sline.find_first_not_of(" \t"));
 
 		if (new_node.content.find("$cb") == 0)
@@ -77,17 +80,29 @@ void Menu::_fillNodes(std::ifstream& ifstream, t_menu& root) {
 		current_parent->sub.push_back(new_node);
 
 		if (new_level == current_parent->level + 1) {
-
 			parent_stack.push_back(&current_parent->sub.back());
 		}
 		else if (new_level > current_parent->level + 1) {
 		}
 	}
-
 }
 
-void Menu::_finalizeTypes(t_menu& node) {
+void MenuTree::_finalizeTypes(t_menu& node) {
 	if (!node.sub.empty()) {
+		t_menu back_node;
+        back_node.level = node.level + 1;
+        back_node.parent = node.parent;
+		if (node.level > -1)
+		{
+			back_node.content = "Back";
+			back_node.type = BACK;
+		}
+		else
+		{
+			back_node.content = "Quit";
+			back_node.type = QUIT;
+		}
+		node.sub.push_back(back_node);
 		node.type = ROUTE;
 		for (t_menu& child : node.sub) {
 			_finalizeTypes(child);
@@ -98,7 +113,7 @@ void Menu::_finalizeTypes(t_menu& node) {
 	}
 }
 
-int	Menu::_getIndentationLevel(std::string line) const {
+int	MenuTree::_getIndentationLevel(std::string line) const {
 
 	int	i = 0;
 	std::string::iterator it = line.begin();
@@ -114,12 +129,12 @@ int	Menu::_getIndentationLevel(std::string line) const {
 }
 
 
-std::vector<t_menu>	Menu::getMenuTree() const {
+std::vector<t_menu>	MenuTree::getTree() const {
 	return _menu;
 }
 
 // Call it using printMenu(menu->getMenu())
-void	Menu::printMenu(std::vector<t_menu> menu) {
+void	MenuTree::printMenu(std::vector<t_menu> menu) {
 
 	for (size_t i = 0; i < menu.size(); i++)
 	{
@@ -145,6 +160,7 @@ void	Menu::printMenu(std::vector<t_menu> menu) {
 		if (!menu[i].sub.empty())
 			printMenu(menu[i].sub);
 	}
+	std::cout << std::endl;
 }
 
 

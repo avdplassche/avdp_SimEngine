@@ -17,7 +17,9 @@ typedef enum e_menuType
 {
 	ROUTE,
 	CHECKBOX,
-	ACTION
+	ACTION,
+	BACK,
+	QUIT
 }			t_menuType;
 
 typedef enum e_coordinates_rl {
@@ -38,30 +40,39 @@ typedef enum e_appState {
 }				t_appState;
 
 typedef struct s_size {
-	float		width;
-	float		height;
+	int			width;
+	int			height;
 }				t_size;
 
 typedef struct s_color {
-	float		r;
-	float		g;
-	float		b;
-	float		a;
+	int			r;
+	int			g;
+	int			b;
+	int			a;
 }				t_color;
 
+typedef struct s_menu
+{
+	std::string				content;
+	std::vector<s_menu>		sub;
+	s_menu					*parent;
+	int						level;
+	t_menuType				type;
+}				t_menu;
+
+class Theme;
 
 typedef struct s_mainScreenConfig {
-	int			nbButtons = 0;
-	t_color		default_color;
-	t_color		hover_color;
-	t_color		inactive_color;
-	t_size		window_size;
-}				t_mainScreenConfig;
+	SDL_Renderer	*renderer;
+	int				nbButtons = 0;
+	t_size			window_size;
+	Theme			*theme;
+}					t_mainScreenConfig;
 
 
 typedef struct s_pos {
-	float		x;
-	float		y;
+	int			x;
+	int			y;
 }				t_pos;
 
 

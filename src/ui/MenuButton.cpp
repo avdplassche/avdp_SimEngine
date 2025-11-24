@@ -2,7 +2,7 @@
 
 #define c _coordinates
 
-MenuButton::MenuButton(): _text("") { (void)_hoverColor;}
+MenuButton::MenuButton(): _text("") {}
 
 MenuButton::~MenuButton() {}
 
@@ -12,7 +12,6 @@ void		MenuButton::setValues(int x, int y, int width, int height, t_size window_s
 	_size.width = width;
 	_size.height = height;
 	_window_size = window_size;
-	_setCoordinates();
 }
 
 
@@ -21,42 +20,29 @@ void		MenuButton::setText(std::string text) {
 }
 
 void		MenuButton::setColor(t_color& color) {
-	_color.r = color.r;
-	_color.g = color.g;
-	_color.b = color.b;
+	_default_color.r = color.r;
+	_default_color.g = color.g;
+	_default_color.b = color.b;
 }
 
-
-void		MenuButton::_setCoordinates() {
-	c[TOP][LEFT].x = normalizePosition(_pos.x, _window_size.width, 'x');
-	c[TOP][LEFT].y = normalizePosition(_pos.y, _window_size.height, 'y');
-	c[TOP][RIGHT].x = normalizePosition(_pos.x + _size.width, _window_size.width, 'x');
-	c[TOP][RIGHT].y = normalizePosition(_pos.y, _window_size.height, 'y');
-	c[BOTTOM][LEFT].x = normalizePosition(_pos.x, _window_size.width, 'x');
-	c[BOTTOM][LEFT].y = normalizePosition(_pos.y + _size.height, _window_size.height, 'y');
-	c[BOTTOM][RIGHT].x = normalizePosition(_pos.x + _size.width, _window_size.width, 'x');
-	c[BOTTOM][RIGHT].y = normalizePosition(_pos.y + _size.height, _window_size.height, 'y');
+void	MenuButton::draw(SDL_Renderer *renderer) {
+	_rect.w = _size.width;
+	_rect.h = _size.height;
+	_rect.x = _pos.x;
+	_rect.y = _pos.y;
+	SDL_SetRenderDrawColor(renderer, _default_color.r, _default_color.g,_default_color.b, 100);
+	SDL_RenderFillRect(renderer, &_rect);
+	if (_hasBorder)
+	{
+		SDL_SetRenderDrawColor(renderer, _border_color.r, _border_color.g,_border_color.b, 100);
+		SDL_RenderRect(renderer, &_rect);
+	}
 }
-
-void	MenuButton::draw() {
-
-	glBegin(GL_QUADS);
-	glColor3f(_color.r, _color.g, _color.b);
-	glVertex2f(c[TOP][LEFT].x, c[TOP][LEFT].y); // Top-left vertex
-	glVertex2f(c[TOP][RIGHT].x, c[TOP][RIGHT].y); // Top-right vertex
-	glVertex2f(c[BOTTOM][RIGHT].x, c[BOTTOM][RIGHT].y); // Bottom-left vertex
-	glVertex2f(c[BOTTOM][LEFT].x, c[BOTTOM][LEFT].y); // Bottom-right vertex
-	glEnd();
-}
-
-
 
 
 bool		MenuButton::isActive() const {
 	return	_active;
 }
-
-
 
 
 void	MenuButton::printCoordinates() {

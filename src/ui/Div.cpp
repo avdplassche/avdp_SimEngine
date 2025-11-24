@@ -12,6 +12,6 @@ Div::Div(t_pos pos, t_size size, bool border) {
 Div::~Div() {}
 
 
-void	Div::draw() {
-
+void	Div::draw(SDL_Renderer *render) {
+	(void) render;
 }

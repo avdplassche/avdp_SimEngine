@@ -15,7 +15,7 @@ public:
 	void				setSize(int width, int height);
 	bool				hasBorder() const;
 
-	virtual void		draw() = 0;
+	virtual void		draw(SDL_Renderer *renderer) = 0;
 };
 
 

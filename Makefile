@@ -20,10 +20,10 @@ INC_PATHS += -I$(INCDIR)/tests
 
 COMMON_FLAGS := $(STD_FLAGS) $(INC_PATHS)
 
-CFLAGS := $(COMMON_FLAGS) -O3
-CXXFLAGS := $(COMMON_FLAGS) -O3
+CFLAGS := $(COMMON_FLAGS)
+CXXFLAGS := $(COMMON_FLAGS)
 
-LD_FLAGS = -lsfml-graphics -lsfml-window -lsfml-system -lGL -lglfw
+LD_FLAGS = -lsfml-graphics -lsfml-window -lsfml-system -lGL -lglfw -lSDL3
 
 # --- 2. FILE DEFINITIONS ---
 

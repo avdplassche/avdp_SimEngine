@@ -2,25 +2,29 @@
 
 #include "pch.h"
 #include "Theme.hpp"
-#include "Menu.hpp"
+#include "MenuTree.hpp"
+#include "MainScreen.hpp"
 
 class Application {
 
 private:
-	GLFWwindow			*_window = NULL;
-	GLFWmonitor			*_monitor = NULL;
-	GLFWmonitor			**_monitor_list = NULL;
-	const GLFWvidmode	*_mode = NULL;
-	int					_nbMonitors;
+	SDL_Window			*_window = NULL;
+	SDL_Renderer		*_renderer = NULL;
+	SDL_Cursor			*cursor = NULL;
 
-	t_size				_window_resolution;
+	t_size				_window_size;
 	t_size				_monitor_resolution;
 
 	int					_initWindow();
-	int					_initMonitor();
-	int					_initCursor();
+	int					_initRenderer();
+	int					_initMainScreen();
+	//int					_initCursor();
 
-	Menu				_app_menu;
+	MenuTree			_app_menu;
+	//MenuTree			_game_menu;
+
+	MainScreen			_main_screen;
+
 	Theme				_theme;
 
 public:
@@ -39,11 +43,14 @@ public:
 	t_size				getWindowSize() const;
 	t_size				getMonitorResolution() const;
 
-	GLFWwindow			*getWindow() const;
-	GLFWmonitor			*getMonitor() const;
+	SDL_Window			*getWindow() const;
+	SDL_Renderer		*getRenderer() const;
 
-	Menu&				getAppMenus();
+	MenuTree&			getAppMenus();
 	Theme&				getTheme();
+	MainScreen&			getMainScreen();
+
+	void				applyTheme();
 
 };
 

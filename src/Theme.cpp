@@ -2,15 +2,13 @@
 
 
 Theme::Theme() {
-	_background_color = newColor(.0f, .0f, .0f, 1.0f);
-	_menu_default_color = newColor(1.0f, 1.0f, 1.0f, 1.0f);;
-	_menu_hover_color = newColor (.7f, .7f, .7f, 1.0f);
-	_menu_inactive_color = newColor (.3f, .3f, .3f, 1.0f);;
+	_background_color = newColor(0, 0, 0, 100);
+	_menu_default_color = newColor(255, 255, 255, 100);
+	_menu_hover_color = newColor (180, 180, 180, 100);
+	_menu_inactive_color = newColor (100, 100, 100, 100);;
 }
 
-Theme::~Theme() {
-
-}
+Theme::~Theme() {}
 
 Theme& Theme::operator=(const Theme& source) {
 	if (this == &source)
@@ -36,11 +34,10 @@ void	Theme::setTheme(std::string name) {
 	std::ifstream is(path.str());
 
 	if (!is.is_open())
-		info_log("Unabled to load theme " + name, RED_LOG);
+		new_log("Unabled to load theme " + name, RED_LOG);
 
 	while (getline(is, buffer))
 	{
-
 		std::stringstream	ss(buffer);
 		t_color				c;
 
@@ -49,8 +46,8 @@ void	Theme::setTheme(std::string name) {
 		ss >> key;
 		ss >> val;
 		if (!checkValue(val))
-			return info_log("Unabled to load theme (value format error) " + name, RED_LOG);
-		c = newHexColor(val);
+			return new_log("Unabled to load theme (value format error) " + name, RED_LOG);
+		c = colorHexToInt(val);
 		if (key == "background")
 			theme._background_color = c;
 		else if (key == "menu_default")
@@ -60,10 +57,10 @@ void	Theme::setTheme(std::string name) {
 		else if (key == "menu_inactive")
 			theme._menu_inactive_color = c;
 		else
-			return info_log("Unabled to load theme (key format error) " + name, RED_LOG);
+			return new_log("Unabled to load theme (key format error) " + name, RED_LOG);
 	}
 	*this = theme;
-	info_log(("Theme loaded - " + name), GREEN_LOG);
+	new_log(("Theme loaded - " + name), GREEN_LOG);
 }
 
 bool	Theme::checkValue(std::string val) {

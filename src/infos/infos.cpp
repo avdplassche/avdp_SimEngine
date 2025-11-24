@@ -19,11 +19,11 @@ static int handleHelp() {
 }
 
 static int	handleInfo(std::string arg, Application& app) {
-
+	(void) app;
 	if (arg == "window")
 	{
-		printMonitorInfo();
-		printWindowInfo(app.getWindow());
+		//printMonitorInfo();
+		runWindowInfoMode(app);
 		return 0;
 	}
 	throw ArgumentError(arg);

@@ -6,11 +6,12 @@
 
 int			handleInfos(char* argv, Application& app);
 void		printMonitorInfo();
-void		printWindowInfo(GLFWwindow* window);
-void		setWindowHintEvent(GLFWwindow *window);
+int			runWindowInfoMode(Application &app);
+void		printWindowInfo(SDL_Window* window);
+//void		setWindowHintEvent(GLFWwindow *window);
 
 
-#define SEPARATOR "---------------------------------------------------------------------------------------------"
+#define SEPARATOR "-------------------------------------------------------------"
 
 
 #endif

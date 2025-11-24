@@ -1,11 +1,11 @@
 #include "utils.h"
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
-{
-	(void)window;
-	glViewport(0, 0, width, height);
-	//
-}
+//void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+//{
+//	(void)window;
+//	glViewport(0, 0, width, height);
+//	//
+//}
 
 float	normalizePosition(int val, int total, char axe) {
 	assert(axe == 'y' || axe == 'x');
@@ -20,7 +20,7 @@ float	normalizeColor(int color) {
 	return ((float)color / 255);
 }
 
-void	info_log(std::string s, int c)
+void	new_log(std::string s, int c)
 {
 	switch (c)
 	{
@@ -43,12 +43,12 @@ void	info_log(std::string s, int c)
 
 }
 
-t_color	newColor(float r, float g, float b, float a) {
 
-	assert (0.0f <= r && r <= 1.0f);
-	assert (0.0f <= g && g <= 1.0f);
-	assert (0.0f <= b && b <= 1.0f);
-	assert (0.0f <= a && a <= 1.0f);
+t_color	newColor(int r, int g, int b, int a) {
+	assert (0 <= r && r <= 255);
+	assert (0 <= g && g <= 255);
+	assert (0 <= b && b <= 255);
+	assert (0 <= a && a <= 100);
 
 	t_color c;
 	c.r = r;
@@ -57,22 +57,6 @@ t_color	newColor(float r, float g, float b, float a) {
 	c.a = a;
 	return c;
 }
-
-
-t_color	newRgbColor(int r, int g, int b, int a) {
-	assert (0 <= r && r <= 255);
-	assert (0 <= g && g <= 255);
-	assert (0 <= b && b <= 255);
-	assert (0 <= a && a <= 100);
-
-	t_color c;
-	c.r = (float)r / 255.0f;
-	c.g = (float)g / 255.0f;
-	c.b = (float)b / 255.0f;
-	c.a = (float)a / 100.0f;
-	return c;
-}
-
 static int hexConverter(char c) {
 	assert(isdigit(c) || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F'));
 	if (isdigit(c))
@@ -82,7 +66,7 @@ static int hexConverter(char c) {
 	return c - 55;
 }
 
-t_color		newHexColor(std::string hex) {
+t_color		colorHexToInt(std::string hex) {
 
 	assert(hex[0] == '#');
 	assert(hex.size() == 7);
@@ -92,5 +76,38 @@ t_color		newHexColor(std::string hex) {
 	int	b = hexConverter(hex[5]) * 15 + hexConverter(hex[6]);
 	int a = 100;
 
-	return newRgbColor(r, g, b, a);
+	return newColor(r, g, b, a);
 }
+
+//t_color		colFloatToInt(t_fColor &source) {
+//	return newIntColor((int)source.r * 255, (int)source.g * 255, (int)source.b * 255, (int)source.r * 100);
+//}
+
+//t_fColor	newRgbColor(int r, int g, int b, int a) {
+//	assert (0 <= r && r <= 255);
+//	assert (0 <= g && g <= 255);
+//	assert (0 <= b && b <= 255);
+//	assert (0 <= a && a <= 100);
+
+//	t_fColor c;
+//	c.r = (float)r / 255.0f;
+//	c.g = (float)g / 255.0f;
+//	c.b = (float)b / 255.0f;
+//	c.a = (float)a / 100.0f;
+//	return c;
+//}
+
+//t_fColor	newFloatColor(float r, float g, float b, float a) {
+
+//	assert (0.0f <= r && r <= 1.0f);
+//	assert (0.0f <= g && g <= 1.0f);
+//	assert (0.0f <= b && b <= 1.0f);
+//	assert (0.0f <= a && a <= 1.0f);
+
+//	t_fColor c;
+//	c.r = r;
+//	c.g = g;
+//	c.b = b;
+//	c.a = a;
+//	return c;
+//}

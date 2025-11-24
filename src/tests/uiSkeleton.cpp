@@ -12,16 +12,16 @@ void			Container::draw() {
 		//glVertex2f( 0.2f, -0.2f); // Bottom-right vertex
 		//glVertex2f(-0.2f, -0.2f); // Bottom-left vertex
 		//glEnd();
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glBegin(GL_TRIANGLES);
-    	glColor4f(1.0f, 0.0f, 0.0f, 0.5f); // Red
-    	glVertex2f(-0.5f,  -0.5f);
-    	glColor4f(0.0f, 1.0f, 0.0f, 0.5f); // Green
-    	glVertex2f(0.5f,  -0.5f);
-    	glColor4f(0.0f, 0.0f, 1.0f, 0.5f); // Blue
-    	glVertex2f(0.0f,  0.5f);
+		//glEnable(GL_BLEND);
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//glBegin(GL_TRIANGLES);
+    	//glColor4f(1.0f, 0.0f, 0.0f, 0.5f); // Red
+    	//glVertex2f(-0.5f,  -0.5f);
+    	//glColor4f(0.0f, 1.0f, 0.0f, 0.5f); // Green
+    	//glVertex2f(0.5f,  -0.5f);
+    	//glColor4f(0.0f, 0.0f, 1.0f, 0.5f); // Blue
+    	//glVertex2f(0.0f,  0.5f);
     // Pixels inside the triangle will be interpolated
-glEnd();
+//glEnd();
 
 }

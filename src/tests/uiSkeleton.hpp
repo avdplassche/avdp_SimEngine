@@ -17,7 +17,7 @@ private:
 	std::vector<Container>	_containers;
 	//bool
 
-	GLfloat					_colour[4];
+	//GLfloat					_colour[4];
 
 	int						_width;
 	int						_height;

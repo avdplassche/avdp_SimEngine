@@ -7,7 +7,7 @@ int	runTests(Application &app) {
 		return 0;
 	}
 	catch (std::exception &e) {
-		glfwTerminate();
+		//glfwTerminate();
 		std::cerr << "Exception catched" << std::endl;
 		std::cerr << e.what() << std::endl;
 		return EXIT_FAILURE;

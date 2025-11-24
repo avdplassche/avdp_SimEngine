@@ -2,50 +2,58 @@
 #include "argument_handler.h"
 
 
-void	key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-	(void) mods;
-	(void) scancode;
-	if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
-	{
-		printMonitorInfo();
-		printWindowInfo(window);
-	}
-}
-
-void	setWindowHintEvent(GLFWwindow *window) {
-	glfwSetKeyCallback(window, key_callback);
-}
-
-
-void	printWindowInfo(GLFWwindow* window) {
-
+void	printWindowInfo(SDL_Window* window) {
 	int		width;
 	int		height;
+	int		x;
+	int		y;
 
+	SDL_GetWindowSize(window, &width, &height);
+	SDL_GetWindowPosition(window, &x, &y);
+	std::cout << std::endl;
 	std::cout << "-================-" << std::endl;
 	std::cout << "| --info-window  |" << std::endl;
 	std::cout << "-================-\n" << std::endl;
 
-	std::cout << "	HINTS\n" << std::endl;
-	std::cout << "0 GLFW_RESIZABLE		" << std::boolalpha << (bool)glfwGetWindowAttrib(window, GLFW_RESIZABLE) << std::endl;
-	std::cout << "1 GLFW_VISIBLE			" << std::boolalpha << (bool)glfwGetWindowAttrib(window, GLFW_VISIBLE) << std::endl;
-	std::cout << "2 GLFW_DECORATED		"  << std::boolalpha << (bool)glfwGetWindowAttrib(window, GLFW_DECORATED)  << std::endl;
-	std::cout << "3 GLFW_FOCUSED			" << std::boolalpha << (bool)glfwGetWindowAttrib(window, GLFW_FOCUSED) << std::endl;
-	std::cout << "4 GLFW_AUTO_ICONIFY		" << std::boolalpha << (bool)glfwGetWindowAttrib(window, GLFW_AUTO_ICONIFY) << std::endl;
-	std::cout << "5 GLFW_FLOATING			" << std::boolalpha << (bool)glfwGetWindowAttrib(window, GLFW_FLOATING)  << std::endl;
-	std::cout << "6 GLFW_MAXIMIZED		" << std::boolalpha << (bool)glfwGetWindowAttrib(window, GLFW_MAXIMIZED)  << std::endl;
-	std::cout << "7 GLFW_CENTER_CURSOR		" << std::boolalpha << (bool)glfwGetWindowAttrib(window, GLFW_CENTER_CURSOR)  << std::endl;
-	std::cout << "8 GLFW_TRANSPARENT_FRAMEBUFFER	" << std::boolalpha << (bool)glfwGetWindowAttrib(window, GLFW_SCALE_FRAMEBUFFER)  << std::endl;
-	std::cout << "9 GLFW_FOCUS_ON_SHOW		" << std::boolalpha << (bool)glfwGetWindowAttrib(window, GLFW_FOCUS_ON_SHOW)  << std::endl;
-	std::cout << "10 GLFW_SCALE_TO_MONITOR	" << std::boolalpha << (bool)glfwGetWindowAttrib(window, GLFW_SCALE_TO_MONITOR)  << std::endl;
-	std::cout << std::endl;
+	std::cout << SEPARATOR << std::endl;
+	std::cout << "Window Display : 	" << SDL_GetDisplayForWindow(window) << std::endl;
+	std::cout << "Window Size : 		" << width << " x " << height << std::endl;
+	std::cout << "Window Position : 	" << x << " x " << y << std::endl;
 	std::cout << SEPARATOR << std::endl;
 	std::cout << std::endl;
-	glfwGetWindowSize(window, &width, &height);
-	std::cout << "Window Size : 	" << width << " x " << height << std::endl;
-
-	std::cout << std::endl;
 	std::cout << std::endl;
 
+}
+
+int	runWindowInfoMode(Application &app) {
+
+	bool		close_window = false;
+	t_color		background = app.getTheme().getBackground();
+	SDL_Event	e;
+	bool		print_info = true;
+
+	while (!close_window)
+	{
+		while (SDL_PollEvent(&e)) {
+			if (e.type == SDL_EVENT_QUIT) {
+				close_window = true;
+			}
+			else if (e.type == SDL_EVENT_WINDOW_RESIZED || e.type == SDL_EVENT_WINDOW_MOVED)
+			{
+				print_info = true;
+			}
+		}
+		if (print_info)
+		{
+			printWindowInfo(app.getWindow());
+			print_info = false;
+		}
+
+		SDL_SetRenderDrawColor(app.getRenderer(), background.r , background.g, background.b, SDL_ALPHA_OPAQUE);
+		// [...]
+		SDL_RenderClear(app.getRenderer());
+		SDL_RenderPresent(app.getRenderer());
+
+	}
+	return 0;
 }

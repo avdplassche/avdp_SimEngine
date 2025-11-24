@@ -1,50 +1,42 @@
 #include "tests.h"
 #include "uiSkeleton.hpp"
 #include "MainScreen.hpp"
-#include "Menu.hpp"
-
-static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
-{
-	(void) window;
-	std::cout << xpos << " - " << ypos << std::endl;
-}
-
+#include "MenuTree.hpp"
 
 int	runUITests(Application &app) {
 
-	glfwMakeContextCurrent(app.getWindow());
-	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-	glfwSetFramebufferSizeCallback(app.getWindow(), framebuffer_size_callback);
+	new_log("TEST - Window loop ready", BLUE_LOG);
 
-	info_log("TEST - Window loop ready", BLUE_LOG);
-
-	Container c;
+	//Container c;
 	Theme&		theme = app.getTheme();
-	t_color		background = theme.getBackground();
+	bool		close_window = false;
+	SDL_Event	e;
+	t_color		&background = theme.getBackground();
 
-	app.getAppMenus().printMenu(app.getAppMenus().getMenuTree());
-
-	t_mainScreenConfig	main_screen_config;
-	main_screen_config.default_color = theme.getMenuDefault();
-	main_screen_config.hover_color = theme.getMenuHover();
-	main_screen_config.inactive_color = theme.getMenuInactive();
-
-	MainScreen	main_screen(app.getAppMenus(), main_screen_config);
+	app.getAppMenus().printMenu(app.getAppMenus().getTree());
 
 	try {
-		while (!glfwWindowShouldClose(app.getWindow()))
+
+		while (!close_window)
 		{
-			glfwSetCursorPosCallback(app.getWindow(), cursor_position_callback);
-			app.processInput();
+			while (SDL_PollEvent(&e)) {
+			if (e.type == SDL_EVENT_QUIT) {
+				close_window = true;
+            	}
+   		 	}
 
-			glClearColor(background.r, background.g, background.b, background.a);
-			glClear(GL_COLOR_BUFFER_BIT);
+			SDL_SetRenderDrawColor(app.getRenderer(), background.r , background.g, background.b, SDL_ALPHA_OPAQUE);
+			SDL_RenderClear(app.getRenderer());
 
-			main_screen.draw();
-			c.draw();
+        // *You would draw your game elements here*
+			app.getMainScreen().draw();
 
-			glfwSwapBuffers(app.getWindow());
-			glfwPollEvents();
+			SDL_RenderPresent(app.getRenderer());
+			//app.processInput();
+
+
+			//c.draw();
+
 		}
 	}
 	catch (std::exception &e) {

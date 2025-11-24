@@ -16,7 +16,7 @@ public:
 
 	void				setPos(int x, int y);
 	void				setSize(int width, int height);
-	void				draw();
+	void				draw(SDL_Renderer *render);
 	bool				hasBorder() const;
 };
 

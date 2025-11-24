@@ -2,13 +2,28 @@
 
 #include "pch.h"
 
-
-class GlWindow : public std::exception {
+class ExceptionSDLInitialize : public std::exception {
 	public:
 	const char * what() const throw() {
-		return "Glfw Window couldn't be opened";
+		return "SDL couldn't initialize";
 	}
 };
+
+class ExceptionSDLWindow : public std::exception {
+	public:
+	const char * what() const throw() {
+		return "SDL Window couldn't be opened";
+	}
+};
+
+
+class ExceptionSDLRenderer : public std::exception {
+	public:
+	const char * what() const throw() {
+		return "SDL Renderer couldn't be opened";
+	}
+};
+
 
 class ArgumentError : public std::exception {
 	private:

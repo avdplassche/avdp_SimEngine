@@ -17,16 +17,11 @@ public:
 	Theme();
 	~Theme();
 	Theme& operator=(const Theme&);
-	//Theme(std::string file, std::string name);
 
 	void				setTheme(std::string name);
 
 	bool				checkValue(std::string val);
 
-	//void				setBackgroundColor(t_color& c);
-	//void				setMenuDefaultColor(t_color& c);
-	//void				setMenuHoverColor(t_color& c);
-	//void				setMenuInactiveColor(t_color& c);
 	t_color&			getBackground();
 	t_color&			getMenuDefault();
 	t_color&			getMenuHover();
