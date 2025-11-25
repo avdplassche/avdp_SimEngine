@@ -40,9 +40,16 @@ typedef enum e_appState {
 }				t_appState;
 
 typedef struct s_size {
-	int			width;
-	int			height;
+	int			w;
+	int			h;
 }				t_size;
+
+typedef struct s_padding {
+	int			l;
+	int			r;
+	int			t;
+	int			b;
+}				t_padding;
 
 typedef struct s_color {
 	int			r;
@@ -62,12 +69,14 @@ typedef struct s_menu
 
 class Theme;
 
-typedef struct s_mainScreenConfig {
+typedef struct s_MenuScreenConfig {
 	SDL_Renderer	*renderer;
 	int				nbButtons = 0;
 	t_size			window_size;
 	Theme			*theme;
-}					t_mainScreenConfig;
+	TTF_TextEngine	*text_engine;
+	TTF_Font		*font;
+}					t_MenuScreenConfig;
 
 
 typedef struct s_pos {

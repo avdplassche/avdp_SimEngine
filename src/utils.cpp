@@ -39,7 +39,7 @@ void	new_log(std::string s, int c)
 		default:
 			break;
 	}
-	std::cout << "[INFO]	" << s << C_RESET << std::endl;
+	std::cout << "[INFO]	" << s << C_RESET << '\n';
 
 }
 
@@ -48,7 +48,7 @@ t_color	newColor(int r, int g, int b, int a) {
 	assert (0 <= r && r <= 255);
 	assert (0 <= g && g <= 255);
 	assert (0 <= b && b <= 255);
-	assert (0 <= a && a <= 100);
+	assert (0 <= a && a <= 255);
 
 	t_color c;
 	c.r = r;
@@ -77,6 +77,13 @@ t_color		colorHexToInt(std::string hex) {
 	int a = 100;
 
 	return newColor(r, g, b, a);
+}
+
+void		copyColor(t_color& source, t_color& copy) {
+	copy.r = source.r;
+	copy.g = source.g;
+	copy.b = source.b;
+	copy.a = source.a;
 }
 
 //t_color		colFloatToInt(t_fColor &source) {

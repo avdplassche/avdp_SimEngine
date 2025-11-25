@@ -6,6 +6,10 @@ Theme::Theme() {
 	_menu_default_color = newColor(255, 255, 255, 100);
 	_menu_hover_color = newColor (180, 180, 180, 100);
 	_menu_inactive_color = newColor (100, 100, 100, 100);;
+	_menu_border_color = newColor (100, 100, 100, 255);
+	_menu_text_color = newColor (0, 0, 0, 255);
+	_ui_default_color = newColor (0, 0, 0, 255);
+	_ui_border_color = newColor (255, 255, 255, 255);
 }
 
 Theme::~Theme() {}
@@ -26,7 +30,7 @@ void	Theme::setTheme(std::string name) {
 	std::string			buffer;
 	std::string			key;
 	std::string			val;
-	Theme				theme;
+	//Theme				theme;
 
 
 	path << "themes/" << name << ".conf";
@@ -44,22 +48,32 @@ void	Theme::setTheme(std::string name) {
 		if (buffer.empty())
 			continue ;
 		ss >> key;
+		if (key[0] == '#')
+			continue ;
 		ss >> val;
 		if (!checkValue(val))
 			return new_log("Unabled to load theme (value format error) " + name, RED_LOG);
 		c = colorHexToInt(val);
 		if (key == "background")
-			theme._background_color = c;
+			_background_color = c;
 		else if (key == "menu_default")
-			theme._menu_default_color = c;
+			_menu_default_color = c;
 		else if (key == "menu_hover")
-			theme._menu_hover_color = c;
+			_menu_hover_color = c;
 		else if (key == "menu_inactive")
-			theme._menu_inactive_color = c;
+			_menu_inactive_color = c;
+		else if (key == "menu_border")
+			_menu_border_color = c;
+		else if (key == "menu_text")
+			_menu_text_color = c;
+		else if (key == "ui_color")
+			_ui_default_color = c;
+		else if (key == "ui_border")
+			_ui_border_color = c;
 		else
 			return new_log("Unabled to load theme (key format error) " + name, RED_LOG);
 	}
-	*this = theme;
+	//*this = theme;
 	new_log(("Theme loaded - " + name), GREEN_LOG);
 }
 
@@ -70,7 +84,7 @@ bool	Theme::checkValue(std::string val) {
 	{
 		if (!isdigit(*it) && !('a' <= *it && *it <= 'f') && !('A' <= *it && *it <= 'F'))
 		{
-			std::cout << "HERE " << val << std::endl;
+			std::cout << "HERE " << val << '\n';
 			return 0;
 		}
 		it++;
@@ -93,4 +107,20 @@ t_color&	Theme::getMenuHover() {
 
 t_color&	Theme::getMenuInactive() {
 	return _menu_inactive_color;
+}
+
+t_color&	Theme::getMenuBorder() {
+	return _menu_border_color;
+}
+
+t_color&	Theme::getMenuText() {
+	return _menu_text_color;
+}
+
+t_color&	Theme::getUIDefault() {
+	return _ui_default_color;
+}
+
+t_color&	Theme::getUIBorder() {
+	return _ui_border_color;
 }

@@ -23,7 +23,7 @@ COMMON_FLAGS := $(STD_FLAGS) $(INC_PATHS)
 CFLAGS := $(COMMON_FLAGS)
 CXXFLAGS := $(COMMON_FLAGS)
 
-LD_FLAGS = -lsfml-graphics -lsfml-window -lsfml-system -lGL -lglfw -lSDL3
+LD_FLAGS = -lsfml-graphics -lsfml-window -lsfml-system -lGL -lglfw -lSDL3 -lSDL3_ttf
 
 # --- 2. FILE DEFINITIONS ---
 

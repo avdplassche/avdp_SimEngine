@@ -29,15 +29,18 @@ Application::~Application() {
 void	Application::init() {
 	if (!SDL_Init(SDL_INIT_VIDEO))
 		throw ExceptionSDLInitialize();
+	if (!TTF_Init())
+		throw ExceptionTTFInitialize();
 	try {
 		_initWindow();
 		_initRenderer();
-		_app_menu.load(APP_MENU_FILE);
+		_initTextEngine();
+		_menu_tree.load(APP_MENU_FILE);
 		_theme.setTheme(THEME);
-		_initMainScreen();
+		_initMenuScreen();
 	}
 	catch (std::exception &e){
-		std::cout << e.what() << std::endl;
+		std::cout << e.what() << '\n';
 	}
 }
 
@@ -49,8 +52,8 @@ int	Application::_initWindow() {
 		new_log(SDL_GetError(), RED_LOG);
 		throw ExceptionSDLWindow();
 	}
-	SDL_GetWindowSize(_window, &_window_size.width, &_window_size.height);
-	SDL_GetWindowMaximumSize(_window, &_monitor_resolution.width, &_monitor_resolution.height);
+	SDL_GetWindowSize(_window, &_window_size.w, &_window_size.h);
+	SDL_GetWindowMaximumSize(_window, &_monitor_resolution.w, &_monitor_resolution.h);
 	return 0;
 }
 
@@ -64,13 +67,33 @@ int	Application::_initRenderer() {
 	return 0;
 }
 
-int	Application::_initMainScreen() {
-	t_mainScreenConfig	msc;
+int	Application::_initTextEngine() {
+	_text_engine = TTF_CreateRendererTextEngine(_renderer);
+	if (!_text_engine)
+	{
+		new_log("Couldn't open text engine", RED_LOG);
+		throw ExceptionSDLTextEngine();
+	}
+	_font = TTF_OpenFont(FONT_CURRENT, 20);
+	if (!_font)
+	{
+		new_log("Couldn't open font", RED_LOG);
+		new_log(SDL_GetError(), RED_LOG);
+		throw ExceptionSDLFont();
+	}
+	return 0;
+}
+
+int	Application::_initMenuScreen() {
+	t_MenuScreenConfig	msc;
 	msc.renderer = _renderer;
-	msc.nbButtons = _app_menu.getTree().size() + 1;
+	msc.nbButtons = _menu_tree.getTree().size() + 1;
 	msc.window_size = _window_size;
 	msc.theme = &_theme;
-	_main_screen.setValues(_app_menu, msc);
+	msc.text_engine = _text_engine;
+	msc.font = _font;
+	_menu_screen.setValues(_menu_tree, msc);
+	new_log("Menu Screen Loaded", GREEN_LOG);
 	return 0;
 }
 
@@ -97,7 +120,7 @@ int	Application::run() {
 
 		processInput();
 
-		SDL_SetRenderDrawColor(_renderer, 0 , 0, 0, SDL_ALPHA_OPAQUE);
+		//SDL_SetRenderDrawColor(_renderer, 0 , 0, 0, SDL_ALPHA_OPAQUE);
 
 		// [...]
 
@@ -110,13 +133,30 @@ int	Application::run() {
 	return 0;
 }
 
-void	Application::applyTheme() {
-	_main_screen.setTheme(_theme);
+
+void	Application::setTheme(std::string theme_name) {
+	_theme.setTheme(theme_name);
+	//_menu_screen.setTheme(_theme);
+	//_ui.setTheme(_theme);
+	//_game_screen.setTheme(_theme);
+}
+
+void	Application::setFont(std::string font_path) {
+
+	TTF_Font	*new_font = TTF_OpenFont(font_path.c_str(), 24);
+	if (!new_font)
+	{
+		new_log("Couldn't open font", RED_LOG);
+		new_log(SDL_GetError(), RED_LOG);
+		return ;
+	}
+	_font = new_font;
 }
 
 
 void Application::processInput()
 {
+
 }
 
 SDL_Window*		Application::getWindow() const {
@@ -136,14 +176,14 @@ t_size			Application::getMonitorResolution() const {
 }
 
 MenuTree&		Application::getAppMenus(){
-	return _app_menu;
+	return _menu_tree;
 }
 
 Theme&			Application::getTheme() {
 	return _theme;
 }
 
-MainScreen&		Application::getMainScreen(){
-	return _main_screen;
+MenuScreen&		Application::getMenuScreen(){
+	return _menu_screen;
 }
 

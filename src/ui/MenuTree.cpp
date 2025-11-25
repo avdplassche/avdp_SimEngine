@@ -90,8 +90,8 @@ void MenuTree::_fillNodes(std::ifstream& ifstream, t_menu& root) {
 void MenuTree::_finalizeTypes(t_menu& node) {
 	if (!node.sub.empty()) {
 		t_menu back_node;
-        back_node.level = node.level + 1;
-        back_node.parent = node.parent;
+		back_node.level = node.level + 1;
+		back_node.parent = node.parent;
 		if (node.level > -1)
 		{
 			back_node.content = "Back";
@@ -108,7 +108,7 @@ void MenuTree::_finalizeTypes(t_menu& node) {
 			_finalizeTypes(child);
 		}
 	}
-	else if (node.type != CHECKBOX) {
+	else if (node.type != CHECKBOX && node.type != QUIT && node.type != BACK) {
 		node.type = ACTION;
 	}
 }
@@ -128,39 +128,45 @@ int	MenuTree::_getIndentationLevel(std::string line) const {
 	return i ;
 }
 
-
 std::vector<t_menu>	MenuTree::getTree() const {
 	return _menu;
 }
 
 // Call it using printMenu(menu->getMenu())
-void	MenuTree::printMenu(std::vector<t_menu> menu) {
-
+void	MenuTree::printMenu(std::vector<t_menu> menu, bool first) {
+	if (first)
+		std::cout << "\n===== PRINT MENU TREE ====\n\n";
 	for (size_t i = 0; i < menu.size(); i++)
 	{
 		for (int k = 0; k < menu[i].level; k++)
 			std::cout << "	";
-		if (menu[i].level != 0)
-			std::cout << "-> ";
-		std::cout << menu[i].content << " (" << menu[i].level << ") - ";
+		std::cout << menu[i].level << " -> ";
+		std::cout <<  menu[i].content;
 		switch (menu[i].type)
 		{
 			case ROUTE:
-				std::cout << "ROUTE " << std::endl;
+				std::cout << " (ROUTE)\n";
 				break;
 			case CHECKBOX:
-				std::cout << "CHECKBOX " << std::endl;
+				std::cout << " (CHECKBOX)\n";
 				break;
 			case ACTION:
-				std::cout << "ACTION " << std::endl;
+				std::cout << " (ACTION)\n";
+				break;
+			case QUIT:
+				std::cout << " (QUIT)\n";
+				break;
+			case BACK:
+				std::cout << " (BACK)\n";
 				break;
 			default:
 				break;
 		}
 		if (!menu[i].sub.empty())
-			printMenu(menu[i].sub);
+			printMenu(menu[i].sub, false);
 	}
-	std::cout << std::endl;
+	if (first)
+		std::cout << "\n===========================\n\n";
 }
 
 

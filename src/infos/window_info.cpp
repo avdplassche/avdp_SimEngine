@@ -10,18 +10,18 @@ void	printWindowInfo(SDL_Window* window) {
 
 	SDL_GetWindowSize(window, &width, &height);
 	SDL_GetWindowPosition(window, &x, &y);
-	std::cout << std::endl;
-	std::cout << "-================-" << std::endl;
-	std::cout << "| --info-window  |" << std::endl;
-	std::cout << "-================-\n" << std::endl;
+	std::cout << '\n';
+	std::cout << "-================-" << '\n';
+	std::cout << "| --info-window  |" << '\n';
+	std::cout << "-================-\n" << '\n';
 
-	std::cout << SEPARATOR << std::endl;
-	std::cout << "Window Display : 	" << SDL_GetDisplayForWindow(window) << std::endl;
-	std::cout << "Window Size : 		" << width << " x " << height << std::endl;
-	std::cout << "Window Position : 	" << x << " x " << y << std::endl;
-	std::cout << SEPARATOR << std::endl;
-	std::cout << std::endl;
-	std::cout << std::endl;
+	std::cout << SEPARATOR << '\n';
+	std::cout << "Window Display : 	" << SDL_GetDisplayForWindow(window) << '\n';
+	std::cout << "Window Size : 		" << width << " x " << height << '\n';
+	std::cout << "Window Position : 	" << x << " x " << y << '\n';
+	std::cout << SEPARATOR << '\n';
+	std::cout << '\n';
+	std::cout << '\n';
 
 }
 

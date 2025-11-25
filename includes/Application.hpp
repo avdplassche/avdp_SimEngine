@@ -3,27 +3,30 @@
 #include "pch.h"
 #include "Theme.hpp"
 #include "MenuTree.hpp"
-#include "MainScreen.hpp"
+#include "MenuScreen.hpp"
 
 class Application {
 
 private:
 	SDL_Window			*_window = NULL;
 	SDL_Renderer		*_renderer = NULL;
-	SDL_Cursor			*cursor = NULL;
+	//SDL_Cursor			*_cursor = NULL;
+	TTF_TextEngine		*_text_engine = NULL;
+	TTF_Font			*_font = NULL;
 
 	t_size				_window_size;
 	t_size				_monitor_resolution;
 
 	int					_initWindow();
 	int					_initRenderer();
-	int					_initMainScreen();
+	int					_initTextEngine();
+	int					_initMenuScreen();
 	//int					_initCursor();
 
-	MenuTree			_app_menu;
+	MenuTree			_menu_tree;
 	//MenuTree			_game_menu;
 
-	MainScreen			_main_screen;
+	MenuScreen			_menu_screen;
 
 	Theme				_theme;
 
@@ -46,11 +49,12 @@ public:
 	SDL_Window			*getWindow() const;
 	SDL_Renderer		*getRenderer() const;
 
+
 	MenuTree&			getAppMenus();
 	Theme&				getTheme();
-	MainScreen&			getMainScreen();
-
-	void				applyTheme();
+	MenuScreen&			getMenuScreen();
+	void				setTheme(std::string theme_name);
+	void				setFont(std::string font_path);
 
 };
 

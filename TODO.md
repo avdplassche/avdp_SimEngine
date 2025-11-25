@@ -8,9 +8,9 @@
 	- [ ] add back and quit to the structure
 	- [X] Make the Div
 	- [ ] add Border class
-	- [ ] Main Screen must become Abstract
+	- [ ] Main Screen must become Abstract ?
 	- [ ] Make the window size callback
-	- [ ] Make a new parsing for menus (like a file with a certain style, like config)
+	- [X] Make a new parsing for menus (like a file with a certain style, like config)
 
 
 
@@ -50,25 +50,6 @@ Settings
 		3840x2160
 	Themes
 
-1 -
-
-t_menu ROOT
-level = -1
-type = ROUTE
-
-
-t_menu Game of Life
-level = 0
-sub = [Classic]
-type = ROUTE
-
-current = Game of Life
-new_node = Classic
-level = 1
-
-current = Classic
-new_mode = Colour
-level = 1
 
 
 

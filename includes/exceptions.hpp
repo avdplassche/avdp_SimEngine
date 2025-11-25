@@ -9,6 +9,13 @@ class ExceptionSDLInitialize : public std::exception {
 	}
 };
 
+class ExceptionTTFInitialize : public std::exception {
+	public:
+	const char * what() const throw() {
+		return "TTF couldn't initialize";
+	}
+};
+
 class ExceptionSDLWindow : public std::exception {
 	public:
 	const char * what() const throw() {
@@ -24,6 +31,20 @@ class ExceptionSDLRenderer : public std::exception {
 	}
 };
 
+class ExceptionSDLTextEngine : public std::exception {
+	public:
+	const char * what() const throw() {
+		return "SDL Text Engine couldn't be opened";
+	}
+};
+
+class ExceptionSDLFont : public std::exception {
+	public:
+	const char * what() const throw() {
+		return "SDL font couldn't be opened";
+	}
+};
+
 
 class ArgumentError : public std::exception {
 	private:
@@ -32,7 +53,7 @@ class ArgumentError : public std::exception {
 	public:
 	ArgumentError(const std::string& arg) : full_message("Unknown option: " + arg) {}
 	const char * what() const throw() {
-		std::cerr << "Use --help for more information" << std::endl;
+		std::cerr << "Use --help for more information" << '\n';
 		return full_message.c_str();
 	}
 };

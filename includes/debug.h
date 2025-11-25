@@ -6,7 +6,7 @@
 #define PRINT_DEBUG(msg) \
 	do { \
 		std::cerr << "DEBUG: " << __FILE__ << ":" << __LINE__ \
-					<< " | " << msg << std::endl; \
+					<< " | " << msg << '\n'; \
 	} while (false)
 
 

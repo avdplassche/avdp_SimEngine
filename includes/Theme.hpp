@@ -10,6 +10,10 @@ private:
 	t_color				_menu_default_color;
 	t_color				_menu_hover_color;
 	t_color				_menu_inactive_color;
+	t_color				_menu_border_color;
+	t_color				_menu_text_color;
+	t_color				_ui_default_color;
+	t_color				_ui_border_color;
 
 
 public:
@@ -26,4 +30,8 @@ public:
 	t_color&			getMenuDefault();
 	t_color&			getMenuHover();
 	t_color&			getMenuInactive();
+	t_color&			getMenuBorder();
+	t_color&			getMenuText();
+	t_color&			getUIDefault();
+	t_color&			getUIBorder();
 };

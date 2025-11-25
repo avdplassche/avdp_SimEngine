@@ -7,8 +7,8 @@ void		AUIElement::setPos(int x, int y) {
 }
 
 void		AUIElement::setSize(int width, int height) {
-	_size.width = width;
-	_size.height = height;
+	_size.w = width;
+	_size.h = height;
 }
 
 bool		AUIElement::hasBorder() const {

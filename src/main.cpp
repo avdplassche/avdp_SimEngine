@@ -5,7 +5,7 @@
 
 
 int exitProgramm(const char *error_message, int return_value) {
-	std::cerr << error_message << std::endl;
+	std::cerr << error_message << '\n';
 	SDL_Quit();
 	return return_value;
 }

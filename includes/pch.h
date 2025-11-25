@@ -17,7 +17,8 @@
 #include <cmath>
 #include <algorithm>
 
-#include "SDL3/SDL.h"
+#include <SDL3/SDL.h>
+#include <SDL3_ttf/SDL_ttf.h>
 
 #include "config.h"
 #include "ansi_code.h"

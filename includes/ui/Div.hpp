@@ -7,6 +7,7 @@ class Div : public AUIElement {
 
 private:
 
+	SDL_FRect			_rect;
 
 public:
 
@@ -16,7 +17,12 @@ public:
 
 	void				setPos(int x, int y);
 	void				setSize(int width, int height);
-	void				draw(SDL_Renderer *render);
+	void				setBorders(bool b);
+	void				setFilled(bool b);
+
+	void				draw(SDL_Renderer *renderer);
+
 	bool				hasBorder() const;
+	bool				isFilled() const;
 };
 

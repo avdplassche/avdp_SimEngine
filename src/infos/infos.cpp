@@ -9,12 +9,12 @@ void	testArgs(char* argv) {
 
 static int handleHelp() {
 
-	std::cout << "-================-" << std::endl;
-	std::cout << "|    --help      |" << std::endl;
-	std::cout << "-================-\n" << std::endl;
+	std::cout << "-================-" << '\n';
+	std::cout << "|    --help      |" << '\n';
+	std::cout << "-================-\n" << '\n';
 
-	std::cout << "--info-monitor : show available monitors" << std::endl;
-	std::cout << "--info-window : show windows info" << std::endl;
+	std::cout << "--info-monitor : show available monitors" << '\n';
+	std::cout << "--info-window : show windows info" << '\n';
 	return 0;
 }
 
@@ -61,7 +61,7 @@ int	handleInfos(char* argv, Application& app) {
 			return (handleHelp());
 	}
 	catch (std::exception &e) {
-		std::cerr << e.what() << std::endl;
+		std::cerr << e.what() << '\n';
 	}
 	return EXIT_SUCCESS;
 }

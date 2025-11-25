@@ -17,7 +17,7 @@ public:
 	~MenuTree();
 
 	void					load(std::string menu_filename);
-	void					printMenu(std::vector<t_menu> menu);
+	void					printMenu(std::vector<t_menu> menu, bool first);
 
 	std::vector<t_menu>		getTree() const;
 

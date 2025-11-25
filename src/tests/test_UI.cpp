@@ -1,19 +1,17 @@
 #include "tests.h"
 #include "uiSkeleton.hpp"
-#include "MainScreen.hpp"
+#include "MenuScreen.hpp"
 #include "MenuTree.hpp"
 
 int	runUITests(Application &app) {
 
 	new_log("TEST - Window loop ready", BLUE_LOG);
 
-	//Container c;
 	Theme&		theme = app.getTheme();
 	bool		close_window = false;
 	SDL_Event	e;
-	t_color		&background = theme.getBackground();
 
-	app.getAppMenus().printMenu(app.getAppMenus().getTree());
+	app.getAppMenus().printMenu(app.getAppMenus().getTree(), true);
 
 	try {
 
@@ -22,14 +20,14 @@ int	runUITests(Application &app) {
 			while (SDL_PollEvent(&e)) {
 			if (e.type == SDL_EVENT_QUIT) {
 				close_window = true;
-            	}
-   		 	}
+				}
+		 	}
 
-			SDL_SetRenderDrawColor(app.getRenderer(), background.r , background.g, background.b, SDL_ALPHA_OPAQUE);
+			SDL_SetRenderDrawColor(app.getRenderer(), theme.getBackground().r , theme.getBackground().g, theme.getBackground().b, SDL_ALPHA_OPAQUE);
 			SDL_RenderClear(app.getRenderer());
 
-        // *You would draw your game elements here*
-			app.getMainScreen().draw();
+		// *You would draw your game elements here*
+			app.getMenuScreen().draw();
 
 			SDL_RenderPresent(app.getRenderer());
 			//app.processInput();
