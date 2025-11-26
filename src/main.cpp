@@ -31,8 +31,8 @@ int main(int argc, char** argv)
 {
 
 	print_mode();
-
 	Application	app;
+
 
 	try {
 		app.init();

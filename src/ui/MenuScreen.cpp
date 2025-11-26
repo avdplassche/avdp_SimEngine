@@ -23,10 +23,8 @@ void	MenuScreen::_setConfig(t_MenuScreenConfig &config) {
 
 void	MenuScreen::_setMenuTree(MenuTree& menu_tree) {
 	_menu_tree = &menu_tree;
-	_current_menu = _menu_tree->getTree().at(0);
-	std::cout << _current_menu.content << '\n';
-	_nbButtons = _current_menu.sub.size();
-	//_nbButtons = _menu_tree->getTree().size();
+	_current_menu = menu_tree.getTree();
+	_nbButtons = _current_menu.size();
 }
 
 void	MenuScreen::_setMenuData() {
@@ -55,7 +53,7 @@ void	MenuScreen::_setDiv() {
 }
 
 void	MenuScreen::_setButtons() {
-	_nbButtons = _current_menu.sub.size();
+	//_nbButtons = _current_menu.sub.size();
 	for (int i = 0; i < _nbButtons; i++) {
 		MenuButton button;
 		button.setSize(MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT);

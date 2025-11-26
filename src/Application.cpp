@@ -77,7 +77,6 @@ int	Application::_initTextEngine() {
 	_font = TTF_OpenFont(FONT_CURRENT, 20);
 	if (!_font)
 	{
-		new_log("Couldn't open font", RED_LOG);
 		new_log(SDL_GetError(), RED_LOG);
 		throw ExceptionSDLFont();
 	}
@@ -87,7 +86,6 @@ int	Application::_initTextEngine() {
 int	Application::_initMenuScreen() {
 	t_MenuScreenConfig	msc;
 	msc.renderer = _renderer;
-	msc.nbButtons = _menu_tree.getTree().size() + 1;
 	msc.window_size = _window_size;
 	msc.theme = &_theme;
 	msc.text_engine = _text_engine;

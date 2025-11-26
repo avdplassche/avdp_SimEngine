@@ -2,14 +2,10 @@
 
 
 MenuTree::MenuTree() {
-
 }
 
 MenuTree::~MenuTree() {
-
 }
-
-
 
 void	MenuTree::load(std::string menu_filename) {
 

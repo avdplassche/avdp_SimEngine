@@ -15,7 +15,7 @@ private:
 	t_color						*_background_color;
 
 	MenuTree					*_menu_tree = NULL;
-	t_menu						_current_menu;
+	std::vector<t_menu>			_current_menu;
 	int							_nbButtons;
 
 
