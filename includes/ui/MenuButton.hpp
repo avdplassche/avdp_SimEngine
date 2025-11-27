@@ -9,7 +9,8 @@ class MenuButton : public AUIElement {
 
 private:
 
-	std::string				_text;
+	std::string				_string;
+	TTF_Text				*_text = NULL;
 	t_color					*_default_color;
 	t_color					*_inactive_color;
 	t_color					*_hover_color;
@@ -32,7 +33,7 @@ public:
 
 	void		setValues(int x, int y, int width, int height, t_size window_size);
 
-	void		setText(std::string text);
+	void		setText(std::string text, TTF_TextEngine* engine, TTF_Font* font);
 	void		setTheme(Theme& theme);
 
 	void		draw(SDL_Renderer *renderer);

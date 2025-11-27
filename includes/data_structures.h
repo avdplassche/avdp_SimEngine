@@ -61,7 +61,7 @@ typedef struct s_color {
 typedef struct s_menu
 {
 	std::string				content;
-	std::vector<s_menu>		sub;
+	std::vector<s_menu *>	sub;
 	s_menu					*parent;
 	int						level;
 	t_menuType				type;

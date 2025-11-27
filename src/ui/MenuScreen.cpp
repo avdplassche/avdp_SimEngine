@@ -11,6 +11,7 @@ void	MenuScreen::setValues(MenuTree& menu_tree, t_MenuScreenConfig& config) {
 	setTheme();
 	_setDiv();
 	_setButtons();
+	_printChangeMenuInfo();
 }
 
 void	MenuScreen::_setConfig(t_MenuScreenConfig &config) {
@@ -22,13 +23,15 @@ void	MenuScreen::_setConfig(t_MenuScreenConfig &config) {
 }
 
 void	MenuScreen::_setMenuTree(MenuTree& menu_tree) {
-	_menu_tree = &menu_tree;
-	_current_menu = menu_tree.getTree();
-	_nbButtons = _current_menu.size();
+	(void)menu_tree;
+	//_menu_tree = &menu_tree;
+	//_current_menu = menu_tree.getTree();
+	//_current = menu_tree.getTree()[0];
+	//_nbButtons = _current_menu.size();
+	//_nbButtons = _current.sub.size();
 }
 
 void	MenuScreen::_setMenuData() {
-
 	_menu_height = _nbButtons * MENU_BUTTON_HEIGHT + ((_nbButtons - 1) * MENU_BUTTON_SPACING);
 	assert(_menu_height < _window_size.h);
 	_starting_pos.x = _window_size.w / 2 - MENU_BUTTON_WIDTH / 2;
@@ -48,19 +51,44 @@ void	MenuScreen::_setDiv() {
 	_div.setFilled(true);
 	_div_title = TTF_CreateText(_text_engine, _font, _div_title_string.c_str(),  _div_title_string.size());
 	TTF_GetTextSize(_div_title, &_div_title_size.w, &_div_title_size.h);
-	std::cout << "Title size " << _div_title_size.w << "x" << _div_title_size.h << '\n';
-
+	//std::cout << "Title size " << _div_title_size.w << "x" << _div_title_size.h << '\n';
 }
 
 void	MenuScreen::_setButtons() {
-	//_nbButtons = _current_menu.sub.size();
+	//_nbButtons = _current_menu.size();
+	if (!_menu_buttons.empty())
+		_menu_buttons.clear();
 	for (int i = 0; i < _nbButtons; i++) {
 		MenuButton button;
 		button.setSize(MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT);
 		button.setTheme(*_theme);
+		button.setText(_current_menu[i].content, _text_engine, _font);
+		//button.setText(_current.sub[i].content, _text_engine, _font);
 		_menu_buttons.push_back(button);
 	}
 }
+
+void	MenuScreen::changeCurrentMenu(std::vector<t_menu> current_menu)
+{
+	_current_menu = current_menu;
+	_nbButtons = _current_menu.size();
+	_setMenuData();
+	_setDiv();
+	_setButtons();
+	_printChangeMenuInfo();
+}
+
+//void	MenuScreen::changeCurrentMenu(t_menu current_menu)
+//{
+//	_current = current_menu;
+//	//_nbButtons = _current_menu.size();
+//	_nbButtons = _current.sub.size();
+//	_setMenuData();
+//	_setDiv();
+//	_setButtons();
+//	_printChangeMenuInfo();
+//}
+
 
 void	MenuScreen::draw() {
 
@@ -74,8 +102,8 @@ void	MenuScreen::draw() {
 		_menu_buttons[i].draw(_renderer);
 		y += MENU_BUTTON_HEIGHT + MENU_BUTTON_SPACING;
 	}
-	TTF_SetTextColor(_div_title, 55, 55, 55, 255);  // add theme color
-	TTF_DrawRendererText(_div_title, _starting_pos.x, _starting_pos.y);
+	//TTF_SetTextColor(_div_title, 55, 55, 55, 255);  // add theme color
+	//TTF_DrawRendererText(_div_title, _starting_pos.x, _starting_pos.y);
 }
 
 
@@ -83,10 +111,14 @@ std::vector<MenuButton>&	MenuScreen::getMenuButtons() {
 	return _menu_buttons;
 }
 
-void	MenuScreen::_setDivTitle() {
-	//TTF_CreateText()
-
+std::vector<t_menu>&	MenuScreen::getCurrentMenu() {
+	return _current_menu;
 }
+
+//t_menu&	MenuScreen::getCurrentMenu() {
+//	return _current;
+//}
+
 
 void	MenuScreen::printInfo() {
 	std::cout << "Nb buttons : " << _nbButtons << '\n';
@@ -96,7 +128,16 @@ void	MenuScreen::printInfo() {
 	std::cout << "Button spacing : " << MENU_BUTTON_SPACING << '\n';
 }
 
+void	MenuScreen::_printChangeMenuInfo() {
 
+	if (DEBUG_MODE != 2)
+		return ;
+	std::cout << "Current menu changed : \n";
+	for (size_t i = 0; i < _current_menu.size(); i++)
+		std::cout <<  _current_menu[i].content << "\n";
+	//for (size_t i = 0; i < _current.sub.size(); i++)
+	//	std::cout <<  _current.sub[i].content << "\n";
+}
 
 
 

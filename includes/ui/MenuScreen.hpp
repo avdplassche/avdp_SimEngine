@@ -14,8 +14,9 @@ private:
 	Theme						*_theme;
 	t_color						*_background_color;
 
-	MenuTree					*_menu_tree = NULL;
+	//MenuTree					*_menu_tree = NULL;
 	std::vector<t_menu>			_current_menu;
+	//t_menu						_current;
 	int							_nbButtons;
 
 
@@ -43,17 +44,23 @@ private:
 	void						_setDiv();
 	void						_setButtons();
 
+	void						_printChangeMenuInfo();
+
 public:
 	MenuScreen();
 	~MenuScreen();
 
 	void						setValues(MenuTree& menu_tree, t_MenuScreenConfig& config);
 	void						setTheme();
+
+	void						changeCurrentMenu(std::vector<t_menu> current_menu);
+	//void						changeCurrentMenu(t_menu current_menu);
+
 	void						draw();
 
-
 	std::vector<MenuButton>&	getMenuButtons();
-	void						_setDivTitle();
+	std::vector<t_menu>&		getCurrentMenu();
+	//t_menu&						getCurrentMenu();
 
 	void						printInfo();
 

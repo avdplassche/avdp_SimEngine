@@ -30,6 +30,9 @@ private:
 
 	Theme				_theme;
 
+
+
+
 public:
 	Application();
 	Application (const Application&);
@@ -39,7 +42,6 @@ public:
 	void				init();
 	int					run();
 
-	void				processInput();
 
 	void				recalculateData(); // used if resolution is changed
 
@@ -55,6 +57,8 @@ public:
 	MenuScreen&			getMenuScreen();
 	void				setTheme(std::string theme_name);
 	void				setFont(std::string font_path);
+
+	void				processInput(SDL_Event *event);
 
 };
 

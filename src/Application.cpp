@@ -40,13 +40,14 @@ void	Application::init() {
 		_initMenuScreen();
 	}
 	catch (std::exception &e){
-		std::cout << e.what() << '\n';
+		std::cout << "Exception catched : " << e.what() << '\n';
 	}
 }
 
 int	Application::_initWindow() {
 
-	_window = SDL_CreateWindow("GOL", WINDOW_WIDTH, WINDOW_HEIGHT,SDL_WINDOW_FULLSCREEN);
+	//_window = SDL_CreateWindow("GOL", WINDOW_WIDTH, WINDOW_HEIGHT,SDL_WINDOW_FULLSCREEN);
+	_window = SDL_CreateWindow("GOL", WINDOW_WIDTH, WINDOW_HEIGHT,SDL_WINDOW_RESIZABLE);
 	if (!_window)
 	{
 		new_log(SDL_GetError(), RED_LOG);
@@ -114,9 +115,9 @@ int	Application::run() {
 			if (e.type == SDL_EVENT_QUIT) {
 				close_window = true;
 			}
+			//std::cout << "Type : " << e.type <<  "\n";
+			//processInput(&e);
 		}
-
-		processInput();
 
 		//SDL_SetRenderDrawColor(_renderer, 0 , 0, 0, SDL_ALPHA_OPAQUE);
 
@@ -151,10 +152,13 @@ void	Application::setFont(std::string font_path) {
 	_font = new_font;
 }
 
+void Application::processInput(SDL_Event *e) {
+	(void)e;
+	//if (e->type == SDL_EVENT_KEY_DOWN && e->key.scancode == 4)
+	//{
+		//std::cout << "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n";
 
-void Application::processInput()
-{
-
+	//}
 }
 
 SDL_Window*		Application::getWindow() const {
