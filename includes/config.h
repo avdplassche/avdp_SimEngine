@@ -8,6 +8,10 @@
 #endif
 
 
+////////////////////////////////////////
+////			GRAPHIC				////
+////////////////////////////////////////
+
 
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720
@@ -21,6 +25,11 @@
 #define MENU_PADDING_B 50
 
 
+////////////////////////////////////////
+////			DATA				////
+////////////////////////////////////////
+
+
 #define APP_MENU_FILE "data/app_menu.txt"
 #define GAME_MENU_FILE "data/game_menu.txt"
 #define THEME "Riga"
@@ -32,9 +41,9 @@
 
 #define FONT_CURRENT FONT_INTER
 
+
 #ifndef THEME
 # define THEME "default"
 #endif
-
 
 #endif

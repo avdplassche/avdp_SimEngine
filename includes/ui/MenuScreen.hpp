@@ -34,8 +34,6 @@ private:
 	TTF_Text					*_div_title = NULL;
 
 
-
-
 	std::vector<std::string>	_text_strings;
 
 	void						_setConfig(t_MenuScreenConfig &conf);

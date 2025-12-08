@@ -1,7 +1,7 @@
 Game of Life
-	Classic
-	Colour
-Attraction
+	Classic Mode
+	Colour Mode
+Particle Simulator
 Settings
 	Resolution
 		$cb Fullscreen
@@ -11,3 +11,5 @@ Settings
 		2560×1440
 		3840x2160
 	Themes
+
+

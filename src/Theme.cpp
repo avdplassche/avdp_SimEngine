@@ -30,8 +30,6 @@ void	Theme::setTheme(std::string name) {
 	std::string			buffer;
 	std::string			key;
 	std::string			val;
-	//Theme				theme;
-
 
 	path << "themes/" << name << ".conf";
 
@@ -73,7 +71,6 @@ void	Theme::setTheme(std::string name) {
 		else
 			return new_log("Unabled to load theme (key format error) " + name, RED_LOG);
 	}
-	//*this = theme;
 	new_log(("Theme loaded - " + name), GREEN_LOG);
 }
 

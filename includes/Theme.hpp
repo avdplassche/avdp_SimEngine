@@ -15,7 +15,6 @@ private:
 	t_color				_ui_default_color;
 	t_color				_ui_border_color;
 
-
 public:
 
 	Theme();
