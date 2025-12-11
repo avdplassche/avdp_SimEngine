@@ -15,3 +15,6 @@ bool		AUIElement::hasBorder() const {
 	return	_hasBorder;
 }
 
+bool		AUIElement::isFilled() const {
+	return	_isFilled;
+}

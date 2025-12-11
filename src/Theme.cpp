@@ -31,12 +31,12 @@ void	Theme::setTheme(std::string name) {
 	std::string			key;
 	std::string			val;
 
-	path << "themes/" << name << ".conf";
+	path << "themes/" << name << ".theme";
 
 	std::ifstream is(path.str());
 
 	if (!is.is_open())
-		new_log("Unabled to load theme " + name, RED_LOG);
+		newLog("Unabled to load theme (filenor open) - " + name, WARNING_LOG);
 
 	while (getline(is, buffer))
 	{
@@ -50,7 +50,7 @@ void	Theme::setTheme(std::string name) {
 			continue ;
 		ss >> val;
 		if (!checkValue(val))
-			return new_log("Unabled to load theme (value format error) " + name, RED_LOG);
+			return newLog("Unabled to load theme (value format error) - " + name, WARNING_LOG);
 		c = colorHexToInt(val);
 		if (key == "background")
 			_background_color = c;
@@ -69,9 +69,10 @@ void	Theme::setTheme(std::string name) {
 		else if (key == "ui_border")
 			_ui_border_color = c;
 		else
-			return new_log("Unabled to load theme (key format error) " + name, RED_LOG);
+			return newLog("Unabled to load theme (key format error) - " + name, WARNING_LOG);
 	}
-	new_log(("Theme loaded - " + name), GREEN_LOG);
+	_name = name;
+	newLog((name + " theme loaded"), INFO_LOG);
 }
 
 bool	Theme::checkValue(std::string val) {
@@ -120,4 +121,9 @@ t_color&	Theme::getUIDefault() {
 
 t_color&	Theme::getUIBorder() {
 	return _ui_border_color;
+}
+
+
+std::string	Theme::getName() const {
+	return _name;
 }

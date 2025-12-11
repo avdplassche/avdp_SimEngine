@@ -20,27 +20,39 @@ float	normalizeColor(int color) {
 	return ((float)color / 255);
 }
 
-void	new_log(std::string s, int c)
+void	newLog(std::string s, int c)
 {
 	switch (c)
 	{
-		case GREEN_LOG:
-			std::cout << C_FG_GREEN_CODE;
+		case INFO_LOG:
+			std::cout << C_FG_GREEN_CODE << "[INFO]	";
 			break;
-		case RED_LOG:
-			std::cout << C_FG_RED_CODE;
+		case ERROR_LOG:
+			std::cout << C_FG_RED_CODE << "[ERROR]	";
 			break;
-		case BLUE_LOG:
-			std::cout << C_FG_BLUE_CODE;
+		case DEBUG_LOG:
+			std::cout << C_FG_BLUE_CODE  << "[DEBUG]	";
 			break;
-		case YELLOW_LOG:
-			std::cout << C_FG_YELLOW_CODE;
+		case WARNING_LOG:
+			std::cout << C_FG_YELLOW_CODE << "[WARNING]";
 			break;
 		default:
 			break;
 	}
-	std::cout << "[INFO]	" << s << C_RESET << '\n';
+	std::cout << "	" << s << C_RESET << '\n';
 
+}
+
+void		debugPrintInt(std::string name, int n) {
+
+	if (DEBUG_MODE)
+		std::cout << C_FG_BLUE_CODE  << "[DEBUG]		Print debug int " << name << " : [" << n << "]\n" << C_RESET;
+}
+
+void		debugPrintString(std::string name, std::string s) {
+
+	if (DEBUG_MODE)
+		std::cout << C_FG_BLUE_CODE  << "[DEBUG]		Print debug string " << name << " : [" << s << "]\n" << C_RESET;
 }
 
 

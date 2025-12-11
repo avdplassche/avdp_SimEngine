@@ -15,7 +15,7 @@ private:
 	TTF_Font			*_font = NULL;
 
 	t_size				_window_size;
-	t_size				_monitor_resolution;
+	//t_size				_monitor_resolution;
 
 	int					_initWindow();
 	int					_initRenderer();
@@ -46,7 +46,7 @@ public:
 	void				recalculateData(); // used if resolution is changed
 
 	t_size				getWindowSize() const;
-	t_size				getMonitorResolution() const;
+	//t_size				getMonitorResolution() const;
 
 	SDL_Window			*getWindow() const;
 	SDL_Renderer		*getRenderer() const;
@@ -59,6 +59,8 @@ public:
 	void				setFont(std::string font_path);
 
 	void				processInput(SDL_Event *event);
+
+	void				printInfos();
 
 };
 

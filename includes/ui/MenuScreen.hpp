@@ -15,8 +15,8 @@ private:
 	t_color						*_background_color;
 
 	//MenuTree					*_menu_tree = NULL;
-	std::vector<t_menu>			_current_menu;
-	//t_menu						_current;
+	//std::vector<t_menu>			_current_menu;
+	t_menu						_current_menu;
 	int							_nbButtons;
 
 
@@ -29,9 +29,10 @@ private:
 
 	Div							_div;
 	t_padding					_div_padding;
-	std::string					_div_title_string = "Main Menu";
-	t_size						_div_title_size;
-	TTF_Text					*_div_title = NULL;
+	//std::string					_div_title_string = "Main Menu";
+	//t_size						_div_title_size;
+	//t_pos						_div_title_pos;
+	//TTF_Text					*_div_title = NULL;
 
 
 	std::vector<std::string>	_text_strings;
@@ -51,13 +52,13 @@ public:
 	void						setValues(MenuTree& menu_tree, t_MenuScreenConfig& config);
 	void						setTheme();
 
-	void						changeCurrentMenu(std::vector<t_menu> current_menu);
+	void						changeCurrentMenu(t_menu current_menu);
 	//void						changeCurrentMenu(t_menu current_menu);
 
 	void						draw();
 
 	std::vector<MenuButton>&	getMenuButtons();
-	std::vector<t_menu>&		getCurrentMenu();
+	t_menu&						getCurrentMenu();
 	//t_menu&						getCurrentMenu();
 
 	void						printInfo();

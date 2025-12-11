@@ -3,9 +3,41 @@
 #include "MenuScreen.hpp"
 #include "MenuTree.hpp"
 
+
+
+
+void	handleEvents(SDL_Event *e, Application *app) {
+
+	if (e->type == SDL_EVENT_KEY_DOWN)
+	{
+		//if (SDLK_A && !app.getAppMenus().getTree().empty())
+		//	std::cout << "Number A"<< "\n";
+		//std::cout  << e->key.scancode <<" scancode pressed\n";
+		//std::cout  << e->key.key <<" keycode pressed\n";
+		//size_t code = e->key.key - 48;
+		//std::cout  << "code " << code << "\nsize " << app.getMenuScreen().getCurrentMenu().sub.size()<< "\n";
+
+	}
+	if (e->type == SDL_EVENT_KEY_DOWN && (e->key.scancode == 21 || (e->key.scancode >= 30 && e->key.scancode <= 39)))
+	{
+		size_t code = e->key.scancode;
+		//std::cout << "Size " << app.getAppMenus().getTree().size() << '\n';
+		//std::cout << "number " << code - 29;
+		if (code == 21)
+			app->setTheme("Burgundy");
+		//	app.getMenuScreen().changeCurrentMenu(app.getAppMenus().getTree()[0].sub);
+		//else if (app.getAppMenus().getTree().size() > (code - 29))
+		//{
+		//	app.getMenuScreen().changeCurrentMenu(app.getAppMenus().getTree()[code - 30].sub);
+		//}
+	}
+}
+
+
+
 int	runUITests(Application &app) {
 
-	new_log("TEST - Window loop ready", BLUE_LOG);
+	newLog("TEST - Window loop ready", INFO_LOG);
 
 	Theme&		theme = app.getTheme();
 	bool		close_window = false;
@@ -20,36 +52,8 @@ int	runUITests(Application &app) {
 		{
 			while (SDL_PollEvent(&e)) {
 				if (e.type == SDL_EVENT_QUIT)
-					close_window = true;
-				if (e.type == SDL_EVENT_KEY_DOWN)
-				{
-					//if (SDLK_A && !app.getAppMenus().getTree().empty())
-					//	std::cout << "Number A"<< "\n";
-					std::cout  << e.key.scancode <<" scancode pressed\n";
-					std::cout  << e.key.key <<" keycode pressed\n";
-					size_t code = e.key.key - 48;
-					std::cout  << "code " << code << "\nsize " << app.getMenuScreen().getCurrentMenu().size()<< "\n";
-					//if (code < app.getMenuScreen().getCurrentMenu().size())
-					//{
-					//	app.getMenuScreen().changeCurrentMenu(app.getMenuScreen().getCurrentMenu()[code].sub);
-					//}
-					//if (e.key.key == SDLK_R)
-					//	app.getMenuScreen().changeCurrentMenu(app.getMenuScreen().getCurrentMenu()[code].sub);
-
-				}
-				if (e.type == SDL_EVENT_KEY_DOWN && (e.key.scancode == 21 || (e.key.scancode >= 30 && e.key.scancode <= 39)))
-				{
-					size_t code = e.key.scancode;
-					//std::cout << "Size " << app.getAppMenus().getTree().size() << '\n';
-					//std::cout << "number " << code - 29;
-					if (code == 21)
-						app.setTheme("Burgundy");
-					//	app.getMenuScreen().changeCurrentMenu(app.getAppMenus().getTree()[0].sub);
-					//else if (app.getAppMenus().getTree().size() > (code - 29))
-					//{
-					//	app.getMenuScreen().changeCurrentMenu(app.getAppMenus().getTree()[code - 30].sub);
-					//}
-				}
+						close_window = true;
+				handleEvents(&e, &app);
 		 	}
 
 			SDL_SetRenderDrawColor(app.getRenderer(), theme.getBackground().r , theme.getBackground().g, theme.getBackground().b, SDL_ALPHA_OPAQUE);

@@ -14,13 +14,13 @@ void	print_mode() {
 	switch (DEBUG_MODE)
 	{
 		case 0:
-			new_log("Dev mode started", GREEN_LOG);
+			newLog("Dev mode started", INFO_LOG);
 			break;
 		case 1:
-			new_log("Info mode started", GREEN_LOG);
+			newLog("Info mode started", INFO_LOG);
 			break;
 		case 2:
-			new_log("Test mode started", GREEN_LOG);
+			newLog("Test mode started", INFO_LOG);
 			break;
 		default:
 			break;

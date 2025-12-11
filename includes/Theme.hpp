@@ -6,6 +6,7 @@
 class Theme {
 
 private:
+	std::string			_name;
 	t_color				_background_color;
 	t_color				_menu_default_color;
 	t_color				_menu_hover_color;
@@ -33,4 +34,6 @@ public:
 	t_color&			getMenuText();
 	t_color&			getUIDefault();
 	t_color&			getUIBorder();
+
+	std::string			getName() const;
 };

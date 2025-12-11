@@ -33,11 +33,17 @@ void	Application::init() {
 		throw ExceptionTTFInitialize();
 	try {
 		_initWindow();
+		newLog("SDL Window initialized", INFO_LOG);
 		_initRenderer();
+		newLog("SDL Renderer initialized", INFO_LOG);
 		_initTextEngine();
+		newLog("SDL Text Engine", INFO_LOG);
 		_menu_tree.load(APP_MENU_FILE);
+		newLog("Menu loaded", INFO_LOG);
 		_theme.setTheme(THEME);
 		_initMenuScreen();
+		newLog("Main menu screen Loaded", INFO_LOG);
+		//printInfos();
 	}
 	catch (std::exception &e){
 		std::cout << "Exception catched : " << e.what() << '\n';
@@ -50,11 +56,11 @@ int	Application::_initWindow() {
 	_window = SDL_CreateWindow("GOL", WINDOW_WIDTH, WINDOW_HEIGHT,SDL_WINDOW_RESIZABLE);
 	if (!_window)
 	{
-		new_log(SDL_GetError(), RED_LOG);
+		newLog(SDL_GetError(), ERROR_LOG);
 		throw ExceptionSDLWindow();
 	}
 	SDL_GetWindowSize(_window, &_window_size.w, &_window_size.h);
-	SDL_GetWindowMaximumSize(_window, &_monitor_resolution.w, &_monitor_resolution.h);
+	//SDL_GetWindowMaximumSize(_window, &_monitor_resolution.w, &_monitor_resolution.h);
 	return 0;
 }
 
@@ -62,7 +68,7 @@ int	Application::_initRenderer() {
 	_renderer = SDL_CreateRenderer(_window, NULL);
 	if (!_renderer)
 	{
-		new_log(SDL_GetError(), RED_LOG);
+		newLog(SDL_GetError(), ERROR_LOG);
 		throw ExceptionSDLRenderer();
 	}
 	return 0;
@@ -72,13 +78,13 @@ int	Application::_initTextEngine() {
 	_text_engine = TTF_CreateRendererTextEngine(_renderer);
 	if (!_text_engine)
 	{
-		new_log("Couldn't open text engine", RED_LOG);
+		newLog("Couldn't open text engine", ERROR_LOG);
 		throw ExceptionSDLTextEngine();
 	}
 	_font = TTF_OpenFont(FONT_CURRENT, 20);
 	if (!_font)
 	{
-		new_log(SDL_GetError(), RED_LOG);
+		newLog(SDL_GetError(), ERROR_LOG);
 		throw ExceptionSDLFont();
 	}
 	return 0;
@@ -86,13 +92,13 @@ int	Application::_initTextEngine() {
 
 int	Application::_initMenuScreen() {
 	t_MenuScreenConfig	msc;
+
 	msc.renderer = _renderer;
 	msc.window_size = _window_size;
 	msc.theme = &_theme;
 	msc.text_engine = _text_engine;
 	msc.font = _font;
 	_menu_screen.setValues(_menu_tree, msc);
-	new_log("Menu Screen Loaded", GREEN_LOG);
 	return 0;
 }
 
@@ -106,7 +112,7 @@ int	Application::run() {
 	bool		close_window = false;
 	SDL_Event	e;
 
-	new_log("Window loop ready.", GREEN_LOG);
+	newLog("Window loop ready.", INFO_LOG);
 
 
 	while (!close_window)
@@ -134,6 +140,11 @@ int	Application::run() {
 
 
 void	Application::setTheme(std::string theme_name) {
+	if (_theme.getName() == theme_name)
+	{
+		newLog(theme_name + "theme already loaded", WARNING_LOG);
+		return ;
+	}
 	_theme.setTheme(theme_name);
 	//_menu_screen.setTheme(_theme);
 	//_ui.setTheme(_theme);
@@ -145,8 +156,8 @@ void	Application::setFont(std::string font_path) {
 	TTF_Font	*new_font = TTF_OpenFont(font_path.c_str(), 24);
 	if (!new_font)
 	{
-		new_log("Couldn't open font", RED_LOG);
-		new_log(SDL_GetError(), RED_LOG);
+		newLog("Couldn't open font", ERROR_LOG);
+		newLog(SDL_GetError(), ERROR_LOG);
 		return ;
 	}
 	_font = new_font;
@@ -173,9 +184,9 @@ t_size			Application::getWindowSize() const {
 	return _window_size;
 }
 
-t_size			Application::getMonitorResolution() const {
-	return _monitor_resolution;
-}
+//t_size			Application::getMonitorResolution() const {
+//	return _monitor_resolution;
+//}
 
 MenuTree&		Application::getAppMenus(){
 	return _menu_tree;
@@ -189,3 +200,10 @@ MenuScreen&		Application::getMenuScreen(){
 	return _menu_screen;
 }
 
+void	Application::printInfos() {
+	std::cout << "\n===== PRINT WINDOW INFO ====\n\n";
+
+	std::cout << "Size : " << _window_size.w << "x" << _window_size.h << '\n';
+
+	std::cout << "\n===========================\n\n";
+}

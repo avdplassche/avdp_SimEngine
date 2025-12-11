@@ -6,12 +6,12 @@ typedef enum e_debugMode {
 	TEST_MODE
 }				t_debugMode;
 
-typedef enum e_logColor {
-	GREEN_LOG,
-	RED_LOG,
-	BLUE_LOG,
-	YELLOW_LOG
-}				t_logColor;
+typedef enum e_logType {
+	INFO_LOG,
+	ERROR_LOG,
+	DEBUG_LOG,
+	WARNING_LOG
+}				t_logType;
 
 typedef enum e_menuType
 {

@@ -4,14 +4,31 @@ MenuScreen::MenuScreen() {}
 
 MenuScreen::~MenuScreen() {}
 
-void	MenuScreen::setValues(MenuTree& menu_tree, t_MenuScreenConfig& config) {
-	_setConfig(config);
-	_setMenuTree(menu_tree);
+void	MenuScreen::changeCurrentMenu(t_menu current_menu)
+{
+	_current_menu = current_menu;
+	_nbButtons = _current_menu.sub.size();
 	_setMenuData();
-	setTheme();
 	_setDiv();
 	_setButtons();
 	_printChangeMenuInfo();
+}
+
+void	MenuScreen::setValues(MenuTree& menu_tree, t_MenuScreenConfig& config) {
+	_setConfig(config);
+	newLog("Menu Screen : config set", DEBUG_LOG);
+	_setMenuTree(menu_tree);
+	newLog("Menu Screen : menu tree set", DEBUG_LOG);
+	_setMenuData();
+	newLog("Menu Screen : menu data set", DEBUG_LOG);
+	setTheme();
+	newLog("Menu Screen : theme set", DEBUG_LOG);
+	_setDiv();
+	//_div.printInfos();
+	newLog("Menu Screen : div set", DEBUG_LOG);
+	_setButtons();
+	newLog("Menu Screen : buttons set", DEBUG_LOG);
+	//_printChangeMenuInfo();
 }
 
 void	MenuScreen::_setConfig(t_MenuScreenConfig &config) {
@@ -23,12 +40,8 @@ void	MenuScreen::_setConfig(t_MenuScreenConfig &config) {
 }
 
 void	MenuScreen::_setMenuTree(MenuTree& menu_tree) {
-	(void)menu_tree;
-	//_menu_tree = &menu_tree;
-	//_current_menu = menu_tree.getTree();
-	//_current = menu_tree.getTree()[0];
-	//_nbButtons = _current_menu.size();
-	//_nbButtons = _current.sub.size();
+	_current_menu = menu_tree.getTree();
+	_nbButtons = _current_menu.sub.size();
 }
 
 void	MenuScreen::_setMenuData() {
@@ -44,50 +57,34 @@ void	MenuScreen::setTheme() {
 
 void	MenuScreen::_setDiv() {
 
+	std::string title;
+
+	if (_current_menu.content == "Root")
+		title = "Menu";
+	else
+		title = _current_menu.content;
 	_div_padding = {MENU_PADDING_L, MENU_PADDING_R, MENU_PADDING_T, MENU_PADDING_B};
 	_div.setPos(_starting_pos.x - _div_padding.l, _starting_pos.y - _div_padding.t);
 	_div.setSize(MENU_BUTTON_WIDTH + MENU_PADDING_L + MENU_PADDING_R,
-				_menu_height + MENU_PADDING_T + MENU_PADDING_B);
+		_menu_height + MENU_PADDING_T + MENU_PADDING_B);
 	_div.setFilled(true);
-	_div_title = TTF_CreateText(_text_engine, _font, _div_title_string.c_str(),  _div_title_string.size());
-	TTF_GetTextSize(_div_title, &_div_title_size.w, &_div_title_size.h);
-	//std::cout << "Title size " << _div_title_size.w << "x" << _div_title_size.h << '\n';
+
+	_div.setTitle(_text_engine, _font, title);
+	_div.setTitlePos((_div.getPos().x * 2 + _div.getSize().w) / 2 - _div.getTitleSize().w / 2
+					, _div.getPos().y + MENU_TITLE_PADDING_T);
 }
 
 void	MenuScreen::_setButtons() {
-	//_nbButtons = _current_menu.size();
 	if (!_menu_buttons.empty())
 		_menu_buttons.clear();
 	for (int i = 0; i < _nbButtons; i++) {
 		MenuButton button;
 		button.setSize(MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT);
 		button.setTheme(*_theme);
-		button.setText(_current_menu[i].content, _text_engine, _font);
-		//button.setText(_current.sub[i].content, _text_engine, _font);
+		button.setText(_current_menu.sub[i]->content, _text_engine, _font);
 		_menu_buttons.push_back(button);
 	}
 }
-
-void	MenuScreen::changeCurrentMenu(std::vector<t_menu> current_menu)
-{
-	_current_menu = current_menu;
-	_nbButtons = _current_menu.size();
-	_setMenuData();
-	_setDiv();
-	_setButtons();
-	_printChangeMenuInfo();
-}
-
-//void	MenuScreen::changeCurrentMenu(t_menu current_menu)
-//{
-//	_current = current_menu;
-//	//_nbButtons = _current_menu.size();
-//	_nbButtons = _current.sub.size();
-//	_setMenuData();
-//	_setDiv();
-//	_setButtons();
-//	_printChangeMenuInfo();
-//}
 
 
 void	MenuScreen::draw() {
@@ -97,6 +94,7 @@ void	MenuScreen::draw() {
 	SDL_SetRenderDrawColor(_renderer, _background_color->r + 20 , _background_color->g + 20, _background_color->b + 20, SDL_ALPHA_OPAQUE);
 	_div.draw(_renderer);
 	SDL_SetRenderDrawColor(_renderer, _background_color->r , _background_color->g, _background_color->b, SDL_ALPHA_OPAQUE);
+	//TTF_DrawRendererText(_div_title, 0, 0);
 	for (int i = 0; i < _nbButtons; i++) {
 		_menu_buttons[i].setValues(_starting_pos.x, y, MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT, _window_size);
 		_menu_buttons[i].draw(_renderer);
@@ -111,7 +109,7 @@ std::vector<MenuButton>&	MenuScreen::getMenuButtons() {
 	return _menu_buttons;
 }
 
-std::vector<t_menu>&	MenuScreen::getCurrentMenu() {
+t_menu&	MenuScreen::getCurrentMenu() {
 	return _current_menu;
 }
 
@@ -132,9 +130,11 @@ void	MenuScreen::_printChangeMenuInfo() {
 
 	if (DEBUG_MODE != 2)
 		return ;
-	std::cout << "Current menu changed : \n";
-	for (size_t i = 0; i < _current_menu.size(); i++)
-		std::cout <<  _current_menu[i].content << "\n";
+	std::cout << "\n===== PRINT MENU CHANGE ====\n\n";
+	std::cout << "Buttons number : " << _nbButtons << '\n';
+	for (size_t i = 0; i < _current_menu.sub.size(); i++)
+		std::cout <<  _current_menu.sub[i]->content << "\n";
+	std::cout << "\n===========================\n\n";
 	//for (size_t i = 0; i < _current.sub.size(); i++)
 	//	std::cout <<  _current.sub[i].content << "\n";
 }

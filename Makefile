@@ -2,7 +2,7 @@
 
 # --- 1. CONFIGURATION VARIABLES ---
 
-NAME = gol
+NAME = sim_engine
 
 SRCDIR := src
 INCDIR := includes
@@ -40,7 +40,7 @@ DEPENDS := $(patsubst %.o, %.d, $(APP_OBJECTS))
 
 # --- 3. COLORS & UTILITY TARGETS ---
 
-PURPLE = \033[0;34m
+PURPLE = \033[0;35m
 GREEN = \033[0;32m
 RESET = \033[0m
 
