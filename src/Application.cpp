@@ -81,7 +81,7 @@ int	Application::_initTextEngine() {
 		newLog("Couldn't open text engine", ERROR_LOG);
 		throw ExceptionSDLTextEngine();
 	}
-	_font = TTF_OpenFont(FONT_CURRENT, 20);
+	_font = TTF_OpenFont(FONT_CURRENT, FONT_SIZE);
 	if (!_font)
 	{
 		newLog(SDL_GetError(), ERROR_LOG);
@@ -153,7 +153,7 @@ void	Application::setTheme(std::string theme_name) {
 
 void	Application::setFont(std::string font_path) {
 
-	TTF_Font	*new_font = TTF_OpenFont(font_path.c_str(), 24);
+	TTF_Font	*new_font = TTF_OpenFont(font_path.c_str(), FONT_SIZE);
 	if (!new_font)
 	{
 		newLog("Couldn't open font", ERROR_LOG);
@@ -161,6 +161,11 @@ void	Application::setFont(std::string font_path) {
 		return ;
 	}
 	_font = new_font;
+}
+
+void	Application::setWindowSize(int w, int h) {
+	_window_size.w = w;
+	_window_size.h = h;
 }
 
 void Application::processInput(SDL_Event *e) {

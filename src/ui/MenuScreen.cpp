@@ -4,6 +4,22 @@ MenuScreen::MenuScreen() {}
 
 MenuScreen::~MenuScreen() {}
 
+
+void	MenuScreen::setValues(MenuTree& menu_tree, t_MenuScreenConfig& config) {
+	_setConfig(config);
+	newLog("Menu Screen : Conf loaded", DEBUG_LOG);
+	_setMenuTree(menu_tree);
+	newLog("Menu Screen : Menu tree loaded", DEBUG_LOG);
+	_setMenuData();
+	newLog("Menu Screen : Menu Data loaded", DEBUG_LOG);
+	setTheme();
+	newLog("Menu Screen : Theme loaded", DEBUG_LOG);
+	_setDiv();
+	newLog("Menu Screen : Div loaded", DEBUG_LOG);
+	_setButtons();
+	newLog("Menu Screen : Buttons loaded", DEBUG_LOG);
+}
+
 void	MenuScreen::changeCurrentMenu(t_menu current_menu)
 {
 	_current_menu = current_menu;
@@ -12,23 +28,6 @@ void	MenuScreen::changeCurrentMenu(t_menu current_menu)
 	_setDiv();
 	_setButtons();
 	_printChangeMenuInfo();
-}
-
-void	MenuScreen::setValues(MenuTree& menu_tree, t_MenuScreenConfig& config) {
-	_setConfig(config);
-	newLog("Menu Screen : config set", DEBUG_LOG);
-	_setMenuTree(menu_tree);
-	newLog("Menu Screen : menu tree set", DEBUG_LOG);
-	_setMenuData();
-	newLog("Menu Screen : menu data set", DEBUG_LOG);
-	setTheme();
-	newLog("Menu Screen : theme set", DEBUG_LOG);
-	_setDiv();
-	//_div.printInfos();
-	newLog("Menu Screen : div set", DEBUG_LOG);
-	_setButtons();
-	newLog("Menu Screen : buttons set", DEBUG_LOG);
-	//_printChangeMenuInfo();
 }
 
 void	MenuScreen::_setConfig(t_MenuScreenConfig &config) {
@@ -68,7 +67,6 @@ void	MenuScreen::_setDiv() {
 	_div.setSize(MENU_BUTTON_WIDTH + MENU_PADDING_L + MENU_PADDING_R,
 		_menu_height + MENU_PADDING_T + MENU_PADDING_B);
 	_div.setFilled(true);
-
 	_div.setTitle(_text_engine, _font, title);
 	_div.setTitlePos((_div.getPos().x * 2 + _div.getSize().w) / 2 - _div.getTitleSize().w / 2
 					, _div.getPos().y + MENU_TITLE_PADDING_T);
@@ -77,31 +75,26 @@ void	MenuScreen::_setDiv() {
 void	MenuScreen::_setButtons() {
 	if (!_menu_buttons.empty())
 		_menu_buttons.clear();
+	float	y = _starting_pos.y;
 	for (int i = 0; i < _nbButtons; i++) {
 		MenuButton button;
 		button.setSize(MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT);
 		button.setTheme(*_theme);
 		button.setText(_current_menu.sub[i]->content, _text_engine, _font);
+		button.setValues(_starting_pos.x, y, MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT, _window_size);
 		_menu_buttons.push_back(button);
+		y += MENU_BUTTON_HEIGHT + MENU_BUTTON_SPACING;
 	}
 }
 
-
 void	MenuScreen::draw() {
-
-	float	y = _starting_pos.y;
 
 	SDL_SetRenderDrawColor(_renderer, _background_color->r + 20 , _background_color->g + 20, _background_color->b + 20, SDL_ALPHA_OPAQUE);
 	_div.draw(_renderer);
 	SDL_SetRenderDrawColor(_renderer, _background_color->r , _background_color->g, _background_color->b, SDL_ALPHA_OPAQUE);
-	//TTF_DrawRendererText(_div_title, 0, 0);
 	for (int i = 0; i < _nbButtons; i++) {
-		_menu_buttons[i].setValues(_starting_pos.x, y, MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT, _window_size);
 		_menu_buttons[i].draw(_renderer);
-		y += MENU_BUTTON_HEIGHT + MENU_BUTTON_SPACING;
 	}
-	//TTF_SetTextColor(_div_title, 55, 55, 55, 255);  // add theme color
-	//TTF_DrawRendererText(_div_title, _starting_pos.x, _starting_pos.y);
 }
 
 
@@ -113,10 +106,13 @@ t_menu&	MenuScreen::getCurrentMenu() {
 	return _current_menu;
 }
 
-//t_menu&	MenuScreen::getCurrentMenu() {
-//	return _current;
-//}
-
+void	MenuScreen::setWindowSize(int w, int h) {
+	_window_size.w = w;
+	_window_size.h = h;
+	_setMenuData();
+	_setDiv();
+	_setButtons();
+}
 
 void	MenuScreen::printInfo() {
 	std::cout << "Nb buttons : " << _nbButtons << '\n';

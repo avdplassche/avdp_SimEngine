@@ -31,8 +31,27 @@ void	handleEvents(SDL_Event *e, Application *app) {
 		//	app.getMenuScreen().changeCurrentMenu(app.getAppMenus().getTree()[code - 30].sub);
 		//}
 	}
+	if (e->type == SDL_EVENT_WINDOW_RESIZED)
+	{
+		int w, h;
+		SDL_GetWindowSize(app->getWindow(), &w, &h);
+		app->getMenuScreen().setWindowSize(w, h);
+	}
+	if (e->type == SDL_EVENT_MOUSE_MOTION)
+	{
+		SDL_Point point;
+		point.x = e->motion.x;
+		point.y = e->motion.y;
+		for (auto it = app->getMenuScreen().getMenuButtons().begin(); it != app->getMenuScreen().getMenuButtons().end(); ++it) {
+			SDL_Rect r = it->getRect();
+			if (SDL_PointInRect(&point, &r))
+			{
+				std::cout << "Mouse over rectangle " << it->getString() << '\n';
+				return ;
+			}
+		}
+	}
 }
-
 
 
 int	runUITests(Application &app) {

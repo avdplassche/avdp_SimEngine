@@ -31,7 +31,10 @@ void	newLog(std::string s, int c)
 			std::cout << C_FG_RED_CODE << "[ERROR]	";
 			break;
 		case DEBUG_LOG:
-			std::cout << C_FG_BLUE_CODE  << "[DEBUG]	";
+			if (PRINT_DEBUG_LOG)
+				std::cout << C_FG_BLUE_CODE  << "[DEBUG]	";
+			else
+				return;
 			break;
 		case WARNING_LOG:
 			std::cout << C_FG_YELLOW_CODE << "[WARNING]";
@@ -43,17 +46,6 @@ void	newLog(std::string s, int c)
 
 }
 
-void		debugPrintInt(std::string name, int n) {
-
-	if (DEBUG_MODE)
-		std::cout << C_FG_BLUE_CODE  << "[DEBUG]		Print debug int " << name << " : [" << n << "]\n" << C_RESET;
-}
-
-void		debugPrintString(std::string name, std::string s) {
-
-	if (DEBUG_MODE)
-		std::cout << C_FG_BLUE_CODE  << "[DEBUG]		Print debug string " << name << " : [" << s << "]\n" << C_RESET;
-}
 
 
 t_color	newColor(int r, int g, int b, int a) {
