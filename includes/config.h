@@ -1,12 +1,15 @@
 #ifndef CONFIG_H
 # define CONFIG_H
 
-
+////////////////////////////////////////
+////			DEBUG				////
+////////////////////////////////////////
 
 #ifndef DEBUG_MODE
 # define DEBUG_MODE 0
 #endif
 
+#define PRINT_DEBUG_LOG 1
 
 ////////////////////////////////////////
 ////			GRAPHIC				////
@@ -20,11 +23,17 @@
 #define	MENU_BUTTON_HEIGHT 32
 #define	MENU_BUTTON_SPACING 16
 
+#define MENU_HAS_SHADOW 1
+#define MENU_SHADOW_X 4
+#define MENU_SHADOW_Y 6
+
 #define MENU_PADDING_L 50
 #define MENU_PADDING_R 50
 #define MENU_PADDING_T 100
 #define MENU_PADDING_B 50
 #define MENU_TITLE_PADDING_T 30
+
+
 
 
 ////////////////////////////////////////
@@ -34,6 +43,8 @@
 #define THEME "Riga"
 #define APP_MENU_FILE "data/app_menu.txt"
 #define GAME_MENU_FILE "data/game_menu.txt"
+
+#define FONT_SIZE 16
 
 #define FONT_MONTSERRAT "assets/fonts/Montserrat-Medium.ttf"
 #define FONT_ARIAL "assets/fonts/Arial.ttf"

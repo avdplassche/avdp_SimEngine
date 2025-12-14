@@ -44,6 +44,8 @@ private:
 	void						_setButtons();
 
 	void						_printChangeMenuInfo();
+	void						_printButtonList();
+
 
 public:
 	MenuScreen();
@@ -52,14 +54,16 @@ public:
 	void						setValues(MenuTree& menu_tree, t_MenuScreenConfig& config);
 	void						setTheme();
 
-	void						changeCurrentMenu(t_menu current_menu);
+	void						changeCurrentMenu(t_menu *current_menu);
 	//void						changeCurrentMenu(t_menu current_menu);
 
 	void						draw();
 
+	void						setWindowSize(int w, int h);
+
 	std::vector<MenuButton>&	getMenuButtons();
 	t_menu&						getCurrentMenu();
-	//t_menu&						getCurrentMenu();
+
 
 	void						printInfo();
 

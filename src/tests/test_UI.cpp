@@ -6,7 +6,7 @@
 
 
 
-void	handleEvents(SDL_Event *e, Application *app) {
+int	handleEvents(SDL_Event *e, Application *app) {
 
 	if (e->type == SDL_EVENT_KEY_DOWN)
 	{
@@ -24,20 +24,21 @@ void	handleEvents(SDL_Event *e, Application *app) {
 		//std::cout << "Size " << app.getAppMenus().getTree().size() << '\n';
 		//std::cout << "number " << code - 29;
 		if (code == 21)
-			app->setTheme("Burgundy");
+			app->switchTheme();
+			//app->setTheme("Burgundy");
 		//	app.getMenuScreen().changeCurrentMenu(app.getAppMenus().getTree()[0].sub);
 		//else if (app.getAppMenus().getTree().size() > (code - 29))
 		//{
 		//	app.getMenuScreen().changeCurrentMenu(app.getAppMenus().getTree()[code - 30].sub);
 		//}
 	}
-	if (e->type == SDL_EVENT_WINDOW_RESIZED)
+	else if (e->type == SDL_EVENT_WINDOW_RESIZED)
 	{
 		int w, h;
 		SDL_GetWindowSize(app->getWindow(), &w, &h);
 		app->getMenuScreen().setWindowSize(w, h);
 	}
-	if (e->type == SDL_EVENT_MOUSE_MOTION)
+	else if (e->type == SDL_EVENT_MOUSE_MOTION)
 	{
 		SDL_Point point;
 		point.x = e->motion.x;
@@ -46,11 +47,50 @@ void	handleEvents(SDL_Event *e, Application *app) {
 			SDL_Rect r = it->getRect();
 			if (SDL_PointInRect(&point, &r))
 			{
-				std::cout << "Mouse over rectangle " << it->getString() << '\n';
-				return ;
+				if (it->getState() == DEFAULT_STATE)
+					it->setState(HOVER);
+				else if (it->getState() == HOVER)
+					return 0;
+				return 0;
+			}
+			else
+			{
+				if (it->getState() == HOVER)
+					it->setState(DEFAULT_STATE);
 			}
 		}
 	}
+	else if (e->type == SDL_EVENT_MOUSE_BUTTON_UP)
+	{
+		SDL_Point point;
+		point.x = e->button.x;
+		point.y = e->button.y;
+		//std::cout << "Mouse button at [" << point.x << "," << point.y << "]\n";
+		for (auto it = app->getMenuScreen().getMenuButtons().begin(); it != app->getMenuScreen().getMenuButtons().end(); ++it) {
+			SDL_Rect r = it->getRect();
+			if (SDL_PointInRect(&point, &r))
+			{
+				if (it->getState() == HOVER)
+				{
+					switch (it->getMenu()->type)
+					{
+					case ROUTE:
+						app->getMenuScreen().changeCurrentMenu(it->getMenu());
+						return 0;
+					case BACK:
+						app->getMenuScreen().changeCurrentMenu(it->getMenu()->parent->parent);
+						return 0;
+					case QUIT:
+						return 1;
+					default:
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	return 0;
 }
 
 
@@ -70,9 +110,8 @@ int	runUITests(Application &app) {
 		while (!close_window)
 		{
 			while (SDL_PollEvent(&e)) {
-				if (e.type == SDL_EVENT_QUIT)
-						close_window = true;
-				handleEvents(&e, &app);
+				if (e.type == SDL_EVENT_QUIT || handleEvents(&e, &app))
+					close_window = true;
 		 	}
 
 			SDL_SetRenderDrawColor(app.getRenderer(), theme.getBackground().r , theme.getBackground().g, theme.getBackground().b, SDL_ALPHA_OPAQUE);

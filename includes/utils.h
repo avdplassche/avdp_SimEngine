@@ -11,6 +11,3 @@ t_color		colorHexToInt(std::string hex);
 void		copyColor(t_color& source, t_color& copy);
 
 
-void		newLog(std::string s, int log_type);
-void		debugPrintInt(std::string name, int n);
-void		debugPrintString(std::string name, std::string s);

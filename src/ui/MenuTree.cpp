@@ -144,6 +144,7 @@ void	MenuTree::printMenu(std::vector<t_menu *> menu, bool first) {
 		std::cout << "\n===== PRINT MENU TREE ====\n\n";
 	for (size_t i = 0; i < menu.size(); i++)
 	{
+		std::cout << menu[i]->parent->content << "		";
 		for (int k = 0; k < menu[i]->level; k++)
 			std::cout << "	";
 		std::cout << menu[i]->level << " -> ";

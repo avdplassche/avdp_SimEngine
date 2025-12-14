@@ -7,14 +7,18 @@ class Theme {
 
 private:
 	std::string			_name;
-	t_color				_background_color;
-	t_color				_menu_default_color;
-	t_color				_menu_hover_color;
-	t_color				_menu_inactive_color;
-	t_color				_menu_border_color;
-	t_color				_menu_text_color;
-	t_color				_ui_default_color;
-	t_color				_ui_border_color;
+	t_color				_background_color = {-1, -1, -1, 0};
+	t_color				_menu_default_color = {-1, -1, -1, 0};
+	t_color				_menu_hover_color = {-1, -1, -1, 0};
+	t_color				_menu_inactive_color = {-1, -1, -1, 0};
+	t_color				_menu_border_color = {-1, -1, -1, 0};
+	t_color				_menu_text_color = {-1, -1, -1, 0};
+	t_color				_ui_default_color = {-1, -1, -1, 0};
+	t_color				_ui_border_color = {-1, -1, -1, 0};
+
+	//t_color				_shadow_color;
+	bool				_checkValue(std::string val);
+	bool				_checkFieldPresence();
 
 public:
 
@@ -24,7 +28,6 @@ public:
 
 	void				setTheme(std::string name);
 
-	bool				checkValue(std::string val);
 
 	t_color&			getBackground();
 	t_color&			getMenuDefault();

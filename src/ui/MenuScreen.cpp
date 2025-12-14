@@ -20,9 +20,9 @@ void	MenuScreen::setValues(MenuTree& menu_tree, t_MenuScreenConfig& config) {
 	newLog("Menu Screen : Buttons loaded", DEBUG_LOG);
 }
 
-void	MenuScreen::changeCurrentMenu(t_menu current_menu)
+void	MenuScreen::changeCurrentMenu(t_menu *current_menu)
 {
-	_current_menu = current_menu;
+	_current_menu = *current_menu;
 	_nbButtons = _current_menu.sub.size();
 	_setMenuData();
 	_setDiv();
@@ -70,17 +70,21 @@ void	MenuScreen::_setDiv() {
 	_div.setTitle(_text_engine, _font, title);
 	_div.setTitlePos((_div.getPos().x * 2 + _div.getSize().w) / 2 - _div.getTitleSize().w / 2
 					, _div.getPos().y + MENU_TITLE_PADDING_T);
+
 }
 
 void	MenuScreen::_setButtons() {
 	if (!_menu_buttons.empty())
 		_menu_buttons.clear();
+	//debugPrintInt("Menu buttons size", (int)_menu_buttons.size());
 	float	y = _starting_pos.y;
 	for (int i = 0; i < _nbButtons; i++) {
 		MenuButton button;
 		button.setSize(MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT);
 		button.setTheme(*_theme);
 		button.setText(_current_menu.sub[i]->content, _text_engine, _font);
+		button.setState(DEFAULT_STATE);  //need the add for inactive buttons
+		button.setMenu(_current_menu.sub[i]);
 		button.setValues(_starting_pos.x, y, MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT, _window_size);
 		_menu_buttons.push_back(button);
 		y += MENU_BUTTON_HEIGHT + MENU_BUTTON_SPACING;
@@ -89,11 +93,9 @@ void	MenuScreen::_setButtons() {
 
 void	MenuScreen::draw() {
 
-	SDL_SetRenderDrawColor(_renderer, _background_color->r + 20 , _background_color->g + 20, _background_color->b + 20, SDL_ALPHA_OPAQUE);
-	_div.draw(_renderer);
-	SDL_SetRenderDrawColor(_renderer, _background_color->r , _background_color->g, _background_color->b, SDL_ALPHA_OPAQUE);
+	_div.draw(_renderer, _background_color);
 	for (int i = 0; i < _nbButtons; i++) {
-		_menu_buttons[i].draw(_renderer);
+		_menu_buttons[i].draw(_renderer, _background_color);
 	}
 }
 
@@ -126,14 +128,16 @@ void	MenuScreen::_printChangeMenuInfo() {
 
 	if (DEBUG_MODE != 2)
 		return ;
-	std::cout << "\n===== PRINT MENU CHANGE ====\n\n";
+	std::cout << "\n===== MENUSCREEN : PRINT MENU CHANGE ====\n\n";
 	std::cout << "Buttons number : " << _nbButtons << '\n';
 	for (size_t i = 0; i < _current_menu.sub.size(); i++)
 		std::cout <<  _current_menu.sub[i]->content << "\n";
 	std::cout << "\n===========================\n\n";
-	//for (size_t i = 0; i < _current.sub.size(); i++)
-	//	std::cout <<  _current.sub[i].content << "\n";
 }
 
-
-
+void	MenuScreen::_printButtonList() {
+	std::cout << "\n===== MENUSCREEN : PRINT BUTTON LIST ====\n\n";
+	for (auto it = _menu_buttons.begin(); it != _menu_buttons.end(); ++it)
+		std::cout << it->getString() << "\n";
+	std::cout << "\n===========================\n\n";
+}

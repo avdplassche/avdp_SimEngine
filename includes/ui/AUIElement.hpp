@@ -19,7 +19,7 @@ public:
 	bool				hasBorder() const;
 	bool				isFilled() const;
 
-	virtual void		draw(SDL_Renderer *renderer) = 0;
+	virtual void		draw(SDL_Renderer *renderer, t_color *color) = 0;
 };
 
 

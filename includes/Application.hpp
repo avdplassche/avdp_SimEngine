@@ -8,27 +8,31 @@
 class Application {
 
 private:
-	SDL_Window			*_window = NULL;
-	SDL_Renderer		*_renderer = NULL;
-	//SDL_Cursor			*_cursor = NULL;
-	TTF_TextEngine		*_text_engine = NULL;
-	TTF_Font			*_font = NULL;
+	SDL_Window					*_window = NULL;
+	SDL_Renderer				*_renderer = NULL;
+	//SDL_Cursor				*_cursor = NULL;
+	TTF_TextEngine				*_text_engine = NULL;
+	TTF_Font					*_font = NULL;
+	//SDL_Point					*_cursor_pos = ;
 
-	t_size				_window_size;
-	//t_size				_monitor_resolution;
+	t_size						_window_size;
+	//t_size					_monitor_resolution;
 
-	int					_initWindow();
-	int					_initRenderer();
-	int					_initTextEngine();
-	int					_initMenuScreen();
-	//int					_initCursor();
+	int							_initWindow();
+	int							_initRenderer();
+	int							_initTextEngine();
+	int							_initThemeList();
+	int							_initMenuScreen();
+	//int						_initCursor();
 
-	MenuTree			_menu_tree;
-	//MenuTree			_game_menu;
+	MenuTree					_menu_tree;
+	//MenuTree					_game_menu;
 
-	MenuScreen			_menu_screen;
+	MenuScreen					_menu_screen;
 
-	Theme				_theme;
+	std::vector<std::string>	_theme_list;
+	size_t						_current_theme_index;
+	Theme						_theme;
 
 
 
@@ -55,8 +59,12 @@ public:
 	MenuTree&			getAppMenus();
 	Theme&				getTheme();
 	MenuScreen&			getMenuScreen();
+
 	void				setTheme(std::string theme_name);
 	void				setFont(std::string font_path);
+	void				setWindowSize(int w, int h);
+
+	void				switchTheme();
 
 	void				processInput(SDL_Event *event);
 

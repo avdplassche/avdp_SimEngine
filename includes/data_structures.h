@@ -32,6 +32,11 @@ typedef enum e_coordinates_tb {
 	BOTTOM
 }				t_coordinates_tb;
 
+typedef enum e_buttonState {
+	DEFAULT_STATE,
+	HOVER,
+	INACTIVE
+}				t_buttonState;
 
 typedef enum e_appState {
 	MENU,

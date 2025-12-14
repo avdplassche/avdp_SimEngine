@@ -17,7 +17,13 @@ Div::Div(t_pos pos, t_size size, bool border) {
 Div::~Div() {}
 
 
-void	Div::draw(SDL_Renderer *renderer) {
+void	Div::draw(SDL_Renderer *renderer, t_color *color) {
+	if (MENU_HAS_SHADOW)
+	{
+		SDL_SetRenderDrawColor(renderer, 0 , 0, 0, SDL_ALPHA_OPAQUE);
+		SDL_RenderFillRect(renderer, &_shadow);
+	}
+	SDL_SetRenderDrawColor(renderer, color->r + 20 , color->g + 20, color->b + 20, SDL_ALPHA_OPAQUE);
 	if (_isFilled)
 		SDL_RenderFillRect(renderer, &_rect);
 	else if (_hasBorder)
@@ -34,6 +40,8 @@ void	Div::setPos(int x, int y) {
 	_pos.y = y;
 	_rect.x = x;
 	_rect.y = y;
+	_shadow.x = x + MENU_SHADOW_X;
+	_shadow.y = y - MENU_SHADOW_X;
 }
 
 void	Div::setSize(int w, int h) {
@@ -41,7 +49,10 @@ void	Div::setSize(int w, int h) {
 	_size.h = h;
 	_rect.w = w;
 	_rect.h = h;
+	_shadow.w = w;
+	_shadow.h = h;
 }
+
 
 void	Div::setTitle(TTF_TextEngine *engine, TTF_Font *font, std::string text) {
 	_title_string = text;
@@ -88,6 +99,10 @@ t_size	Div::getTitleSize() const {
 
 t_pos	Div::getTitlePos() const {
 	return _title_pos;
+}
+
+SDL_FRect	Div::getRect() const {
+	return _rect;
 }
 
 void	Div::printInfos() const {

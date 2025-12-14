@@ -33,16 +33,18 @@ void	Application::init() {
 		throw ExceptionTTFInitialize();
 	try {
 		_initWindow();
-		newLog("SDL Window initialized", INFO_LOG);
+		newLog("App : SDL Window initialized", INFO_LOG);
 		_initRenderer();
-		newLog("SDL Renderer initialized", INFO_LOG);
+		newLog("App : SDL Renderer initialized", INFO_LOG);
 		_initTextEngine();
-		newLog("SDL Text Engine", INFO_LOG);
+		newLog("App : SDL Text Engine", INFO_LOG);
 		_menu_tree.load(APP_MENU_FILE);
-		newLog("Menu loaded", INFO_LOG);
+		newLog("App : Menu loaded", INFO_LOG);
 		_theme.setTheme(THEME);
 		_initMenuScreen();
-		newLog("Main menu screen Loaded", INFO_LOG);
+		newLog("App : Main menu screen Loaded", INFO_LOG);
+		_initThemeList();
+		newLog("App : Theme list Loaded", INFO_LOG);
 		//printInfos();
 	}
 	catch (std::exception &e){
@@ -87,6 +89,27 @@ int	Application::_initTextEngine() {
 		newLog(SDL_GetError(), ERROR_LOG);
 		throw ExceptionSDLFont();
 	}
+	return 0;
+}
+
+int Application::_initThemeList() {
+
+	size_t	i = 0;
+
+	std::filesystem::path dir_path = "themes/";
+	for (auto const& dir_entry : std::filesystem::directory_iterator{dir_path})
+	{
+		if (dir_entry.path().string().size() < 6 || dir_entry.path().string().size() - dir_entry.path().string().rfind(".theme") != 6)
+			newLog("Theme format error : " + dir_entry.path().string(), WARNING_LOG);
+		std::string	theme_name(dir_entry.path().string());
+		theme_name.erase(theme_name.size() - 6, theme_name.size() - 5);
+		theme_name.erase(0, 7);
+		if (theme_name == _theme.getName())
+			_current_theme_index = i;
+		_theme_list.push_back(theme_name);
+		i++;
+	}
+
 	return 0;
 }
 
@@ -166,6 +189,13 @@ void	Application::setFont(std::string font_path) {
 void	Application::setWindowSize(int w, int h) {
 	_window_size.w = w;
 	_window_size.h = h;
+}
+
+void	Application::switchTheme() {
+	_current_theme_index++;
+	if (_current_theme_index == _theme_list.size())
+		_current_theme_index = 0;
+	setTheme(_theme_list.at(_current_theme_index));
 }
 
 void Application::processInput(SDL_Event *e) {
