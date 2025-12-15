@@ -38,13 +38,14 @@ void	Application::init() {
 		newLog("App : SDL Renderer initialized", INFO_LOG);
 		_initTextEngine();
 		newLog("App : SDL Text Engine", INFO_LOG);
-		_menu_tree.load(APP_MENU_FILE);
+		_initThemeList();
+		_menu_tree.load(APP_MENU_FILE, &_theme_list);
 		newLog("App : Menu loaded", INFO_LOG);
 		_theme.setTheme(THEME);
 		_initMenuScreen();
 		newLog("App : Main menu screen Loaded", INFO_LOG);
-		_initThemeList();
 		newLog("App : Theme list Loaded", INFO_LOG);
+		_state = APP_STATE_MAIN_MENU;
 		//printInfos();
 	}
 	catch (std::exception &e){
@@ -54,7 +55,6 @@ void	Application::init() {
 
 int	Application::_initWindow() {
 
-	//_window = SDL_CreateWindow("GOL", WINDOW_WIDTH, WINDOW_HEIGHT,SDL_WINDOW_FULLSCREEN);
 	_window = SDL_CreateWindow("GOL", WINDOW_WIDTH, WINDOW_HEIGHT,SDL_WINDOW_RESIZABLE);
 	if (!_window)
 	{
@@ -62,7 +62,6 @@ int	Application::_initWindow() {
 		throw ExceptionSDLWindow();
 	}
 	SDL_GetWindowSize(_window, &_window_size.w, &_window_size.h);
-	//SDL_GetWindowMaximumSize(_window, &_monitor_resolution.w, &_monitor_resolution.h);
 	return 0;
 }
 
@@ -92,6 +91,8 @@ int	Application::_initTextEngine() {
 	return 0;
 }
 
+/** Used to switch theme easily
+ */
 int Application::_initThemeList() {
 
 	size_t	i = 0;
@@ -109,7 +110,6 @@ int Application::_initThemeList() {
 		_theme_list.push_back(theme_name);
 		i++;
 	}
-
 	return 0;
 }
 
@@ -154,11 +154,15 @@ int	Application::run() {
 
 		SDL_RenderClear(_renderer);
 
-		// *You would draw your game elements here*
+		// Game elements here
 
 		SDL_RenderPresent(_renderer);
 	}
 	return 0;
+}
+
+void	Application::setState(t_appState state){
+	_state = state;
 }
 
 
@@ -191,6 +195,11 @@ void	Application::setWindowSize(int w, int h) {
 	_window_size.h = h;
 }
 
+void	Application::setMousePos(int x, int y) {
+	_mouse_pos.x = x;
+	_mouse_pos.y = y;
+}
+
 void	Application::switchTheme() {
 	_current_theme_index++;
 	if (_current_theme_index == _theme_list.size())
@@ -219,9 +228,9 @@ t_size			Application::getWindowSize() const {
 	return _window_size;
 }
 
-//t_size			Application::getMonitorResolution() const {
-//	return _monitor_resolution;
-//}
+t_appState		Application::getState() const {
+	return _state;
+}
 
 MenuTree&		Application::getAppMenus(){
 	return _menu_tree;
@@ -233,6 +242,10 @@ Theme&			Application::getTheme() {
 
 MenuScreen&		Application::getMenuScreen(){
 	return _menu_screen;
+}
+
+SDL_Point	Application::getMousePos() const {
+	return _mouse_pos;
 }
 
 void	Application::printInfos() {

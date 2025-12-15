@@ -2,6 +2,8 @@ Game of Life
 	Classic Mode
 	Colour Mode
 Particle Simulator
+Development
+	UI Matrice
 Settings
 	Resolution
 		$cb Fullscreen

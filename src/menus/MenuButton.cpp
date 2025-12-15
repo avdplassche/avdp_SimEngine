@@ -60,13 +60,13 @@ void		MenuButton::setState(t_buttonState state) {
 	_state = state;
 	switch (state)
 	{
-		case DEFAULT_STATE:
+		case BUTTON_STATE_DEFAULT:
 			_current_color = _default_color;
 			break;
-		case HOVER:
+		case BUTTON_STATE_HOVER:
 			_current_color = _hover_color;
 			break;
-		case INACTIVE:
+		case BUTTON_STATE_INACTIVE:
 			_current_color = _inactive_color;
 			break;
 		default:

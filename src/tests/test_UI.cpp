@@ -3,9 +3,6 @@
 #include "MenuScreen.hpp"
 #include "MenuTree.hpp"
 
-
-
-
 int	handleEvents(SDL_Event *e, Application *app) {
 
 	if (e->type == SDL_EVENT_KEY_DOWN)
@@ -40,47 +37,60 @@ int	handleEvents(SDL_Event *e, Application *app) {
 	}
 	else if (e->type == SDL_EVENT_MOUSE_MOTION)
 	{
-		SDL_Point point;
-		point.x = e->motion.x;
-		point.y = e->motion.y;
+		app->setMousePos(e->motion.x, e->motion.y);
+
+		SDL_Point point(app->getMousePos());
+		//point.x = e->motion.x;
+		//point.y = e->motion.y;
 		for (auto it = app->getMenuScreen().getMenuButtons().begin(); it != app->getMenuScreen().getMenuButtons().end(); ++it) {
 			SDL_Rect r = it->getRect();
 			if (SDL_PointInRect(&point, &r))
 			{
-				if (it->getState() == DEFAULT_STATE)
-					it->setState(HOVER);
-				else if (it->getState() == HOVER)
+				if (it->getState() == BUTTON_STATE_DEFAULT)
+					it->setState(BUTTON_STATE_HOVER);
+				else if (it->getState() == BUTTON_STATE_HOVER)
 					return 0;
 				return 0;
 			}
 			else
 			{
-				if (it->getState() == HOVER)
-					it->setState(DEFAULT_STATE);
+				if (it->getState() == BUTTON_STATE_HOVER)
+					it->setState(BUTTON_STATE_DEFAULT);
 			}
 		}
 	}
 	else if (e->type == SDL_EVENT_MOUSE_BUTTON_UP)
 	{
-		SDL_Point point;
-		point.x = e->button.x;
-		point.y = e->button.y;
+		SDL_Point point(app->getMousePos());
+		//point.x = e->button.x;
+		//point.y = e->button.y;
 		//std::cout << "Mouse button at [" << point.x << "," << point.y << "]\n";
 		for (auto it = app->getMenuScreen().getMenuButtons().begin(); it != app->getMenuScreen().getMenuButtons().end(); ++it) {
 			SDL_Rect r = it->getRect();
 			if (SDL_PointInRect(&point, &r))
 			{
-				if (it->getState() == HOVER)
+				if (it->getState() == BUTTON_STATE_HOVER)
 				{
 					switch (it->getMenu()->type)
 					{
-					case ROUTE:
+					case MENU_ROUTE:
 						app->getMenuScreen().changeCurrentMenu(it->getMenu());
 						return 0;
-					case BACK:
+					case MENU_BACK:
 						app->getMenuScreen().changeCurrentMenu(it->getMenu()->parent->parent);
 						return 0;
-					case QUIT:
+					case MENU_THEME:
+						app->setTheme(it->getMenu()->content);
+						return 0;
+					case MENU_ACTION:
+						if (it->getMenu()->content == "UI Matrice")
+						{
+							app->setState(APP_STATE_UI_DEV);
+							newLog("TEST - Entered UI Dev State", INFO_LOG);
+						}
+
+						return 0;
+					case MENU_QUIT:
 						return 1;
 					default:
 						break;
@@ -96,12 +106,12 @@ int	handleEvents(SDL_Event *e, Application *app) {
 
 int	runUITests(Application &app) {
 
-	newLog("TEST - Window loop ready", INFO_LOG);
-
 	Theme&		theme = app.getTheme();
 	bool		close_window = false;
 	SDL_Event	e;
 
+	newLog("TEST - Window loop ready", INFO_LOG);
+	newLog("TEST - Entered Main Screen State", INFO_LOG);
 
 	//app.getAppMenus().printMenu(app.getAppMenus().getTree(), true);
 
@@ -118,7 +128,10 @@ int	runUITests(Application &app) {
 			SDL_RenderClear(app.getRenderer());
 
 		// *You would draw your game elements here*
-			app.getMenuScreen().draw();
+			if (app.getState() == APP_STATE_MAIN_MENU)
+				app.getMenuScreen().draw();
+			//else if (app.getState() == APP_STATE_UI_DEV)
+
 
 			SDL_RenderPresent(app.getRenderer());
 			//app.processInput();

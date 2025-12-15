@@ -7,7 +7,7 @@ MenuTree::MenuTree() {
 MenuTree::~MenuTree() {
 }
 
-void	MenuTree::load(std::string menu_filename) {
+void	MenuTree::load(std::string menu_filename, std::vector<std::string> *theme_list) {
 
 	std::ifstream	ifstream(menu_filename);
 
@@ -23,7 +23,7 @@ void	MenuTree::load(std::string menu_filename) {
 	root->parent = NULL;
 
 	_fillNodes(ifstream, root);
-	_finalizeTypes(root);
+	_finalizeTypes(root, theme_list);
 	_menu_tree = *root;
 	printMenu(root->sub, true);
 }
@@ -68,23 +68,44 @@ void MenuTree::_fillNodes(std::ifstream& ifstream, t_menu* root) {
 	}
 }
 
-void MenuTree::_finalizeTypes(t_menu *node) {
+void MenuTree::_finalizeTypes(t_menu *node, std::vector<std::string> *theme_list) {
 
+	if (node->content == "Themes")
+	{
+		for (auto it = theme_list->begin(); it != theme_list->end(); ++it)
+		{
+			t_menu	*new_node = new t_menu;
+			new_node->content = *it;
+			new_node->level = node->level + 1;
+			new_node->parent = node;
+			new_node->type = MENU_THEME;
+			node->sub.push_back(new_node);
+		}
+		t_menu	*exit_node = new t_menu;
+		exit_node->type = MENU_BACK;
+		exit_node->content = "Back";
+		exit_node->level = node->level + 1;
+		exit_node->parent = node;
+		node->sub.push_back(exit_node);
+
+		node->type = MENU_ROUTE;
+		return;
+	}
 	if (node->content.find("$cb") == 0)
 	{
 		node->content.erase(0, 4);
-		node->type = CHECKBOX;
+		node->type = MENU_CHECKBOX;
 		return ;
 	}
 	if (node->sub.empty())
 	{
-		node->type = ACTION;
+		node->type = MENU_ACTION;
 		return ;
 	}
-	node->type = ROUTE;
+	node->type = MENU_ROUTE;
 	for (size_t i = 0; i < node->sub.size(); i++)
 	{
-		_finalizeTypes(node->sub[i]);
+		_finalizeTypes(node->sub[i], theme_list);
 		//printNode(*node->sub[i]);
 	}
 	t_menu	*exit_node = new t_menu;
@@ -92,12 +113,12 @@ void MenuTree::_finalizeTypes(t_menu *node) {
 	exit_node->level = node->level + 1;
 	if (node->level >= 0)
 	{
-		exit_node->type = BACK;
+		exit_node->type = MENU_BACK;
 		exit_node->content = "Back";
 	}
 	else if (node->level == -1)
 	{
-		exit_node->type = QUIT;
+		exit_node->type = MENU_QUIT;
 		exit_node->content = "Quit";
 	}
 	exit_node->parent = node;
@@ -137,33 +158,34 @@ void	MenuTree::printNode(t_menu& menu)
 	std::cout << "\n\n=======================\n\n";
 }
 
-
 // Call it using printMenu(menu->getMenu())
 void	MenuTree::printMenu(std::vector<t_menu *> menu, bool first) {
 	if (first)
 		std::cout << "\n===== PRINT MENU TREE ====\n\n";
 	for (size_t i = 0; i < menu.size(); i++)
 	{
-		std::cout << menu[i]->parent->content << "		";
 		for (int k = 0; k < menu[i]->level; k++)
 			std::cout << "	";
 		std::cout << menu[i]->level << " -> ";
 		std::cout <<  menu[i]->content;
 		switch (menu[i]->type)
 		{
-			case ROUTE:
+			case MENU_ROUTE:
 				std::cout << " (ROUTE)\n";
 				break;
-			case CHECKBOX:
+			case MENU_CHECKBOX:
 				std::cout << " (CHECKBOX)\n";
 				break;
-			case ACTION:
+			case MENU_ACTION:
 				std::cout << " (ACTION)\n";
 				break;
-			case QUIT:
+			case MENU_THEME:
+				std::cout << " (THEME)\n";
+				break;
+			case MENU_QUIT:
 				std::cout << " (QUIT)\n";
 				break;
-			case BACK:
+			case MENU_BACK:
 				std::cout << " (BACK)\n";
 				break;
 			default:

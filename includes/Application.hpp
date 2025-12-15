@@ -4,6 +4,7 @@
 #include "Theme.hpp"
 #include "MenuTree.hpp"
 #include "MenuScreen.hpp"
+#include "UI.hpp"
 
 class Application {
 
@@ -13,7 +14,9 @@ private:
 	//SDL_Cursor				*_cursor = NULL;
 	TTF_TextEngine				*_text_engine = NULL;
 	TTF_Font					*_font = NULL;
-	//SDL_Point					*_cursor_pos = ;
+	SDL_Point					_mouse_pos = {0, 0};
+
+	t_appState					_state;
 
 	t_size						_window_size;
 	//t_size					_monitor_resolution;
@@ -23,10 +26,11 @@ private:
 	int							_initTextEngine();
 	int							_initThemeList();
 	int							_initMenuScreen();
-	//int						_initCursor();
 
 	MenuTree					_menu_tree;
 	//MenuTree					_game_menu;
+
+	UI							_ui;
 
 	MenuScreen					_menu_screen;
 
@@ -47,7 +51,7 @@ public:
 	int					run();
 
 
-	void				recalculateData(); // used if resolution is changed
+	//void				recalculateData(); // used if resolution is changed
 
 	t_size				getWindowSize() const;
 	//t_size				getMonitorResolution() const;
@@ -55,15 +59,19 @@ public:
 	SDL_Window			*getWindow() const;
 	SDL_Renderer		*getRenderer() const;
 
+	t_appState			getState() const;
 
 	MenuTree&			getAppMenus();
 	Theme&				getTheme();
 	MenuScreen&			getMenuScreen();
+	SDL_Point			getMousePos() const;
 
+	void				setState(t_appState state);
 	void				setTheme(std::string theme_name);
 	void				setFont(std::string font_path);
 	void				setWindowSize(int w, int h);
 
+	void				setMousePos(int x, int y);
 	void				switchTheme();
 
 	void				processInput(SDL_Event *event);

@@ -2,16 +2,19 @@
 
 #### Current
 
+- [ ] Make UI (do I make a )
+
 - [ ] Main Menu screen
-	- [ ] Make the window size callback
+	- [x] Make the window size callback
 	- [X] Fill constants graphics.h menu button width, height, space
 	- [ ] make the structure (is Main Screen the all tree or just one menu )
 	- [x] add back and quit to the structure
 	- [X] Make the Div
-	- [ ] add Border class
+	- [X] add Border class
 	- [ ] Main Screen must become Abstract ?
 	- [X] Make a new parsing for menus (like a file with a certain style, like config)
 	- [ ] Shadow color
+
 
 
 

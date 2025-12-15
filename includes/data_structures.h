@@ -15,11 +15,12 @@ typedef enum e_logType {
 
 typedef enum e_menuType
 {
-	ROUTE,
-	CHECKBOX,
-	ACTION,
-	BACK,
-	QUIT
+	MENU_ROUTE,
+	MENU_CHECKBOX,
+	MENU_ACTION,
+	MENU_BACK,
+	MENU_THEME,
+	MENU_QUIT
 }			t_menuType;
 
 typedef enum e_coordinates_rl {
@@ -33,16 +34,18 @@ typedef enum e_coordinates_tb {
 }				t_coordinates_tb;
 
 typedef enum e_buttonState {
-	DEFAULT_STATE,
-	HOVER,
-	INACTIVE
+	BUTTON_STATE_DEFAULT,
+	BUTTON_STATE_HOVER,
+	BUTTON_STATE_INACTIVE
 }				t_buttonState;
 
 typedef enum e_appState {
-	MENU,
-	GAME_MENU,
-	GAME
+	APP_STATE_MAIN_MENU,
+	APP_STATE_UI_DEV,
+	APP_STATE_GOL_MENU,
+	APP_STATE_GOL
 }				t_appState;
+
 
 typedef struct s_size {
 	int			w;

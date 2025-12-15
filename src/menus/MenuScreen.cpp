@@ -27,7 +27,7 @@ void	MenuScreen::changeCurrentMenu(t_menu *current_menu)
 	_setMenuData();
 	_setDiv();
 	_setButtons();
-	_printChangeMenuInfo();
+	//_printChangeMenuInfo();
 }
 
 void	MenuScreen::_setConfig(t_MenuScreenConfig &config) {
@@ -83,7 +83,7 @@ void	MenuScreen::_setButtons() {
 		button.setSize(MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT);
 		button.setTheme(*_theme);
 		button.setText(_current_menu.sub[i]->content, _text_engine, _font);
-		button.setState(DEFAULT_STATE);  //need the add for inactive buttons
+		button.setState(BUTTON_STATE_DEFAULT);  //need the add for inactive buttons
 		button.setMenu(_current_menu.sub[i]);
 		button.setValues(_starting_pos.x, y, MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT, _window_size);
 		_menu_buttons.push_back(button);
