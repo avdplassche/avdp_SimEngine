@@ -76,7 +76,6 @@ void	MenuScreen::_setDiv() {
 void	MenuScreen::_setButtons() {
 	if (!_menu_buttons.empty())
 		_menu_buttons.clear();
-	//debugPrintInt("Menu buttons size", (int)_menu_buttons.size());
 	float	y = _starting_pos.y;
 	for (int i = 0; i < _nbButtons; i++) {
 		MenuButton button;

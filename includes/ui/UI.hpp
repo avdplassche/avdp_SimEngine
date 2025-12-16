@@ -9,16 +9,27 @@ class UI {
 
 private:
 
+	UIMatrice	_ui_matrice;
+	t_pos		_pos;
 
 public:
 	UI();
 	~UI();
 
-	UIMatrice	*_ui_matrice = NULL;
+
+	UIMatrice		getMatrice() const;
 	// top bar
 
 
+	void			setPos();
+
+	t_pos			getPos();
+
+
+
 };
+
+
 
 
 

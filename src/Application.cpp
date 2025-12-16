@@ -2,6 +2,7 @@
 #include "argument_handler.h"
 #include "MenuTree.hpp"
 
+extern volatile sig_atomic_t g_run;
 
 Application::Application() {}
 
@@ -46,6 +47,7 @@ void	Application::init() {
 		newLog("App : Main menu screen Loaded", INFO_LOG);
 		newLog("App : Theme list Loaded", INFO_LOG);
 		_state = APP_STATE_MAIN_MENU;
+		_initUIDev();
 		//printInfos();
 	}
 	catch (std::exception &e){
@@ -114,16 +116,40 @@ int Application::_initThemeList() {
 }
 
 int	Application::_initMenuScreen() {
-	t_MenuScreenConfig	msc;
+	t_MenuScreenConfig	config;
 
-	msc.renderer = _renderer;
-	msc.window_size = _window_size;
-	msc.theme = &_theme;
-	msc.text_engine = _text_engine;
-	msc.font = _font;
-	_menu_screen.setValues(_menu_tree, msc);
+	config.renderer = _renderer;
+	config.window_size = _window_size;
+	config.theme = &_theme;
+	config.text_engine = _text_engine;
+	config.font = _font;
+	_menu_screen.setValues(_menu_tree, config);
 	return 0;
 }
+
+/** Thats just a UI Matrice, the differents UI Elements will be designed on the
+ * side, and will be added to
+ */
+int	Application::_initUIDev() {
+	t_UIMatriceConfig	config;
+
+	config.renderer = _renderer;
+	config.isVisible = true;
+	config.table_size.w = UI_MATRICE_W;
+	config.table_size.h = UI_MATRICE_H;
+	config.size = _window_size;
+	if (UI_MATRICE_H >= UI_MATRICE_W)
+		config.orientation = 'v';
+	else
+		config.orientation = 'h';
+	config.pos.x = _window_size.w / 2 - (config.cell_size.w * UI_MATRICE_W) / 2;
+	config.pos.y = _window_size.h/ 2 - (config.cell_size.h * UI_MATRICE_H) / 2;
+	config.theme = &_theme;
+	_UI_matrice_dev.setValues(config);
+	return 0;
+}
+
+
 
 ////////////////////////////////////////
 ////			RUN					////
@@ -138,7 +164,7 @@ int	Application::run() {
 	newLog("Window loop ready.", INFO_LOG);
 
 
-	while (!close_window)
+	while (!close_window && g_run)
 	{
 		while (SDL_PollEvent(&e)) {
 			if (e.type == SDL_EVENT_QUIT) {
@@ -254,4 +280,8 @@ void	Application::printInfos() {
 	std::cout << "Size : " << _window_size.w << "x" << _window_size.h << '\n';
 
 	std::cout << "\n===========================\n\n";
+}
+
+UIMatrice	Application::getUIDevMatrice() const {
+	return _UI_matrice_dev;
 }

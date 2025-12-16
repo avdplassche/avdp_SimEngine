@@ -4,11 +4,21 @@
 #include "tests.h"
 
 
+volatile sig_atomic_t g_run = 1;
+
+void handle_sigint(int sig) {
+	(void)sig;
+	std::cout << "\nReceived SIGINT. Stopping Webserv..." << std::endl;
+	g_run = 0;
+}
+
 int exitProgramm(const char *error_message, int return_value) {
 	std::cerr << error_message << '\n';
 	SDL_Quit();
 	return return_value;
 }
+
+
 
 void	print_mode() {
 	switch (DEBUG_MODE)
@@ -40,12 +50,11 @@ int main(int argc, char** argv)
 	catch (std::exception &e){
 		return exitProgramm(e.what(), EXIT_FAILURE);
 	}
-
+	signal(SIGINT, handle_sigint);
 	if (DEBUG_MODE == TEST_MODE)
 		return runTests(app);
-	if (argc == 2)
+	else if (argc == 2)
 		return handleInfos(argv[1], app);
-
 	try {
 		app.run();
 	}

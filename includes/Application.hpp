@@ -30,7 +30,7 @@ private:
 	MenuTree					_menu_tree;
 	//MenuTree					_game_menu;
 
-	UI							_ui;
+	//UI							_UI;
 
 	MenuScreen					_menu_screen;
 
@@ -39,6 +39,13 @@ private:
 	Theme						_theme;
 
 
+
+////	DEV		////
+
+	int							_initUIDev();
+	UIMatrice					_UI_matrice_dev;
+
+////////////////////
 
 
 public:
@@ -77,6 +84,13 @@ public:
 	void				processInput(SDL_Event *event);
 
 	void				printInfos();
+
+
+////	DEV		////
+
+	UIMatrice			getUIDevMatrice() const;
+
+////////////////////
 
 };
 

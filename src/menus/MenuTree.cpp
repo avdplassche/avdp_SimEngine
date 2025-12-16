@@ -198,3 +198,14 @@ void	MenuTree::printMenu(std::vector<t_menu *> menu, bool first) {
 		std::cout << "\n===========================\n\n";
 }
 
+
+//void	MenuTree::_deleteMenu(std::vector<t_menu *> menu) {
+//	for (size_t i = 0; i < menu.size(); i++)
+//	{
+//		if (!menu[i]->sub.empty())
+//		{
+//			_deleteMenu(menu[i]->sub);
+//		}
+//	}
+//	delete this;
+//}

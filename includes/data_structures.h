@@ -86,11 +86,27 @@ typedef struct s_MenuScreenConfig {
 	TTF_Font		*font;
 }					t_MenuScreenConfig;
 
-
 typedef struct s_pos {
-	int			x;
-	int			y;
+	int				x;
+	int				y;
 }				t_pos;
 
+typedef struct s_UIMatriceConfig {
+	SDL_Renderer	*renderer;
+	t_pos			pos;
+	t_size			size;
+	t_size			table_size;
+	t_size			cell_size;
+	char			orientation;
+	bool			isVisible;
+	Theme			*theme;
+}					t_UIMatriceConfig;
+
+
+typedef struct s_cell {
+	int				i;
+	int				j;
+	SDL_FRect		*rect;
+}				t_cell;
 
 

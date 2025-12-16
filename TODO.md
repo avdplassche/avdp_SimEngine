@@ -1,19 +1,28 @@
 ### Todo
 
+
+#### Urgent
+
+- [ ]
+- [ ] modify Div so it's more general than the nenu Div
+
+
 #### Current
 
-- [ ] Make UI (do I make a )
+- [ ] Make UI
 
 - [ ] Main Menu screen
+	- [ ] add setButtonSize() function
+	- [ ] make the structure (is Main Screen the all tree or just one menu )
+	- [ ] Main Screen must become Abstract ?
+	- [ ] Shadow color
+	- [ ] put size back if switch from a state to menu screen state
 	- [x] Make the window size callback
 	- [X] Fill constants graphics.h menu button width, height, space
-	- [ ] make the structure (is Main Screen the all tree or just one menu )
 	- [x] add back and quit to the structure
 	- [X] Make the Div
 	- [X] add Border class
-	- [ ] Main Screen must become Abstract ?
 	- [X] Make a new parsing for menus (like a file with a certain style, like config)
-	- [ ] Shadow color
 
 
 

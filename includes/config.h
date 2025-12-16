@@ -34,8 +34,6 @@
 #define MENU_TITLE_PADDING_T 30
 
 
-
-
 ////////////////////////////////////////
 ////			DATA				////
 ////////////////////////////////////////
@@ -53,9 +51,12 @@
 
 #define FONT_CURRENT FONT_INTER
 
+////////////////////////////////////////
+////			DEV MODE			////
+////////////////////////////////////////
 
-#ifndef THEME
-# define THEME "default"
-#endif
+#define UI_MATRICE_W 10
+#define UI_MATRICE_H 12
+
 
 #endif

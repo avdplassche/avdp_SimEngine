@@ -22,6 +22,7 @@ public:
 	t_menu					getTree() const;
 
 	void					printNode(t_menu& menu);
+	//void					_deleteMenu(std::vector<t_menu *> menu);
 
 
 };

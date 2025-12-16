@@ -83,6 +83,10 @@ test: CXXFLAGS += -DDEBUG_MODE=2
 test:  all
 	./$(NAME)
 
+test_valgrind: CXXFLAGS += -DDEBUG_MODE=2
+test_valgrind:  all
+	@valgrind --leak-check=full --log-file="log/valgrind.log" ./$(NAME)
+
 re_test: CXXFLAGS += -DDEBUG_MODE=2
 re_test: fclean all
 	./$(NAME)
@@ -97,7 +101,7 @@ $(NAME): $(OBJECTS)
 
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.cpp | $(BUILDDIR)/%/
-	@printf "$(PURPLE)Compiling $<...$(RESET)\n"
+	@printf "Compiling $<...$(RESET)\n"
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(BUILDDIR)/%/:

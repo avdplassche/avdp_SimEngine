@@ -13,6 +13,7 @@
 #include <algorithm>
 #include <assert.h>
 #include <filesystem>
+#include <csignal>
 
 #include <vector>
 #include <cmath>

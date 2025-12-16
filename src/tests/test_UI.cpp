@@ -3,6 +3,8 @@
 #include "MenuScreen.hpp"
 #include "MenuTree.hpp"
 
+extern volatile sig_atomic_t g_run;
+
 int	handleEvents(SDL_Event *e, Application *app) {
 
 	if (e->type == SDL_EVENT_KEY_DOWN)
@@ -13,35 +15,32 @@ int	handleEvents(SDL_Event *e, Application *app) {
 		//std::cout  << e->key.key <<" keycode pressed\n";
 		//size_t code = e->key.key - 48;
 		//std::cout  << "code " << code << "\nsize " << app.getMenuScreen().getCurrentMenu().sub.size()<< "\n";
-
 	}
 	if (e->type == SDL_EVENT_KEY_DOWN && (e->key.scancode == 21 || (e->key.scancode >= 30 && e->key.scancode <= 39)))
 	{
 		size_t code = e->key.scancode;
-		//std::cout << "Size " << app.getAppMenus().getTree().size() << '\n';
-		//std::cout << "number " << code - 29;
 		if (code == 21)
 			app->switchTheme();
-			//app->setTheme("Burgundy");
-		//	app.getMenuScreen().changeCurrentMenu(app.getAppMenus().getTree()[0].sub);
-		//else if (app.getAppMenus().getTree().size() > (code - 29))
-		//{
-		//	app.getMenuScreen().changeCurrentMenu(app.getAppMenus().getTree()[code - 30].sub);
-		//}
 	}
 	else if (e->type == SDL_EVENT_WINDOW_RESIZED)
 	{
-		int w, h;
+		int					w,h;
+		std::stringstream	ss;
+
 		SDL_GetWindowSize(app->getWindow(), &w, &h);
-		app->getMenuScreen().setWindowSize(w, h);
+		if (w < 300 || h < 300)
+			newLog("Window size may be too low", WARNING_LOG);
+		ss << "Size set to [" << std::to_string(w) << "," << std::to_string(h) << "]";
+		newLog(ss.str(), DEBUG_LOG);
+		if (app->getState() == APP_STATE_UI_DEV)
+			app->getUIDevMatrice().setSize(w, h);
+		else if (app->getState() == APP_STATE_MAIN_MENU)
+			app->getMenuScreen().setWindowSize(w, h);
 	}
 	else if (e->type == SDL_EVENT_MOUSE_MOTION)
 	{
 		app->setMousePos(e->motion.x, e->motion.y);
-
 		SDL_Point point(app->getMousePos());
-		//point.x = e->motion.x;
-		//point.y = e->motion.y;
 		for (auto it = app->getMenuScreen().getMenuButtons().begin(); it != app->getMenuScreen().getMenuButtons().end(); ++it) {
 			SDL_Rect r = it->getRect();
 			if (SDL_PointInRect(&point, &r))
@@ -62,9 +61,6 @@ int	handleEvents(SDL_Event *e, Application *app) {
 	else if (e->type == SDL_EVENT_MOUSE_BUTTON_UP)
 	{
 		SDL_Point point(app->getMousePos());
-		//point.x = e->button.x;
-		//point.y = e->button.y;
-		//std::cout << "Mouse button at [" << point.x << "," << point.y << "]\n";
 		for (auto it = app->getMenuScreen().getMenuButtons().begin(); it != app->getMenuScreen().getMenuButtons().end(); ++it) {
 			SDL_Rect r = it->getRect();
 			if (SDL_PointInRect(&point, &r))
@@ -88,7 +84,6 @@ int	handleEvents(SDL_Event *e, Application *app) {
 							app->setState(APP_STATE_UI_DEV);
 							newLog("TEST - Entered UI Dev State", INFO_LOG);
 						}
-
 						return 0;
 					case MENU_QUIT:
 						return 1;
@@ -112,12 +107,13 @@ int	runUITests(Application &app) {
 
 	newLog("TEST - Window loop ready", INFO_LOG);
 	newLog("TEST - Entered Main Screen State", INFO_LOG);
+	app.setState(APP_STATE_UI_DEV);
 
 	//app.getAppMenus().printMenu(app.getAppMenus().getTree(), true);
 
 	try {
 
-		while (!close_window)
+		while (!close_window && g_run)
 		{
 			while (SDL_PollEvent(&e)) {
 				if (e.type == SDL_EVENT_QUIT || handleEvents(&e, &app))
@@ -130,8 +126,8 @@ int	runUITests(Application &app) {
 		// *You would draw your game elements here*
 			if (app.getState() == APP_STATE_MAIN_MENU)
 				app.getMenuScreen().draw();
-			//else if (app.getState() == APP_STATE_UI_DEV)
-
+			else if (app.getState() == APP_STATE_UI_DEV)
+				app.getUIDevMatrice().draw();
 
 			SDL_RenderPresent(app.getRenderer());
 			//app.processInput();
@@ -140,13 +136,11 @@ int	runUITests(Application &app) {
 			//c.draw();
 
 		}
+		newLog("Ending Game Loop", INFO_LOG);
 	}
 	catch (std::exception &e) {
 		std::cerr << e.what();
 		return 1;
 	}
-
 	return 0;
-
-
 }
