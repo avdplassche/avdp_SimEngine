@@ -55,8 +55,9 @@
 ////			DEV MODE			////
 ////////////////////////////////////////
 
-#define UI_MATRICE_W 10
-#define UI_MATRICE_H 12
+#define UI_MATRICE_W 25
+#define UI_MATRICE_H 25
 
+#define UI_PADDING 3
 
 #endif

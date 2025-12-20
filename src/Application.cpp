@@ -1,6 +1,7 @@
 #include "Application.hpp"
 #include "argument_handler.h"
 #include "MenuTree.hpp"
+#include "events.h"
 
 extern volatile sig_atomic_t g_run;
 
@@ -39,10 +40,10 @@ void	Application::init() {
 		newLog("App : SDL Renderer initialized", INFO_LOG);
 		_initTextEngine();
 		newLog("App : SDL Text Engine", INFO_LOG);
-		_initThemeList();
 		_menu_tree.load(APP_MENU_FILE, &_theme_list);
 		newLog("App : Menu loaded", INFO_LOG);
 		_theme.setTheme(THEME);
+		_initThemeList();
 		_initMenuScreen();
 		newLog("App : Main menu screen Loaded", INFO_LOG);
 		newLog("App : Theme list Loaded", INFO_LOG);
@@ -99,6 +100,7 @@ int Application::_initThemeList() {
 
 	size_t	i = 0;
 
+
 	std::filesystem::path dir_path = "themes/";
 	for (auto const& dir_entry : std::filesystem::directory_iterator{dir_path})
 	{
@@ -142,8 +144,6 @@ int	Application::_initUIDev() {
 		config.orientation = 'v';
 	else
 		config.orientation = 'h';
-	config.pos.x = _window_size.w / 2 - (config.cell_size.w * UI_MATRICE_W) / 2;
-	config.pos.y = _window_size.h/ 2 - (config.cell_size.h * UI_MATRICE_H) / 2;
 	config.theme = &_theme;
 	_UI_matrice_dev.setValues(config);
 	return 0;
@@ -158,18 +158,18 @@ int	Application::_initUIDev() {
 
 int	Application::run() {
 
-	bool		close_window = false;
 	SDL_Event	e;
 
 	newLog("Window loop ready.", INFO_LOG);
 
 
-	while (!close_window && g_run)
+	while (_isRuning)
 	{
 		while (SDL_PollEvent(&e)) {
-			if (e.type == SDL_EVENT_QUIT) {
-				close_window = true;
-			}
+			handleEvents(&e, this);
+			//if (e.type == SDL_EVENT_QUIT) {
+			//	_isRuning = true;
+			//}
 			//std::cout << "Type : " << e.type <<  "\n";
 			//processInput(&e);
 		}
@@ -193,6 +193,7 @@ void	Application::setState(t_appState state){
 
 
 void	Application::setTheme(std::string theme_name) {
+
 	if (_theme.getName() == theme_name)
 	{
 		newLog(theme_name + "theme already loaded", WARNING_LOG);
@@ -200,7 +201,7 @@ void	Application::setTheme(std::string theme_name) {
 	}
 	_theme.setTheme(theme_name);
 	//_menu_screen.setTheme(_theme);
-	//_ui.setTheme(_theme);
+	_UI_matrice_dev.setTheme(_theme);
 	//_game_screen.setTheme(_theme);
 }
 
@@ -240,6 +241,10 @@ void Application::processInput(SDL_Event *e) {
 		//std::cout << "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n";
 
 	//}
+}
+
+void	Application::quit() {
+	_isRuning = false;
 }
 
 SDL_Window*		Application::getWindow() const {
@@ -282,6 +287,10 @@ void	Application::printInfos() {
 	std::cout << "\n===========================\n\n";
 }
 
-UIMatrice	Application::getUIDevMatrice() const {
+UIMatrice&	Application::getUIDevMatrice() {
 	return _UI_matrice_dev;
+}
+
+bool	Application::isRuning() const {
+	return _isRuning;
 }

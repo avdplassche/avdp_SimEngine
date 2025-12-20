@@ -4,12 +4,10 @@
 #include "tests.h"
 
 
-volatile sig_atomic_t g_run = 1;
 
 void handle_sigint(int sig) {
 	(void)sig;
-	std::cout << "\nReceived SIGINT. Stopping Webserv..." << std::endl;
-	g_run = 0;
+	std::cout << "\nReceived SIGINT. Stopping the programm..." << std::endl;
 }
 
 int exitProgramm(const char *error_message, int return_value) {

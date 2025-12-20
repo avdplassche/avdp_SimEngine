@@ -15,7 +15,7 @@ void	MenuButton::draw(SDL_Renderer *renderer, t_color *color) {
 		SDL_FRect shadow(rendered_rec);
 		shadow.x += MENU_SHADOW_X;
 		shadow.y -= MENU_SHADOW_Y;
-		SDL_SetRenderDrawColor(renderer, 0, 0,0, 255);
+		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		SDL_RenderFillRect(renderer, &shadow);
 	}
 	SDL_SetRenderDrawColor(renderer, _current_color->r, _current_color->g,_current_color->b, 255);

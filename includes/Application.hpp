@@ -11,10 +11,11 @@ class Application {
 private:
 	SDL_Window					*_window = NULL;
 	SDL_Renderer				*_renderer = NULL;
-	//SDL_Cursor				*_cursor = NULL;
 	TTF_TextEngine				*_text_engine = NULL;
 	TTF_Font					*_font = NULL;
 	SDL_Point					_mouse_pos = {0, 0};
+
+	bool						_isRuning = true;
 
 	t_appState					_state;
 
@@ -34,6 +35,7 @@ private:
 
 	MenuScreen					_menu_screen;
 
+
 	std::vector<std::string>	_theme_list;
 	size_t						_current_theme_index;
 	Theme						_theme;
@@ -44,6 +46,8 @@ private:
 
 	int							_initUIDev();
 	UIMatrice					_UI_matrice_dev;
+
+
 
 ////////////////////
 
@@ -85,10 +89,13 @@ public:
 
 	void				printInfos();
 
+	bool				isRuning() const;
+	void				quit();
+
 
 ////	DEV		////
 
-	UIMatrice			getUIDevMatrice() const;
+	UIMatrice&			getUIDevMatrice();
 
 ////////////////////
 

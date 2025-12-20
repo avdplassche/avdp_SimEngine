@@ -89,7 +89,8 @@ typedef struct s_MenuScreenConfig {
 typedef struct s_pos {
 	int				x;
 	int				y;
-}				t_pos;
+}					t_pos;
+
 
 typedef struct s_UIMatriceConfig {
 	SDL_Renderer	*renderer;
@@ -106,7 +107,9 @@ typedef struct s_UIMatriceConfig {
 typedef struct s_cell {
 	int				i;
 	int				j;
-	SDL_FRect		*rect;
+	SDL_Rect		*rect;
+	bool			hover;
+	t_color			c;
 }				t_cell;
 
 
