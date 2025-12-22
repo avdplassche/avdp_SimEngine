@@ -12,7 +12,7 @@ void	MenuScreen::setValues(MenuTree& menu_tree, t_MenuScreenConfig& config) {
 	newLog("Menu Screen : Menu tree loaded", DEBUG_LOG);
 	_setMenuData();
 	newLog("Menu Screen : Menu Data loaded", DEBUG_LOG);
-	setTheme();
+	setTheme(*_theme);
 	newLog("Menu Screen : Theme loaded", DEBUG_LOG);
 	_setDiv();
 	newLog("Menu Screen : Div loaded", DEBUG_LOG);
@@ -50,8 +50,8 @@ void	MenuScreen::_setMenuData() {
 	_starting_pos.y = _window_size.h / 2 - _menu_height / 2;
 }
 
-void	MenuScreen::setTheme() {
-	_background_color = &_theme->getBackground();
+void	MenuScreen::setTheme(Theme &theme) {
+	_background_color = &theme.getBackground();
 }
 
 void	MenuScreen::_setDiv() {

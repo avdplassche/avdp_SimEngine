@@ -9,15 +9,15 @@ class UIMatrice {
 
 private:
 
-	std::vector<std::vector<t_cell *>>	_table;
+	std::vector<std::vector<t_UIcell *>>	_table;
 	std::vector<AUIElement *>			_v;
-	std::vector<bool>					_room;
+	//std::vector<std::vector<bool>>		_room;
 
 
+	SDL_Renderer						*_renderer;
 
 	t_size								_size;
 	t_pos								_pos;
-	SDL_Renderer						*_renderer;
 	t_size								_table_size; // i and j
 	int									_cell_size;
 	bool								_isVisible = true;
@@ -48,7 +48,7 @@ public:
 
 	t_size								getSize() const;
 	t_pos								getHovered() const;
-	std::vector<std::vector<t_cell *>>	getTable() const;
+	std::vector<std::vector<t_UIcell *>>	getTable() const;
 
 
 	void								draw();

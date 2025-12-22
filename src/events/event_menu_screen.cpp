@@ -5,10 +5,10 @@ void	handleMenuScreenEvents(SDL_Event *e, Application *app) {
 	if (e->type == SDL_EVENT_MOUSE_MOTION)
 	{
 		app->setMousePos(e->motion.x, e->motion.y);
-		SDL_Point point(app->getMousePos());
+		SDL_FPoint point(app->getMousePos());
 		for (auto it = app->getMenuScreen().getMenuButtons().begin(); it != app->getMenuScreen().getMenuButtons().end(); ++it) {
-			SDL_Rect r = it->getRect();
-			if (SDL_PointInRect(&point, &r))
+			SDL_FRect r = it->getRect();
+			if (SDL_PointInRectFloat(&point, &r))
 			{
 				if (it->getState() == BUTTON_STATE_DEFAULT)
 					it->setState(BUTTON_STATE_HOVER);
@@ -25,11 +25,11 @@ void	handleMenuScreenEvents(SDL_Event *e, Application *app) {
 	}
 	else if (e->type == SDL_EVENT_MOUSE_BUTTON_UP)
 	{
-		SDL_Point point(app->getMousePos());
+		SDL_FPoint point(app->getMousePos());
 		for (auto it = app->getMenuScreen().getMenuButtons().begin(); it != app->getMenuScreen().getMenuButtons().end(); ++it)
 		{
-			SDL_Rect r = it->getRect();
-			if (SDL_PointInRect(&point, &r))
+			SDL_FRect r = it->getRect();
+			if (SDL_PointInRectFloat(&point, &r))
 			{
 				if (it->getState() == BUTTON_STATE_HOVER)
 				{

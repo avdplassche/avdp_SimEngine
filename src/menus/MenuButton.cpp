@@ -9,7 +9,7 @@ void	MenuButton::draw(SDL_Renderer *renderer, t_color *color) {
 
 	(void) color;
 	SDL_FRect rendered_rec;
-	SDL_RectToFRect(&_rect, &rendered_rec);
+	//SDL_RectToFRectF(&_rect, &rendered_rec);
 	if (MENU_HAS_SHADOW)
 	{
 		SDL_FRect shadow(rendered_rec);
@@ -79,7 +79,7 @@ void		MenuButton::setMenu(t_menu *menu) {
 }
 
 
-SDL_Rect	MenuButton::getRect() const {
+SDL_FRect	MenuButton::getRect() const {
 	return _rect;
 }
 

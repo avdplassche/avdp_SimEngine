@@ -5,8 +5,6 @@
 #include "events.h"
 
 
-
-
 int	runUITests(Application &app) {
 
 	Theme&		theme = app.getTheme();

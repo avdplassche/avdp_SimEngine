@@ -45,12 +45,13 @@ void	UIMatrice::_initTable() {
 
 	for (int i = 0; i < _table_size.h; i++)
 	{
-		std::vector<t_cell *>	table_i;
+		std::vector<t_UIcell *>	table_i;
 		for (int j = 0; j < _table_size.w; j++)
 		{
-			t_cell	*cell = new t_cell;
-			SDL_Rect	*rect = new SDL_Rect;
+			t_UIcell	*cell = new t_UIcell;
+			SDL_FRect	*rect = new SDL_FRect;
 			cell->rect = rect;
+			cell->widget = nullptr;
 			table_i.push_back(cell);
 		}
 		_table.push_back(table_i);
@@ -81,15 +82,13 @@ void	UIMatrice::draw() {
 	{
 		for (int j = 0; j < _table_size.w; j++)
 		{
-			SDL_FRect	frect;
-			SDL_RectToFRect(_table[i][j]->rect, &frect);
+			//SDL_FRect	frect;
+			//SDL_RectToFRect(_table[i][j]->rect, &frect);
 			if (i == _hoveredCell.y && j == _hoveredCell.x)
-			{
 				SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
-			}
 			else
 				SDL_SetRenderDrawColor(_renderer, _ui_border_color.r, _ui_border_color.g, _ui_border_color.b, 255);
-			SDL_RenderRect(_renderer,  &frect);
+			SDL_RenderRect(_renderer,  _table[i][j]->rect);
 		}
 	}
 }
@@ -127,7 +126,7 @@ t_pos	UIMatrice::getHovered() const {
 	return _hoveredCell;
 }
 
-std::vector<std::vector<t_cell *>>	UIMatrice::getTable() const {
+std::vector<std::vector<t_UIcell *>>	UIMatrice::getTable() const {
 	return _table;
 }
 

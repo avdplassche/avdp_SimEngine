@@ -40,13 +40,13 @@ void	Application::init() {
 		newLog("App : SDL Renderer initialized", INFO_LOG);
 		_initTextEngine();
 		newLog("App : SDL Text Engine", INFO_LOG);
-		_menu_tree.load(APP_MENU_FILE, &_theme_list);
-		newLog("App : Menu loaded", INFO_LOG);
 		_theme.setTheme(THEME);
 		_initThemeList();
+		newLog("App : Theme list Loaded", INFO_LOG);
+		_menu_tree.load(APP_MENU_FILE, &_theme_list);
 		_initMenuScreen();
 		newLog("App : Main menu screen Loaded", INFO_LOG);
-		newLog("App : Theme list Loaded", INFO_LOG);
+		newLog("App : Menu loaded", INFO_LOG);
 		_state = APP_STATE_MAIN_MENU;
 		_initUIDev();
 		//printInfos();
@@ -200,7 +200,7 @@ void	Application::setTheme(std::string theme_name) {
 		return ;
 	}
 	_theme.setTheme(theme_name);
-	//_menu_screen.setTheme(_theme);
+	_menu_screen.setTheme(_theme);
 	_UI_matrice_dev.setTheme(_theme);
 	//_game_screen.setTheme(_theme);
 }
@@ -222,7 +222,7 @@ void	Application::setWindowSize(int w, int h) {
 	_window_size.h = h;
 }
 
-void	Application::setMousePos(int x, int y) {
+void	Application::setMousePos(float x, float y) {
 	_mouse_pos.x = x;
 	_mouse_pos.y = y;
 }
@@ -275,7 +275,7 @@ MenuScreen&		Application::getMenuScreen(){
 	return _menu_screen;
 }
 
-SDL_Point	Application::getMousePos() const {
+SDL_FPoint	Application::getMousePos() const {
 	return _mouse_pos;
 }
 

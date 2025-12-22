@@ -1,6 +1,18 @@
 #pragma once
 #include "pch.h"
 
+
+/**
+ * - t_pos _pos;
+ * - t_size _size;
+ * - bool _hasBorder;
+ * - bool _isFilled;
+ *
+ * - setPos(x, y);
+ * - setSize(w, h);
+ *
+ * - draw = 0;
+ */
 class AUIElement {
 
 protected:

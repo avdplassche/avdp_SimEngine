@@ -13,7 +13,7 @@ private:
 	SDL_Renderer				*_renderer = NULL;
 	TTF_TextEngine				*_text_engine = NULL;
 	TTF_Font					*_font = NULL;
-	SDL_Point					_mouse_pos = {0, 0};
+	SDL_FPoint					_mouse_pos = {0, 0};
 
 	bool						_isRuning = true;
 
@@ -75,14 +75,14 @@ public:
 	MenuTree&			getAppMenus();
 	Theme&				getTheme();
 	MenuScreen&			getMenuScreen();
-	SDL_Point			getMousePos() const;
+	SDL_FPoint			getMousePos() const;
 
 	void				setState(t_appState state);
 	void				setTheme(std::string theme_name);
 	void				setFont(std::string font_path);
 	void				setWindowSize(int w, int h);
 
-	void				setMousePos(int x, int y);
+	void				setMousePos(float x, float y);
 	void				switchTheme();
 
 	void				processInput(SDL_Event *event);

@@ -46,7 +46,7 @@ public:
 	~MenuScreen();
 
 	void						setValues(MenuTree& menu_tree, t_MenuScreenConfig& config);
-	void						setTheme();
+	void						setTheme(Theme&);
 
 	void						changeCurrentMenu(t_menu *current_menu);
 

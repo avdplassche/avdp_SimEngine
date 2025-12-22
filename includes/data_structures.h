@@ -1,5 +1,8 @@
 #pragma once
 
+//#include "AUIElement.hpp"
+class AUIElement;
+
 typedef enum e_debugMode {
 	DEFAULT_MODE,
 	WINDOW_INFO_MODE,
@@ -46,6 +49,10 @@ typedef enum e_appState {
 	APP_STATE_GOL
 }				t_appState;
 
+typedef enum e_valueType {
+	INT_VALUE,
+	FLOAT_VALUE
+}				t_valueType;
 
 typedef struct s_size {
 	int			w;
@@ -77,20 +84,19 @@ typedef struct s_menu
 
 class Theme;
 
-typedef struct s_MenuScreenConfig {
-	SDL_Renderer	*renderer;
-	int				nbButtons = 0;
-	t_size			window_size;
-	Theme			*theme;
-	TTF_TextEngine	*text_engine;
-	TTF_Font		*font;
-}					t_MenuScreenConfig;
-
 typedef struct s_pos {
 	int				x;
 	int				y;
 }					t_pos;
 
+typedef struct s_MenuScreenConfig {
+	SDL_Renderer		*renderer;
+	int					nbButtons = 0;
+	t_size				window_size;
+	Theme				*theme;
+	TTF_TextEngine		*text_engine;
+	TTF_Font			*font;
+}						t_MenuScreenConfig;
 
 typedef struct s_UIMatriceConfig {
 	SDL_Renderer	*renderer;
@@ -103,13 +109,11 @@ typedef struct s_UIMatriceConfig {
 	Theme			*theme;
 }					t_UIMatriceConfig;
 
-
-typedef struct s_cell {
-	int				i;
-	int				j;
-	SDL_Rect		*rect;
+typedef struct s_UIcell {
+	SDL_FRect		*rect;
 	bool			hover;
 	t_color			c;
-}				t_cell;
+	AUIElement		*widget;
+}				t_UIcell;
 
 

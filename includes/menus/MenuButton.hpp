@@ -22,7 +22,7 @@ private:
 	t_buttonState			_state;
 	bool					_hasBorder;
 
-	SDL_Rect				_rect;
+	SDL_FRect				_rect;
 
 	t_size					_window_size;
 	t_pos					_text_pos;
@@ -45,7 +45,7 @@ public:
 
 
 	std::string		getString() const;
-	SDL_Rect		getRect() const;
+	SDL_FRect		getRect() const;
 	t_menu			*getMenu();
 	//bool			isHover() const;
 

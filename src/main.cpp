@@ -5,10 +5,10 @@
 
 
 
-void handle_sigint(int sig) {
-	(void)sig;
-	std::cout << "\nReceived SIGINT. Stopping the programm..." << std::endl;
-}
+//void handle_sigint(int sig) {
+//	(void)sig;
+//	std::cout << "\nReceived SIGINT. Stopping the programm..." << std::endl;
+//}
 
 int exitProgramm(const char *error_message, int return_value) {
 	std::cerr << error_message << '\n';
@@ -48,7 +48,7 @@ int main(int argc, char** argv)
 	catch (std::exception &e){
 		return exitProgramm(e.what(), EXIT_FAILURE);
 	}
-	signal(SIGINT, handle_sigint);
+	//signal(SIGINT, handle_sigint);
 	if (DEBUG_MODE == TEST_MODE)
 		return runTests(app);
 	else if (argc == 2)
