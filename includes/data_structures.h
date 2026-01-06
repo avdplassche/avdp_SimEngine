@@ -36,6 +36,13 @@ typedef enum e_coordinates_tb {
 	BOTTOM
 }				t_coordinates_tb;
 
+typedef enum e_UIType {
+	SLIDER,
+	SPINER,
+	STRING,
+	COLOR
+}			t_UIType;
+
 typedef enum e_buttonState {
 	BUTTON_STATE_DEFAULT,
 	BUTTON_STATE_HOVER,
@@ -48,6 +55,12 @@ typedef enum e_appState {
 	APP_STATE_GOL_MENU,
 	APP_STATE_GOL
 }				t_appState;
+
+typedef enum e_UIState {
+	UI_STATE_DEFAULT,
+	UI_STATE_SLIDER
+}				t_UIState;
+
 
 typedef enum e_valueType {
 	INT_VALUE,
@@ -98,7 +111,7 @@ typedef struct s_MenuScreenConfig {
 	TTF_Font			*font;
 }						t_MenuScreenConfig;
 
-typedef struct s_UIMatriceConfig {
+typedef struct s_uiMatriceConfig {
 	SDL_Renderer	*renderer;
 	t_pos			pos;
 	t_size			size;
@@ -107,13 +120,33 @@ typedef struct s_UIMatriceConfig {
 	char			orientation;
 	bool			isVisible;
 	Theme			*theme;
-}					t_UIMatriceConfig;
+	TTF_TextEngine	*text_engine;
+	TTF_Font		*font;
+}					t_uiMatriceConfig;
 
-typedef struct s_UIcell {
+typedef struct s_sliderConf {
+	SDL_Renderer	*renderer;
+	Theme			*theme;
+	TTF_TextEngine	*text_engine;
+	TTF_Font		*font;
+	float			min;
+	float			max;
+	float			value;
+	t_valueType		value_type;
+}					t_sliderConf;
+
+
+typedef struct s_uiCell {
 	SDL_FRect		*rect;
 	bool			hover;
 	t_color			c;
 	AUIElement		*widget;
-}				t_UIcell;
+}				t_uiCell;
+
+typedef struct s_uiData {
+	float			min;
+	float			max;
+	float			val;
+}				t_uiData;
 
 

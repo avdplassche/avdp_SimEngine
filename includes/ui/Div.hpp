@@ -3,13 +3,18 @@
 #include "AUIElement.hpp"
 #include "pch.h"
 
-class Div : public AUIElement {
+class Div {
 
 private:
 
 	SDL_FRect			_rect;
 	SDL_FRect			_shadow;
 	std::string			_title_string;
+	t_size				_size;
+	t_pos				_pos;
+
+	bool				_hasBorder;
+	bool				_isFilled;
 
 	TTF_Text			*_title;
 	t_size				_title_size;
@@ -25,11 +30,12 @@ public:
 
 	void				setPos(int x, int y);
 	void				setSize(int width, int height);
-	void				setShadows();
+	//void				setShadows();
 	void				setBorders(bool b);
 	void				setFilled(bool b);
 	void				setTitle(TTF_TextEngine *engine, TTF_Font *font, std::string text);
 	void				setTitlePos(int x, int y);
+	void				setData(t_pos pos, t_size size);
 
 	void				draw(SDL_Renderer *renderer, t_color *color);
 

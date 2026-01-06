@@ -3,43 +3,55 @@
 
 #include "pch.h"
 #include "AUIElement.hpp"
+#include "Theme.hpp"
 
 class Slider : public AUIElement {
 
 private:
 
-	SDL_FRect			_rect;
-	//SDL_FRect			_bar;
+	SDL_Renderer		*_renderer;
+	TTF_TextEngine		*_text_engine;
+	TTF_Font			*_font;
+	TTF_Text			*_title;
+	t_size				_title_size;
+	t_pos				_title_pos;
 
-	float				_min;
-	float				_max;
-	float				_value;
+	t_color				*_ui_color;
+	t_color				*_ui_border_color;
+
+	SDL_FRect			_rect;
+	SDL_FRect			_bar;
+
 	t_valueType			_value_type;
 
-	char				_orientation;
-	int					_lenght;
-
-	t_pos				_matrix_position;
+	//t_pos				_matrix_position;
+	t_pos				_cell_origin;
+	t_size				_cell_size;
+	t_size				_lenght;
 
 	void				_setData();
-
+	void				_setText();
+	void				_moveBar();
 
 
 public:
 	Slider();
 	~Slider();
 
-	void				draw(SDL_Renderer *renderer, t_color *color);
+	void				draw();
 
-	void				initValues(float min, float max, float value, t_valueType value_type);
-void					setValue(float value);
-	void				setMatrixPos(int i, int j, int lenght, char orient);
+	//void				initValues(SDL_Renderer *_renderer, Theme *theme, float min, float max, float value, t_valueType value_type);
+	void				initValues(t_sliderConf *conf);
+	void				setValue(float value);
+	void				setMatrixPos(int i, int j, t_size lenght, char orient, t_pos cell_origin, t_size cell_size);
+	void				setPosSize(t_pos pos, t_size size);
+	void				setTheme(Theme&);
 
-	//int					getIntValue() const;
+	//int				getIntValue() const;
 	//float				getFloatValue() const;
 	//t_pos				getMatrixPos() const;
 
-
+	void				printDatas();
 };
 
 

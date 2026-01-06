@@ -133,7 +133,7 @@ int	Application::_initMenuScreen() {
  * side, and will be added to
  */
 int	Application::_initUIDev() {
-	t_UIMatriceConfig	config;
+	t_uiMatriceConfig	config;
 
 	config.renderer = _renderer;
 	config.isVisible = true;
@@ -145,6 +145,8 @@ int	Application::_initUIDev() {
 	else
 		config.orientation = 'h';
 	config.theme = &_theme;
+	config.text_engine = _text_engine;
+	config.font = _font;
 	_UI_matrice_dev.setValues(config);
 	return 0;
 }
@@ -187,8 +189,24 @@ int	Application::run() {
 	return 0;
 }
 
-void	Application::setState(t_appState state){
-	_state = state;
+void	Application::setState(int state){
+	switch (state)
+	{
+	case 0:
+		_state = APP_STATE_MAIN_MENU;
+		break;
+	case 1:
+		_state = APP_STATE_UI_DEV;
+		break;
+	case 2:
+		_state = APP_STATE_GOL_MENU;
+		break;
+	case 3:
+		_state = APP_STATE_GOL;
+		break;
+	default:
+		break;
+	}
 }
 
 

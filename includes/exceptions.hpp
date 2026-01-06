@@ -85,5 +85,11 @@ class MenuFileFormat : public std::exception {
 };
 
 
+// ---------------- UI ---------------- //
 
-
+class UIMatriceSpaceError : public std::exception {
+	public:
+	const char * what() const throw() {
+		return "UI Matrice : elemements are using same space";
+	}
+};

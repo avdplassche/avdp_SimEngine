@@ -5,25 +5,26 @@ MenuButton::MenuButton() {}
 
 MenuButton::~MenuButton() {}
 
-void	MenuButton::draw(SDL_Renderer *renderer, t_color *color) {
+void	MenuButton::draw(SDL_Renderer *renderer) {
 
-	(void) color;
-	SDL_FRect rendered_rec;
-	//SDL_RectToFRectF(&_rect, &rendered_rec);
+	if (_state == BUTTON_STATE_HOVER)
+		_current_color = _hover_color;
+	else if (_state == BUTTON_STATE_DEFAULT)
+		_current_color = _default_color;
 	if (MENU_HAS_SHADOW)
 	{
-		SDL_FRect shadow(rendered_rec);
+		SDL_FRect shadow(_rect);
 		shadow.x += MENU_SHADOW_X;
 		shadow.y -= MENU_SHADOW_Y;
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		SDL_RenderFillRect(renderer, &shadow);
 	}
 	SDL_SetRenderDrawColor(renderer, _current_color->r, _current_color->g,_current_color->b, 255);
-	SDL_RenderFillRect(renderer, &rendered_rec);
+	SDL_RenderFillRect(renderer, &_rect);
 	if (_hasBorder)
 	{
 		SDL_SetRenderDrawColor(renderer, _border_color->r, _border_color->g,_border_color->b, 255);
-		SDL_RenderRect(renderer, &rendered_rec);
+		SDL_RenderRect(renderer, &_rect);
 	}
 	TTF_SetTextColor(_text, _text_color->r, _text_color->g,_text_color->b, 255);  // add theme color
 	TTF_DrawRendererText(_text, _text_pos.x, _text_pos.y);
@@ -31,6 +32,7 @@ void	MenuButton::draw(SDL_Renderer *renderer, t_color *color) {
 
 
 void		MenuButton::setValues(int x, int y, int width, int height, t_size window_size) {
+
 	_window_size = window_size;
 	_rect.w = width;
 	_rect.h = height;
@@ -74,10 +76,26 @@ void		MenuButton::setState(t_buttonState state) {
 	}
 }
 
+void	MenuButton::setData(t_pos pos, t_size size) {
+	_size.w = size.w;
+	_size.h = size.h;
+	_rect.w = size.w;
+	_rect.h = size.h;
+	_pos.x = pos.x;
+	_pos.y = pos.y;
+	_rect.x = pos.x;
+	_rect.y = pos.y;
+	//_setData();
+}
+
+void	MenuButton::setSize(int width, int height) {
+	_size.w = width;
+	_size.h = height;
+}
+
 void		MenuButton::setMenu(t_menu *menu) {
 	_menu = menu;
 }
-
 
 SDL_FRect	MenuButton::getRect() const {
 	return _rect;

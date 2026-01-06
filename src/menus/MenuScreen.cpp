@@ -94,10 +94,9 @@ void	MenuScreen::draw() {
 
 	_div.draw(_renderer, _background_color);
 	for (int i = 0; i < _nbButtons; i++) {
-		_menu_buttons[i].draw(_renderer, _background_color);
+		_menu_buttons[i].draw(_renderer);
 	}
 }
-
 
 std::vector<MenuButton>&	MenuScreen::getMenuButtons() {
 	return _menu_buttons;

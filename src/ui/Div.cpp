@@ -53,6 +53,18 @@ void	Div::setSize(int w, int h) {
 	_shadow.h = h;
 }
 
+void	Div::setData(t_pos pos, t_size size) {
+	_size.w = size.w;
+	_size.h = size.h;
+	_rect.w = size.w;
+	_rect.h = size.h;
+	_pos.x = pos.x;
+	_pos.y = pos.y;
+	_rect.x = pos.x;
+	_rect.y = pos.y;
+	//_setData();
+}
+
 
 void	Div::setTitle(TTF_TextEngine *engine, TTF_Font *font, std::string text) {
 	_title_string = text;

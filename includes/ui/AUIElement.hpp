@@ -1,5 +1,6 @@
 #pragma once
 #include "pch.h"
+#include "Theme.hpp"
 
 
 /**
@@ -16,22 +17,41 @@
 class AUIElement {
 
 protected:
-	t_pos			_pos = {0, 0};
-	t_size			_size;
-	bool			_hasBorder;
-	bool			_isFilled;
+	t_pos					_pos = {0, 0};
+	t_size					_size = {1, 1};
+	t_pos					_matrix_position;
+	t_size					_matrix_size;
+	t_UIType				_type;
+	char 					_orientation;
+	t_uiData				_uiData;
+
+
 
 public:
 
-	virtual				~AUIElement() {};
-	void				setPos(int x, int y);
-	void				setSize(int width, int height);
+	virtual					~AUIElement() {};
+	void					setPos(int x, int y);
+	void					setSize(int width, int height);
+	virtual void			setPosSize(t_pos pos, t_size size) = 0;
+
+	virtual void			setValue(float) = 0;
+	virtual void			setTheme(Theme&) = 0;
+	//virtual void			setValue(int) = 0;
+	//virtual void			setValue(std::string) = 0;
 
 
-	bool				hasBorder() const;
-	bool				isFilled() const;
+	t_pos					getMatrixPos() const;
+	t_size					getMatrixSize() const;
+	t_pos					getPos() const;
+	t_size					getSize() const;
+	t_UIType				getType() const;
+	char					getOrientation() const;
+	t_uiData				getUiData() const;
 
-	virtual void		draw(SDL_Renderer *renderer, t_color *color) = 0;
+
+
+
+	virtual void			draw() = 0;
 };
 
 

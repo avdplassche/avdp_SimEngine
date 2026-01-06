@@ -77,7 +77,7 @@ public:
 	MenuScreen&			getMenuScreen();
 	SDL_FPoint			getMousePos() const;
 
-	void				setState(t_appState state);
+	void				setState(int);
 	void				setTheme(std::string theme_name);
 	void				setFont(std::string font_path);
 	void				setWindowSize(int w, int h);

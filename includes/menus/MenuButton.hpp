@@ -5,7 +5,7 @@
 #include "pch.h"
 
 
-class MenuButton : public AUIElement {
+class MenuButton {
 
 private:
 
@@ -18,6 +18,9 @@ private:
 	t_color					*_text_color;
 
 	t_color					*_current_color;
+
+	t_size					_size;
+	t_pos					_pos;
 
 	t_buttonState			_state;
 	bool					_hasBorder;
@@ -42,6 +45,8 @@ public:
 	void			setTheme(Theme& theme);
 	void			setState(t_buttonState);
 	void			setMenu(t_menu *menu);
+	void			setData(t_pos pos, t_size size);
+	void			setSize(int width, int height);
 
 
 	std::string		getString() const;
@@ -49,7 +54,7 @@ public:
 	t_menu			*getMenu();
 	//bool			isHover() const;
 
-	void			draw(SDL_Renderer *renderer, t_color *color);
+	void			draw(SDL_Renderer *renderer);
 	bool			getState() const;
 
 

@@ -12,8 +12,7 @@ int	runUITests(Application &app) {
 
 	newLog("TEST - Window loop ready", INFO_LOG);
 	newLog("TEST - Entered Main Screen State", INFO_LOG);
-	//app.setState(APP_STATE_MAIN_MENU);
-	app.setState(APP_STATE_UI_DEV);
+	app.setState(STARTING_STATE);
 
 	try {
 
@@ -25,7 +24,6 @@ int	runUITests(Application &app) {
 			SDL_SetRenderDrawColor(app.getRenderer(), theme.getBackground().r , theme.getBackground().g, theme.getBackground().b, SDL_ALPHA_OPAQUE);
 			SDL_RenderClear(app.getRenderer());
 
-		// *You would draw your game elements here*
 			if (app.getState() == APP_STATE_MAIN_MENU)
 				app.getMenuScreen().draw();
 			else if (app.getState() == APP_STATE_UI_DEV)

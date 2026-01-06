@@ -3,3 +3,4 @@ build/
 doc/
 
 .vscode
+sim_engine

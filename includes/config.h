@@ -9,7 +9,15 @@
 # define DEBUG_MODE 0
 #endif
 
-#define PRINT_DEBUG_LOG 1
+#define PRINT_DEBUG_LOG 0
+
+
+
+/** Main menu 0
+ *  UI Dev    1
+ *  GOL_MENU  2
+ */
+#define STARTING_STATE 1
 
 ////////////////////////////////////////
 ////			GRAPHIC				////
@@ -52,12 +60,13 @@
 #define FONT_CURRENT FONT_INTER
 
 ////////////////////////////////////////
-////			DEV MODE			////
+////				UI				////
 ////////////////////////////////////////
 
 #define UI_MATRICE_W 30
 #define UI_MATRICE_H 25
 
-#define UI_PADDING 3
+#define SLIDER_PADDING 5
+#define SLIDER_BAR_RATIO 10
 
 #endif
