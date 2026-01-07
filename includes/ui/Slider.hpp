@@ -43,7 +43,7 @@ public:
 	//void				initValues(SDL_Renderer *_renderer, Theme *theme, float min, float max, float value, t_valueType value_type);
 	void				initValues(t_sliderConf *conf);
 	void				setValue(float value);
-	void				setMatrixPos(int i, int j, t_size lenght, char orient, t_pos cell_origin, t_size cell_size);
+	void				setMatrixPos(t_pos pos, t_size lenght, char orient, t_pos cell_origin, t_size cell_size);
 	void				setPosSize(t_pos pos, t_size size);
 	void				setTheme(Theme&);
 

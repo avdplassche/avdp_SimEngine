@@ -31,14 +31,21 @@ void	Slider::draw() {
 }
 
 void	Slider::setValue(float value) {
-	_uiData.val = value;
+	if (_value_type == INT_VALUE)
+	{
+		int a = static_cast<int>(value);
+		if (value - a >= 0.5)
+			a++;
+		_uiData.val = a;
+	}
+	else
+		_uiData.val = value;
 	_moveBar();
 	_setText();
 }
 
-void	Slider::setMatrixPos(int i, int j, t_size lenght, char orient, t_pos cell_origin, t_size cell_size) {
-	_matrix_position.x = j;
-	_matrix_position.y = i;
+void	Slider::setMatrixPos(t_pos matrix_pos, t_size lenght, char orient, t_pos cell_origin, t_size cell_size) {
+	_matrix_position = matrix_pos;
 	_matrix_size.w = lenght.w;
 	_matrix_size.h = lenght.h;
 	_lenght = lenght;
@@ -49,7 +56,7 @@ void	Slider::setMatrixPos(int i, int j, t_size lenght, char orient, t_pos cell_o
 	_size.w = cell_size.w * lenght.w - SLIDER_PADDING * 2;
 	_size.h = cell_size.h * lenght.h - SLIDER_PADDING * 2;
 	_setData();
-	printDatas();
+	//printDatas();
 }
 
 void	Slider::_setData() {
@@ -62,6 +69,13 @@ void	Slider::_setData() {
 		_bar.h = _cell_size.h;
 		_bar.w = _cell_size.w / SLIDER_BAR_RATIO;
 		_bar.y = _cell_origin.y;
+		_moveBar();
+	}
+	else if (_orientation == 'v')
+	{
+		_bar.h = _cell_size.h / SLIDER_BAR_RATIO;
+		_bar.w = _cell_size.w;
+		_bar.x = _cell_origin.x;
 		_moveBar();
 	}
 	_setText();
@@ -91,6 +105,8 @@ void	Slider::_setText() {
 void	Slider::_moveBar() {
 	if (_orientation == 'h')
 		_bar.x = _cell_origin.x + _uiData.val * _rect.w / _uiData.max - _bar.w / 2;
+	else if (_orientation == 'v')
+		_bar.y = _cell_origin.y + _uiData.val * _rect.h / _uiData.max - _bar.h / 2;
 }
 
 

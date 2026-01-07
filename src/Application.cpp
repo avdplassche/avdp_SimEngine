@@ -151,6 +151,25 @@ int	Application::_initUIDev() {
 	return 0;
 }
 
+//int	Application::_initUIDev() {
+	//t_uiMatriceConfig	config;
+
+	//config.renderer = _renderer;
+	//config.isVisible = true;
+	//config.table_size.w = UI_MATRICE_W;
+	//config.table_size.h = UI_MATRICE_H;
+	//config.size = _window_size;
+	//if (UI_MATRICE_H >= UI_MATRICE_W)
+	//	config.orientation = 'v';
+	//else
+	//	config.orientation = 'h';
+	//config.theme = &_theme;
+	//config.text_engine = _text_engine;
+	//config.font = _font;
+	//_UI_matrice_dev.setValues(config);
+	//return 0;
+//}
+
 
 
 ////////////////////////////////////////

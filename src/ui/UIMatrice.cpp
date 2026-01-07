@@ -3,6 +3,7 @@
 
 UIMatrice::UIMatrice() {
 	(void) _state;
+	_ui_matrice_color = {100, 100, 100, 255};
 }
 
 UIMatrice::~UIMatrice() {
@@ -79,14 +80,31 @@ void	UIMatrice::_setTestWidgets() {
 		conf.max = 10;
 		conf.value = 2;
 		conf.value_type = INT_VALUE;
-		int		i = 1;
-		int		j = 1;
+		t_pos	matrix_pos = {0, 0};
 		t_size	lenght = {9, 1};
 
 		slider1->initValues(&conf);
-		//slider1->initValues(_renderer, _theme, 0, 10, 2, INT_VALUE);
-		slider1->setMatrixPos(i, j, lenght, 'h', {static_cast<int>(_table[i][j]->rect->x), static_cast<int>(_table[i][j]->rect->y)}, {_cell_size, _cell_size});
+		slider1->setMatrixPos(matrix_pos, lenght, 'h', {static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->x), static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->y)}, {_cell_size, _cell_size});
 		_v.push_back(slider1);
+	}
+	{
+		Slider *slider2 = new Slider;
+		t_sliderConf	conf;
+
+		conf.renderer = _renderer;
+		conf.text_engine = _text_engine;
+		conf.font = _font;
+		conf.theme = _theme;
+		conf.min = 0;
+		conf.max = 20;
+		conf.value = 10;
+		conf.value_type = INT_VALUE;
+		t_pos	matrix_pos = {7, 2};
+		t_size	lenght = {1, 5};
+
+		slider2->initValues(&conf);
+		slider2->setMatrixPos(matrix_pos, lenght, 'v', {static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->x), static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->y)}, {_cell_size, _cell_size});
+		_v.push_back(slider2);
 	}
 }
 
@@ -129,7 +147,7 @@ void	UIMatrice::draw() {
 			if (i == _hoveredCell.y && j == _hoveredCell.x)
 				SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
 			else
-				SDL_SetRenderDrawColor(_renderer, _ui_border_color.r, _ui_border_color.g, _ui_border_color.b, 255);
+				SDL_SetRenderDrawColor(_renderer, _ui_matrice_color.r, _ui_matrice_color.g, _ui_matrice_color.b, 255);
 			SDL_RenderRect(_renderer,  _table[i][j]->rect);
 		}
 	}
@@ -171,7 +189,6 @@ void	UIMatrice::setTheme(Theme &theme) {
 	}
 	_ui_color = theme.getUIDefault();
 	_ui_border_color = theme.getUIBorder();
-
 }
 
 void	UIMatrice::setCellColour(t_color c, int i, int j) {

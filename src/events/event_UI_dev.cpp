@@ -32,54 +32,28 @@ void	handleUIDevEvents(SDL_Event *e, Application *app) {
 	if (!widget)
 		return ;
 
-	if (e->type == SDL_EVENT_MOUSE_BUTTON_DOWN && flag == SDL_BUTTON_LEFT)
+	if (flag == SDL_BUTTON_LEFT)
 	{
-		//while (flag == SDL_BUTTON_LEFT)
-		//{
-			if (widget->getType() == SLIDER)
+		if (widget->getType() == SLIDER)
+		{
+			float	value = 0;
+			float	val_diff = widget->getUiData().max - widget->getUiData().min;
+			float	px_diff = 0;
+
+			if (widget->getOrientation() == 'h')
 			{
-				float	value = 0;
-				float	val_diff = 0;
-				float	px_diff = 0;
-
-				if (widget->getOrientation() == 'h')
-				{
-					val_diff = widget->getUiData().max - widget->getUiData().min;
-					px_diff = widget->getSize().w - SLIDER_PADDING * 2;
-					value = (app->getMousePos().x - widget->getPos().x) * val_diff / px_diff;
-					//debugPrintInt("mouse", app->getMousePos().x);
-					//debugPrintInt("val_diff", val_diff);
-					//debugPrintInt("px_diff", px_diff);
-					//debugPrintInt("value", value);
-				}
-				else
-					return;
-				widget->setValue(value);
+				px_diff = widget->getSize().w - SLIDER_PADDING * 2;
+				value = (app->getMousePos().x - widget->getPos().x) * val_diff / px_diff;
 			}
-		//	flag = SDL_GetMouseState(&x, &y);;
-		//}
-
+			else if (widget->getOrientation() == 'v')
+			{
+				px_diff = widget->getSize().h - SLIDER_PADDING * 2;
+				value = (app->getMousePos().y - widget->getPos().y) * val_diff / px_diff;
+			}
+			else
+				return;
+			widget->setValue(value);
+		}
 	}
-
-
-
-	//if (e->type == SDL_EVENT_MOUSE_MOTION && flag == SDL_BUTTON_LEFT)
-	//{
-	//	AUIElement *widget = app->getUIDevMatrice().getHoveredElement();
-
-	//	if (!widget)
-	//		return ;
-	//	if (widget->getType() == SLIDER)
-	//	{
-	//		float value;
-
-	//		if (widget->getOrientation() == 'h')
-	//			value = widget->getPos().x ;
-	//		else
-	//			value = widget->getPos().y + 1;
-	//		widget->setValue(value);
-	//	}
-	//}
-
 }
 

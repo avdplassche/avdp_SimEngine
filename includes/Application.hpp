@@ -40,7 +40,7 @@ private:
 	size_t						_current_theme_index;
 	Theme						_theme;
 
-
+	//SimulationOne				_simulation_one;
 
 ////	DEV		////
 

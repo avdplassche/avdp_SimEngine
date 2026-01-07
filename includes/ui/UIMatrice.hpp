@@ -35,6 +35,7 @@ private:
 	Theme									*_theme;
 	t_color									_ui_color;
 	t_color									_ui_border_color;
+	t_color									_ui_matrice_color;
 
 
 	void									_setConfig(t_uiMatriceConfig& config);

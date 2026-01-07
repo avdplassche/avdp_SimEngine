@@ -52,6 +52,7 @@ typedef enum e_buttonState {
 typedef enum e_appState {
 	APP_STATE_MAIN_MENU,
 	APP_STATE_UI_DEV,
+	APP_STATE_TEST_ONE,
 	APP_STATE_GOL_MENU,
 	APP_STATE_GOL
 }				t_appState;
