@@ -12,10 +12,14 @@ UIMatrice::~UIMatrice() {
 void	UIMatrice::setValues(t_uiMatriceConfig& config) {
 	_setConfig(config);
 	setTheme(*_theme);
-	setSize(_size.w, _size.h);
+	if (config.isDev)
+		setDevSize(_size.w, _size.h);
+	else
+		setWindowSize(_size.w, _size.h);
 	_initTable();
 	_setTableSize();
-	_setTestWidgets();
+	if (config.isDev)
+		_setTestWidgets();
 	_setCells();  /* In order to put true when a cell is occupied for ex */
 	// throw UIMatriceSpaceError if problem
 }
@@ -26,6 +30,7 @@ void	UIMatrice::_setConfig(t_uiMatriceConfig& config) {
 	_theme = config.theme;
 	_table_size = config.table_size;
 	_size = config.size;
+	_window_ratio_w = config.window_ratio_w;
 	_pos = config.pos;
 	_orientation = config.orientation;
 	_hoveredCell = {-1, -1};
@@ -70,7 +75,7 @@ void	UIMatrice::_setTestWidgets() {
 
 	{
 		Slider *slider1 = new Slider;
-		t_sliderConf	conf;
+		t_valueUIConf	conf;
 
 		conf.renderer = _renderer;
 		conf.text_engine = _text_engine;
@@ -89,7 +94,7 @@ void	UIMatrice::_setTestWidgets() {
 	}
 	{
 		Slider *slider2 = new Slider;
-		t_sliderConf	conf;
+		t_valueUIConf	conf;
 
 		conf.renderer = _renderer;
 		conf.text_engine = _text_engine;
@@ -106,6 +111,27 @@ void	UIMatrice::_setTestWidgets() {
 		slider2->setMatrixPos(matrix_pos, lenght, 'v', {static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->x), static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->y)}, {_cell_size, _cell_size});
 		_v.push_back(slider2);
 	}
+	{
+		Spiner *spiner1 = new Spiner;
+		t_valueUIConf	conf;
+
+		conf.renderer = _renderer;
+		conf.text_engine = _text_engine;
+		conf.font = _font;
+		conf.theme = _theme;
+		conf.min = 0;
+		conf.max = 10;
+		conf.value = 0;
+		conf.value_type = INT_VALUE;
+		conf.ratio = 1;
+		t_pos	matrix_pos = {0, 9};
+		t_size	lenght = {5, 2};
+
+		spiner1->initValues(&conf);
+		spiner1->setMatrixPos(matrix_pos, lenght, 'h', {static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->x), static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->y)}, {_cell_size, _cell_size});
+		_v.push_back(spiner1);
+	}
+
 }
 
 //void	UIMatrice::addWidget(AUIElement *element) {
@@ -125,6 +151,7 @@ void	UIMatrice::_setWidgetsSize() {
 }
 
 void	UIMatrice::_setCells() {
+
 	for (size_t i = 0; i < _v.size(); i++)
 	{
 		for (int y = 0; y < _v[i]->getMatrixSize().h; y++)
@@ -139,7 +166,6 @@ void	UIMatrice::draw() {
 
 
 	////	Draw matrice (maybe it will become invisible in the future)
-
 	for (int i = 0; i < _table_size.h; i++)
 	{
 		for (int j = 0; j < _table_size.w; j++)
@@ -161,22 +187,34 @@ void	UIMatrice::draw() {
 
 }
 
-void	UIMatrice::setSize(int w, int h) {
+void	UIMatrice::setDevSize(int w, int h) {
 	_size = {w, h};
 	if (_size.w > _size.h)
-		_cell_size = (_size.h - _size.h / UI_MATRICE_H) / _table_size.h;
+		_cell_size = (_size.h - _size.h / UI_MATRICE_TEST_H) / _table_size.h;
 	else
-		_cell_size = (_size.w - _size.w / UI_MATRICE_W) / _table_size.w;
-	_pos.x = _size.w / 2 - (_cell_size * UI_MATRICE_W) / 2;
-	_pos.y = _size.h / 2 - (_cell_size * UI_MATRICE_H) / 2;
+		_cell_size = (_size.w - _size.w / UI_MATRICE_TEST_W) / _table_size.w;
+	_pos.x = _size.w / 2 - (_cell_size * UI_MATRICE_TEST_W) / 2;
+	_pos.y = _size.h / 2 - (_cell_size * UI_MATRICE_TEST_H) / 2;
 	_setTableSize();
 	_setWidgetsSize();
+}
+
+void	UIMatrice::setWindowSize(int w, int h) {
+	_size = {w, h};
+	_pos.x = _size.w - _size.w * _window_ratio_w;
+	_pos.y = 0;
+	_cell_size = (_size.h - _size.h / _table_size.h) / _table_size.h;
+	int ecart = (_size.w - _pos.x) / _cell_size;
+	_pos.x = _size.w - ecart * _cell_size;
+	_setTableSize();
+	_setWidgetsSize();
+	printInfos();
 }
 
 void	UIMatrice::setHovered(int i, int j) {
 	_hoveredCell.x = j;
 	_hoveredCell.y = i;
-	if (i >= 0 && j >= 0 && j < UI_MATRICE_W && i < UI_MATRICE_H)
+	if (i >= 0 && j >= 0 && j < _table_size.w && i < _table_size.h)
 		_hoveredElement = _table[i][j]->widget;
 	else
 		_hoveredElement = nullptr;
@@ -219,11 +257,13 @@ AUIElement	*UIMatrice::getHoveredElement() {
 	return _hoveredElement;
 }
 
-//t_pos	getCellPos(int i, int j) {
+void	UIMatrice::printInfos() {
 
-//}
-
-//t_size	getCellSize(int i, int j) {
-
-//}
+	std::cout << "\n===== Print UI Matrice Infos =====\n\n";
+	std::cout << "_pos : [" << _pos.x << "," << _pos.y << "]\n";
+	std::cout << "_size : " << _size.w << "x" << _size.h << "\n";
+	std::cout << "_cell_size : " << _cell_size << "\n";
+	std::cout << "_table_size : " << _table_size.w << "x" << _table_size.h << "\n";
+	std::cout << "\n\n=======================\n\n";
+}
 

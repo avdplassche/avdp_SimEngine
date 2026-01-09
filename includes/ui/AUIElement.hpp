@@ -23,7 +23,10 @@ protected:
 	t_size					_matrix_size;
 	t_UIType				_type;
 	char 					_orientation;
-	t_uiData				_uiData;
+
+	float					_val = 0;
+	float					_max = 0;
+	float					_min = 0;
 
 
 
@@ -34,7 +37,7 @@ public:
 	void					setSize(int width, int height);
 	virtual void			setPosSize(t_pos pos, t_size size) = 0;
 
-	virtual void			setValue(float) = 0;
+	virtual void			setValue(SDL_FPoint mouse) = 0;
 	virtual void			setTheme(Theme&) = 0;
 	//virtual void			setValue(int) = 0;
 	//virtual void			setValue(std::string) = 0;
@@ -46,9 +49,10 @@ public:
 	t_size					getSize() const;
 	t_UIType				getType() const;
 	char					getOrientation() const;
-	t_uiData				getUiData() const;
 
-
+	float					getVal() const;
+	float					getMax() const;
+	float					getMin() const;
 
 
 	virtual void			draw() = 0;

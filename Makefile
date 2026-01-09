@@ -19,6 +19,7 @@ INC_PATHS += -I$(INCDIR)/menus
 INC_PATHS += -I$(INCDIR)/lib/avdp_ui
 INC_PATHS += -I$(INCDIR)/tests
 INC_PATHS += -I$(INCDIR)/events
+INC_PATHS += -I$(INCDIR)/simulation_one
 
 COMMON_FLAGS := $(STD_FLAGS) $(INC_PATHS)
 

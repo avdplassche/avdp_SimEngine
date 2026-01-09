@@ -28,7 +28,9 @@ void	handleUIDevEvents(SDL_Event *e, Application *app) {
 			app->getUIDevMatrice().setHovered(-1, -1);
 		}
 	}
+
 	AUIElement *widget = app->getUIDevMatrice().getHoveredElement();
+
 	if (!widget)
 		return ;
 
@@ -36,23 +38,11 @@ void	handleUIDevEvents(SDL_Event *e, Application *app) {
 	{
 		if (widget->getType() == SLIDER)
 		{
-			float	value = 0;
-			float	val_diff = widget->getUiData().max - widget->getUiData().min;
-			float	px_diff = 0;
-
-			if (widget->getOrientation() == 'h')
-			{
-				px_diff = widget->getSize().w - SLIDER_PADDING * 2;
-				value = (app->getMousePos().x - widget->getPos().x) * val_diff / px_diff;
-			}
-			else if (widget->getOrientation() == 'v')
-			{
-				px_diff = widget->getSize().h - SLIDER_PADDING * 2;
-				value = (app->getMousePos().y - widget->getPos().y) * val_diff / px_diff;
-			}
-			else
-				return;
-			widget->setValue(value);
+			widget->setValue(app->getMousePos());
+		}
+		else if (widget->getType() == SPINER)
+		{
+			widget->setValue(app->getMousePos());
 		}
 	}
 }

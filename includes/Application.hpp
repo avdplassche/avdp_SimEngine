@@ -5,6 +5,7 @@
 #include "MenuTree.hpp"
 #include "MenuScreen.hpp"
 #include "UI.hpp"
+#include "SimulationOne.hpp"
 
 class Application {
 
@@ -40,7 +41,10 @@ private:
 	size_t						_current_theme_index;
 	Theme						_theme;
 
-	//SimulationOne				_simulation_one;
+////	SIM 1		////
+
+	SimulationOne				_simulation_one;
+	int							_initSimulationOne();
 
 ////	DEV		////
 
@@ -92,6 +96,10 @@ public:
 	bool				isRuning() const;
 	void				quit();
 
+
+////	SIM 1		////
+
+	SimulationOne&		getSimulationOne();
 
 ////	DEV		////
 

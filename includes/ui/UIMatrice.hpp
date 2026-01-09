@@ -1,10 +1,11 @@
-#ifndef UI_MATRICE_HPP
-# define UI_MATRICE_HPP
+#ifndef UI_MATRICE_TEST_HPP
+# define UI_MATRICE_TEST_HPP
 
 #include "pch.h"
 #include "AUIElement.hpp"
 #include "Theme.hpp"
 #include "Slider.hpp"
+#include "Spiner.hpp"
 
 class UIMatrice {
 
@@ -24,6 +25,7 @@ private:
 
 	t_size									_size;
 	t_pos									_pos;
+	float									_window_ratio_w;
 	t_size									_table_size; // i and j
 	int										_cell_size;
 	bool									_isVisible = true;
@@ -53,7 +55,8 @@ public:
 	void									setValues(t_uiMatriceConfig& config);
 
 	void									setTheme(Theme &);
-	void									setSize(int w, int h);
+	void									setDevSize(int w, int h);
+	void									setWindowSize(int w, int h);
 	void									setCellColour(t_color c, int i, int j);
 	void									setHovered(int i, int j);
 	void									setState(t_UIState& state);
@@ -69,6 +72,7 @@ public:
 
 	void									draw();
 
+	void									printInfos();
 };
 
 #endif

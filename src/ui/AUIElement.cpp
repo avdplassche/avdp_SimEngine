@@ -35,7 +35,19 @@ char	AUIElement::getOrientation() const {
 	return _orientation;
 }
 
-t_uiData	AUIElement::getUiData() const {
-	return _uiData;
+float	AUIElement::getVal() const {
+	return _val;
 }
+
+float	AUIElement::getMax() const {
+	return _max;
+}
+
+float	AUIElement::getMin() const {
+	return _min;
+}
+
+//t_uiData	AUIElement::getUiData() const {
+//	return _uiData;
+//}
 

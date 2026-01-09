@@ -28,7 +28,8 @@ int	runUITests(Application &app) {
 				app.getMenuScreen().draw();
 			else if (app.getState() == APP_STATE_UI_DEV)
 				app.getUIDevMatrice().draw();
-
+			else if (app.getState() == APP_STATE_SIMULATION_ONE)
+				app.getSimulationOne().draw();
 
 
 			SDL_RenderPresent(app.getRenderer());

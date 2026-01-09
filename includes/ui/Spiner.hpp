@@ -1,14 +1,13 @@
-#ifndef SLIDER_HPP
-# define SLIDER_HPP
+#ifndef SPINER_HPP
+# define SPINER_HPP
 
 #include "pch.h"
 #include "AUIElement.hpp"
 #include "Theme.hpp"
 
-class Slider : public AUIElement {
+class Spiner : public AUIElement {
 
 private:
-
 	SDL_Renderer		*_renderer;
 	TTF_TextEngine		*_text_engine;
 	TTF_Font			*_font;
@@ -20,44 +19,42 @@ private:
 	t_color				*_ui_border_color;
 
 	SDL_FRect			_rect;
-	SDL_FRect			_bar;
+	SDL_FRect			_up_rect;
+	SDL_FRect			_down_rect;
 
 	t_valueType			_value_type;
 
-	//float				_min;
-	//float				_max;
-	//float				_val;
 
-	//t_pos				_matrix_position;
+	float				_ratio = 1;
+
 	t_pos				_cell_origin;
 	t_size				_cell_size;
 	//t_size				_lenght;
 
 	void				_setData();
 	void				_setText();
-	void				_moveBar();
-
 
 public:
-	Slider();
-	~Slider();
+
+	Spiner();
+	~Spiner();
 
 	void				draw();
 
 	void				initValues(t_valueUIConf *conf);
 	void				setValue(SDL_FPoint mouse);
+	void				increaseValue();
+	void				decreaseValue();
+
 	void				setMatrixPos(t_pos pos, t_size lenght, char orient, t_pos cell_origin, t_size cell_size);
 	void				setPosSize(t_pos pos, t_size size);
 	void				setTheme(Theme&);
-
-	//int				getIntValue() const;
-	//float				getFloatValue() const;
-	//t_pos				getMatrixPos() const;
-
 	void				printDatas();
+
+	SDL_FRect&			getUpRect();
+	SDL_FRect&			getDownRect();
+
 };
-
-
 
 
 #endif

@@ -1,13 +1,13 @@
-#include "Slider.hpp"
+#include "Spiner.hpp"
 
-Slider::Slider() {
-	_type = SLIDER;
+Spiner::Spiner() {
+	_type = SPINER;
 }
 
-Slider::~Slider() {}
+Spiner::~Spiner() {}
 
-//void	Slider::initValues(SDL_Renderer *renderer, Theme *theme, float min, float max, float value, t_valueType value_type) {
-void	Slider::initValues(t_valueUIConf *conf) {
+//void	Spiner::initValues(SDL_Renderer *renderer, Theme *theme, float min, float max, float value, t_valueType value_type) {
+void	Spiner::initValues(t_valueUIConf *conf) {
 	_renderer = conf->renderer;
 	_text_engine = conf->text_engine;
 	_font = conf->font;
@@ -16,51 +16,48 @@ void	Slider::initValues(t_valueUIConf *conf) {
 	_max = conf->max;
 	_val = conf->value;
 	_value_type = conf->value_type;
+	_ratio = conf->ratio;
 	_setText();
 	//_setData();
 }
 
-void	Slider::draw() {
+void	Spiner::draw() {
 	SDL_SetRenderDrawColor(_renderer, _ui_color->r, _ui_color->g,_ui_color->b, 255);
 	SDL_RenderFillRect(_renderer, &_rect);
-	SDL_RenderFillRect(_renderer, &_bar);
+	SDL_RenderFillRect(_renderer, &_up_rect);
+	SDL_RenderFillRect(_renderer, &_down_rect);
 	SDL_SetRenderDrawColor(_renderer, 20, 20,20, 255);
-	SDL_RenderRect(_renderer, &_bar);
+	SDL_RenderRect(_renderer, &_up_rect);
+	SDL_RenderRect(_renderer, &_down_rect);
 	TTF_SetTextColor(_title, 0, 0, 0, 255);
 	TTF_DrawRendererText(_title, _title_pos.x, _title_pos.y);
 }
 
-void	Slider::setValue(SDL_FPoint mouse) {
-	float	value = 0;
-	float	val_diff = _max - _min;
-	float	px_diff = 0;
+void	Spiner::setValue(SDL_FPoint mouse) {
+	SDL_FPoint	point(mouse);
 
-	if (_orientation == 'h')
+	SDL_FRect	*r = &_up_rect;
+	if (SDL_PointInRectFloat(&point, r))
 	{
-		px_diff = _size.w - SLIDER_PADDING * 2;
-		value = (mouse.x - _pos.x) * val_diff / px_diff;
+		if (_val <= _max - _ratio)
+		{
+			increaseValue();
+			_setText();
+			return ;
+		}
 	}
-	else if (_orientation == 'v')
+	r = &_down_rect;
+	if (SDL_PointInRectFloat(&point, r))
 	{
-		px_diff = _size.h - SLIDER_PADDING * 2;
-		value = (mouse.y - _pos.y) * val_diff / px_diff;
+		if (_val - _ratio >= _min)
+		{
+			decreaseValue();
+		}
 	}
-	else
-		return;
-	if (_value_type == INT_VALUE)
-	{
-		int a = static_cast<int>(value);
-		if (value - a >= 0.5)
-			a++;
-		_val = a;
-	}
-	else
-		_val = value;
-	_moveBar();
 	_setText();
 }
 
-void	Slider::setMatrixPos(t_pos matrix_pos, t_size lenght, char orient, t_pos cell_origin, t_size cell_size) {
+void	Spiner::setMatrixPos(t_pos matrix_pos, t_size lenght, char orient, t_pos cell_origin, t_size cell_size) {
 	_matrix_position = matrix_pos;
 	_matrix_size.w = lenght.w;
 	_matrix_size.h = lenght.h;
@@ -74,41 +71,35 @@ void	Slider::setMatrixPos(t_pos matrix_pos, t_size lenght, char orient, t_pos ce
 	//printDatas();
 }
 
-void	Slider::_setData() {
+void	Spiner::_setData() {
 	_rect.w = _size.w - SLIDER_PADDING * 2;
 	_rect.h = _size.h - SLIDER_PADDING * 2;
 	_rect.x = _cell_origin.x + SLIDER_PADDING;
 	_rect.y = _cell_origin.y + SLIDER_PADDING;
-	if (_orientation == 'h')
-	{
-		_bar.h = _cell_size.h;
-		_bar.w = _cell_size.w / SLIDER_BAR_RATIO;
-		_bar.y = _cell_origin.y;
-		_moveBar();
-	}
-	else if (_orientation == 'v')
-	{
-		_bar.h = _cell_size.h / SLIDER_BAR_RATIO;
-		_bar.w = _cell_size.w;
-		_bar.x = _cell_origin.x;
-		_moveBar();
-	}
+	_up_rect.h = _rect.h / 2;
+	_up_rect.w = _up_rect.h * 2;
+	_up_rect.y = _rect.y;
+	_up_rect.x = _rect.x + _rect.w - _up_rect.w;
+	_down_rect.h = _rect.h / 2;
+	_down_rect.w = _down_rect.h * 2;
+	_down_rect.y = _rect.y + _down_rect.h;
+	_down_rect.x = _rect.x + _rect.w - _down_rect.w;
 	_setText();
 }
 
-void	Slider::setPosSize(t_pos pos, t_size size) {
+void	Spiner::setPosSize(t_pos pos, t_size size) {
 	_cell_origin = pos;
 	_cell_size.h = size.h * _matrix_size.h;
 	_cell_size.w = size.w * _matrix_size.w;
 	_setData();
 }
 
-void	Slider::setTheme(Theme& theme) {
+void	Spiner::setTheme(Theme& theme) {
 	_ui_color = &theme.getUIDefault();
 	_ui_border_color = &theme.getUIBorder();
 }
 
-void	Slider::_setText() {
+void	Spiner::_setText() {
 	std::stringstream	ss;
 	ss << _val;
 	_title = TTF_CreateText(_text_engine, _font, ss.str().c_str(), ss.str().size());
@@ -117,22 +108,30 @@ void	Slider::_setText() {
 	_title_pos.y = _pos.y + SLIDER_PADDING + _rect.h / 2 - _title_size.h / 2;
 }
 
-void	Slider::_moveBar() {
-	if (_orientation == 'h')
-		_bar.x = _cell_origin.x + _val * _rect.w / _max - _bar.w / 2;
-	else if (_orientation == 'v')
-		_bar.y = _cell_origin.y + _val * _rect.h / _max - _bar.h / 2;
+void	Spiner::increaseValue() {
+	_val += _ratio;
 }
 
+void	Spiner::decreaseValue() {
+	_val -= _ratio;
+}
 
-//t_pos	Slider::getMatrixPos() const {
+SDL_FRect&	Spiner::getUpRect() {
+	return _up_rect;
+}
+
+SDL_FRect&	Spiner::getDownRect() {
+	return _down_rect;
+}
+
+//t_pos	Spiner::getMatrixPos() const {
 //	return _matrix_position;
 //}
 
 
-void	Slider::printDatas() {
+void	Spiner::printDatas() {
 
-	std::cout << "\n===== Print Slider Data =====\n\n";
+	std::cout << "\n===== Print Spiner Data =====\n\n";
 	std::cout << "Max : " << _max << '\n';
 	std::cout << "Min : " << _min << '\n';
 	std::cout << "Val : " << _val << '\n';

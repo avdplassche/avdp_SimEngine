@@ -52,7 +52,7 @@ typedef enum e_buttonState {
 typedef enum e_appState {
 	APP_STATE_MAIN_MENU,
 	APP_STATE_UI_DEV,
-	APP_STATE_TEST_ONE,
+	APP_STATE_SIMULATION_ONE,
 	APP_STATE_GOL_MENU,
 	APP_STATE_GOL
 }				t_appState;
@@ -116,6 +116,7 @@ typedef struct s_uiMatriceConfig {
 	SDL_Renderer	*renderer;
 	t_pos			pos;
 	t_size			size;
+	float			window_ratio_w;
 	t_size			table_size;
 	t_size			cell_size;
 	char			orientation;
@@ -123,9 +124,10 @@ typedef struct s_uiMatriceConfig {
 	Theme			*theme;
 	TTF_TextEngine	*text_engine;
 	TTF_Font		*font;
+	bool			isDev;
 }					t_uiMatriceConfig;
 
-typedef struct s_sliderConf {
+typedef struct s_valueUIConf {
 	SDL_Renderer	*renderer;
 	Theme			*theme;
 	TTF_TextEngine	*text_engine;
@@ -134,7 +136,8 @@ typedef struct s_sliderConf {
 	float			max;
 	float			value;
 	t_valueType		value_type;
-}					t_sliderConf;
+	float			ratio;
+}					t_valueUIConf;
 
 
 typedef struct s_uiCell {

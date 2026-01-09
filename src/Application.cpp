@@ -49,6 +49,7 @@ void	Application::init() {
 		newLog("App : Menu loaded", INFO_LOG);
 		_state = APP_STATE_MAIN_MENU;
 		_initUIDev();
+		_initSimulationOne();
 		//printInfos();
 	}
 	catch (std::exception &e){
@@ -137,38 +138,45 @@ int	Application::_initUIDev() {
 
 	config.renderer = _renderer;
 	config.isVisible = true;
-	config.table_size.w = UI_MATRICE_W;
-	config.table_size.h = UI_MATRICE_H;
+	config.table_size.w = UI_MATRICE_TEST_W;
+	config.table_size.h = UI_MATRICE_TEST_H;
 	config.size = _window_size;
-	if (UI_MATRICE_H >= UI_MATRICE_W)
+	if (UI_MATRICE_TEST_H >= UI_MATRICE_TEST_W)
 		config.orientation = 'v';
 	else
 		config.orientation = 'h';
 	config.theme = &_theme;
 	config.text_engine = _text_engine;
 	config.font = _font;
+	config.isDev = true;
 	_UI_matrice_dev.setValues(config);
 	return 0;
 }
 
-//int	Application::_initUIDev() {
-	//t_uiMatriceConfig	config;
+int	Application::_initSimulationOne() {
+	t_uiMatriceConfig	ui_matrix_config;
 
-	//config.renderer = _renderer;
-	//config.isVisible = true;
-	//config.table_size.w = UI_MATRICE_W;
-	//config.table_size.h = UI_MATRICE_H;
-	//config.size = _window_size;
-	//if (UI_MATRICE_H >= UI_MATRICE_W)
-	//	config.orientation = 'v';
-	//else
-	//	config.orientation = 'h';
-	//config.theme = &_theme;
-	//config.text_engine = _text_engine;
-	//config.font = _font;
-	//_UI_matrice_dev.setValues(config);
-	//return 0;
-//}
+	ui_matrix_config.renderer = _renderer;
+	ui_matrix_config.isVisible = true;
+	ui_matrix_config.size.w = _window_size.w;
+	ui_matrix_config.size.h = _window_size.h;
+	ui_matrix_config.pos.x = _window_size.w;
+	ui_matrix_config.pos.y = 0;
+	ui_matrix_config.window_ratio_w = 0.33;
+	ui_matrix_config.table_size.w = UI_MATRICE_SIM_ONE_W;
+	ui_matrix_config.table_size.h = UI_MATRICE_SIM_ONE_H;
+	if (UI_MATRICE_SIM_ONE_H >= UI_MATRICE_SIM_ONE_W)
+		ui_matrix_config.orientation = 'v';
+	else
+		ui_matrix_config.orientation = 'h';
+	ui_matrix_config.theme = &_theme;
+	ui_matrix_config.text_engine = _text_engine;
+	ui_matrix_config.font = _font;
+	ui_matrix_config.isDev = false;
+	_simulation_one.getUiMatrice().setValues(ui_matrix_config);
+	//_simulation_one.getUiMatrice().printInfos();
+	return 0;
+}
 
 
 
@@ -218,7 +226,7 @@ void	Application::setState(int state){
 		_state = APP_STATE_UI_DEV;
 		break;
 	case 2:
-		_state = APP_STATE_GOL_MENU;
+		_state = APP_STATE_SIMULATION_ONE;
 		break;
 	case 3:
 		_state = APP_STATE_GOL;
@@ -322,6 +330,10 @@ void	Application::printInfos() {
 	std::cout << "Size : " << _window_size.w << "x" << _window_size.h << '\n';
 
 	std::cout << "\n===========================\n\n";
+}
+
+SimulationOne&		Application::getSimulationOne() {
+	return _simulation_one;
 }
 
 UIMatrice&	Application::getUIDevMatrice() {

@@ -13,9 +13,10 @@
 
 
 
-/** Main menu 0
- *  UI Dev    1
- *  GOL_MENU  2
+/** Main menu 		0
+ *  UI Dev    		1
+ * 	SimulationOne 	2
+ *  GOL_MENU  		3
  */
 #define STARTING_STATE 1
 
@@ -63,10 +64,14 @@
 ////				UI				////
 ////////////////////////////////////////
 
-#define UI_MATRICE_W 30
-#define UI_MATRICE_H 25
+#define UI_MATRICE_TEST_W 30
+#define UI_MATRICE_TEST_H 25
+
+#define UI_MATRICE_SIM_ONE_W 40
+#define UI_MATRICE_SIM_ONE_H 60
 
 #define SLIDER_PADDING 5
 #define SLIDER_BAR_RATIO 10
+
 
 #endif
