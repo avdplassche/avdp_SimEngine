@@ -11,7 +11,7 @@ int	runUITests(Application &app) {
 	SDL_Event	e;
 
 	newLog("TEST - Window loop ready", INFO_LOG);
-	newLog("TEST - Entered Main Screen State", INFO_LOG);
+	//newLog("TEST - Entered Main Screen State", INFO_LOG);
 	app.setState(STARTING_STATE);
 
 	try {

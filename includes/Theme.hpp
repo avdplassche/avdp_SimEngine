@@ -15,6 +15,8 @@ private:
 	t_color				_menu_text_color = {-1, -1, -1, 0};
 	t_color				_ui_default_color = {-1, -1, -1, 0};
 	t_color				_ui_border_color = {-1, -1, -1, 0};
+	t_color				_ui_box_text_color = {-1, -1, -1, 0};
+	t_color				_ui_plain_text_color = {-1, -1, -1, 0};
 
 	//t_color				_shadow_color;
 	bool				_checkValue(std::string val);
@@ -37,6 +39,8 @@ public:
 	t_color&			getMenuText();
 	t_color&			getUIDefault();
 	t_color&			getUIBorder();
+	t_color&			getUIBoxText();
+	t_color&			getUIPlainText();
 
 	std::string			getName() const;
 };

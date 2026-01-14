@@ -47,7 +47,7 @@
 ////			DATA				////
 ////////////////////////////////////////
 
-#define THEME "Riga"
+#define THEME "SoftMono"
 #define APP_MENU_FILE "data/app_menu.txt"
 #define GAME_MENU_FILE "data/game_menu.txt"
 
@@ -64,13 +64,13 @@
 ////				UI				////
 ////////////////////////////////////////
 
-#define UI_MATRICE_TEST_W 30
-#define UI_MATRICE_TEST_H 25
+#define UI_MATRICE_TEST_W 32
+#define UI_MATRICE_TEST_H 24
 
-#define UI_MATRICE_SIM_ONE_W 40
-#define UI_MATRICE_SIM_ONE_H 60
+#define UI_MATRICE_SIM_ONE_W 48
+#define UI_MATRICE_SIM_ONE_H 64
 
-#define SLIDER_PADDING 5
+#define SLIDER_PADDING 4
 #define SLIDER_BAR_RATIO 10
 
 

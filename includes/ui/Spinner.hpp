@@ -1,19 +1,17 @@
-#ifndef SPINER_HPP
-# define SPINER_HPP
+#ifndef Spinner_HPP
+# define Spinner_HPP
 
 #include "pch.h"
 #include "AUIElement.hpp"
 #include "Theme.hpp"
 
-class Spiner : public AUIElement {
+class Spinner : public AUIElement {
 
 private:
 	SDL_Renderer		*_renderer;
 	TTF_TextEngine		*_text_engine;
 	TTF_Font			*_font;
-	TTF_Text			*_title;
-	t_size				_title_size;
-	t_pos				_title_pos;
+	t_text				_title;
 
 	t_color				*_ui_color;
 	t_color				*_ui_border_color;
@@ -21,6 +19,9 @@ private:
 	SDL_FRect			_rect;
 	SDL_FRect			_up_rect;
 	SDL_FRect			_down_rect;
+
+	t_text				_plus_symbol;
+	t_text				_minus_symbol;
 
 	t_valueType			_value_type;
 
@@ -36,8 +37,8 @@ private:
 
 public:
 
-	Spiner();
-	~Spiner();
+	Spinner();
+	~Spinner();
 
 	void				draw();
 

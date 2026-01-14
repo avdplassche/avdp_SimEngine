@@ -590,7 +590,7 @@
         <mxCell id="iq10nRcNCcIU9tQyYDxH-350" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#FFFFFF;fontColor=#FFFFFF;fillColor=#182E3E;" parent="iq10nRcNCcIU9tQyYDxH-116" vertex="1">
           <mxGeometry x="8.518438177874186" y="68" width="40.08676789587852" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="iq10nRcNCcIU9tQyYDxH-351" value="Spiner" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#FFFFFF;fontColor=#FFFFFF;fillColor=#182E3E;align=left;" parent="iq10nRcNCcIU9tQyYDxH-116" vertex="1">
+        <mxCell id="iq10nRcNCcIU9tQyYDxH-351" value="Spinner" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#FFFFFF;fontColor=#FFFFFF;fillColor=#182E3E;align=left;" parent="iq10nRcNCcIU9tQyYDxH-116" vertex="1">
           <mxGeometry x="64.38937093275487" y="121.25" width="98.96420824295011" height="44" as="geometry" />
         </mxCell>
         <mxCell id="iq10nRcNCcIU9tQyYDxH-352" value="Checkbox" style="whiteSpace=wrap;html=1;strokeColor=#FFFFFF;fontColor=#FFFFFF;fillColor=#182E3E;" parent="iq10nRcNCcIU9tQyYDxH-116" vertex="1">

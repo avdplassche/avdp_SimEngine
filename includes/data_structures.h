@@ -38,7 +38,9 @@ typedef enum e_coordinates_tb {
 
 typedef enum e_UIType {
 	SLIDER,
-	SPINER,
+	SPINNER,
+	CHECK_BOX,
+	TOGGLE_BOX,
 	STRING,
 	COLOR
 }			t_UIType;
@@ -61,6 +63,8 @@ typedef enum e_UIState {
 	UI_STATE_DEFAULT,
 	UI_STATE_SLIDER
 }				t_UIState;
+
+
 
 
 typedef enum e_valueType {
@@ -127,6 +131,8 @@ typedef struct s_uiMatriceConfig {
 	bool			isDev;
 }					t_uiMatriceConfig;
 
+/** Used for Spinners and Sliders
+ */
 typedef struct s_valueUIConf {
 	SDL_Renderer	*renderer;
 	Theme			*theme;
@@ -137,8 +143,21 @@ typedef struct s_valueUIConf {
 	float			value;
 	t_valueType		value_type;
 	float			ratio;
+	std::string		title;
+	bool			checked;
 }					t_valueUIConf;
 
+/** Used for checkboxes
+ */
+typedef struct s_UIElementConf {
+
+}					t_uiElementConf;
+
+typedef struct s_text {
+	t_size			size;
+	t_pos			pos;
+	TTF_Text		*text;
+}					t_text;
 
 typedef struct s_uiCell {
 	SDL_FRect		*rect;

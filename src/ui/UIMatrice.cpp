@@ -3,13 +3,15 @@
 
 UIMatrice::UIMatrice() {
 	(void) _state;
-	_ui_matrice_color = {100, 100, 100, 255};
+	_ui_matrice_color = {50, 50, 50, 255};
 }
 
 UIMatrice::~UIMatrice() {
+	for (size_t i = 0; i < _v.size(); i++)
+		delete _v[i];
 }
 
-void	UIMatrice::setValues(t_uiMatriceConfig& config) {
+int	UIMatrice::setValues(t_uiMatriceConfig& config) {
 	_setConfig(config);
 	setTheme(*_theme);
 	if (config.isDev)
@@ -20,8 +22,9 @@ void	UIMatrice::setValues(t_uiMatriceConfig& config) {
 	_setTableSize();
 	if (config.isDev)
 		_setTestWidgets();
-	_setCells();  /* In order to put true when a cell is occupied for ex */
-	// throw UIMatriceSpaceError if problem
+	if (_setCells() == -1)
+		return -1;  /* In order to put true when a cell is occupied for ex */
+	return 0;
 }
 
 void	UIMatrice::_setConfig(t_uiMatriceConfig& config) {
@@ -67,6 +70,7 @@ void	UIMatrice::_setTableSize() {
 			_table[i][j]->rect->x = _pos.x + _cell_size * j;
 			_table[i][j]->rect->y = _pos.y + _cell_size * i;
 			_table[i][j]->c = _ui_border_color;
+
 		}
 	}
 }
@@ -86,10 +90,10 @@ void	UIMatrice::_setTestWidgets() {
 		conf.value = 2;
 		conf.value_type = INT_VALUE;
 		t_pos	matrix_pos = {0, 0};
-		t_size	lenght = {9, 1};
+		t_size	matrix_size = {9, 1};
 
 		slider1->initValues(&conf);
-		slider1->setMatrixPos(matrix_pos, lenght, 'h', {static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->x), static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->y)}, {_cell_size, _cell_size});
+		slider1->setMatrixPos(matrix_pos, matrix_size, 'h', {static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->x), static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->y)}, {_cell_size, _cell_size});
 		_v.push_back(slider1);
 	}
 	{
@@ -101,18 +105,18 @@ void	UIMatrice::_setTestWidgets() {
 		conf.font = _font;
 		conf.theme = _theme;
 		conf.min = 0;
-		conf.max = 20;
-		conf.value = 10;
-		conf.value_type = INT_VALUE;
-		t_pos	matrix_pos = {7, 2};
-		t_size	lenght = {1, 5};
+		conf.max = 2;
+		conf.value = 1.5;
+		conf.value_type = FLOAT_VALUE;
+		t_pos	matrix_pos = {0, 2};
+		t_size	matrix_size = {1, 5};
 
 		slider2->initValues(&conf);
-		slider2->setMatrixPos(matrix_pos, lenght, 'v', {static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->x), static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->y)}, {_cell_size, _cell_size});
+		slider2->setMatrixPos(matrix_pos, matrix_size, 'v', {static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->x), static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->y)}, {_cell_size, _cell_size});
 		_v.push_back(slider2);
 	}
 	{
-		Spiner *spiner1 = new Spiner;
+		Spinner *spinner1 = new Spinner;
 		t_valueUIConf	conf;
 
 		conf.renderer = _renderer;
@@ -124,12 +128,32 @@ void	UIMatrice::_setTestWidgets() {
 		conf.value = 0;
 		conf.value_type = INT_VALUE;
 		conf.ratio = 1;
-		t_pos	matrix_pos = {0, 9};
-		t_size	lenght = {5, 2};
+		t_pos	matrix_pos = {0, 1};
+		t_size	matrix_size = {5, 1};
+		t_pos pos = {static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->x), static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->y)};
 
-		spiner1->initValues(&conf);
-		spiner1->setMatrixPos(matrix_pos, lenght, 'h', {static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->x), static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->y)}, {_cell_size, _cell_size});
-		_v.push_back(spiner1);
+
+		spinner1->initValues(&conf);
+		spinner1->setMatrixPos(matrix_pos, matrix_size, 'h', pos, {_cell_size, _cell_size});
+		_v.push_back(spinner1);
+	}
+	{
+		Checkbox *checkbox1 = new Checkbox;
+		t_valueUIConf	conf;
+
+		conf.renderer = _renderer;
+		conf.text_engine = _text_engine;
+		conf.font = _font;
+		conf.theme = _theme;
+		conf.checked = false;
+		conf.title = "Checkbox";
+		t_pos	matrix_pos = {6, 6};
+		t_pos	pos = {static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->x), static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->y)};
+
+		//std::cout << pos.x << " ----- " << pos.y << '\n';
+		checkbox1->initValues(&conf);
+		checkbox1->setMatrixPos(matrix_pos, pos, {_cell_size, _cell_size});
+		_v.push_back(checkbox1);
 	}
 
 }
@@ -150,15 +174,21 @@ void	UIMatrice::_setWidgetsSize() {
 	}
 }
 
-void	UIMatrice::_setCells() {
+int	UIMatrice::_setCells() {
 
 	for (size_t i = 0; i < _v.size(); i++)
 	{
-		for (int y = 0; y < _v[i]->getMatrixSize().h; y++)
-			_table[_v[i]->getMatrixPos().y + y][_v[i]->getMatrixPos().x]->widget = _v[i];
 		for (int x = 0; x < _v[i]->getMatrixSize().w; x++)
-			_table[_v[i]->getMatrixPos().y][_v[i]->getMatrixPos().x + x]->widget = _v[i];
+		{
+			for (int y = 0; y < _v[i]->getMatrixSize().h; y++)
+			{
+				if (_table[_v[i]->getMatrixPos().y + y][_v[i]->getMatrixPos().x + x]->widget != nullptr)
+					return -1;
+				_table[_v[i]->getMatrixPos().y + y][_v[i]->getMatrixPos().x + x]->widget = _v[i];
+			}
+		}
 	}
+	return 0;
 }
 
 
@@ -171,7 +201,7 @@ void	UIMatrice::draw() {
 		for (int j = 0; j < _table_size.w; j++)
 		{
 			if (i == _hoveredCell.y && j == _hoveredCell.x)
-				SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
+				SDL_SetRenderDrawColor(_renderer, 155, 155, 155, 155);
 			else
 				SDL_SetRenderDrawColor(_renderer, _ui_matrice_color.r, _ui_matrice_color.g, _ui_matrice_color.b, 255);
 			SDL_RenderRect(_renderer,  _table[i][j]->rect);
@@ -208,7 +238,7 @@ void	UIMatrice::setWindowSize(int w, int h) {
 	_pos.x = _size.w - ecart * _cell_size;
 	_setTableSize();
 	_setWidgetsSize();
-	printInfos();
+	//printInfos();
 }
 
 void	UIMatrice::setHovered(int i, int j) {
@@ -264,6 +294,6 @@ void	UIMatrice::printInfos() {
 	std::cout << "_size : " << _size.w << "x" << _size.h << "\n";
 	std::cout << "_cell_size : " << _cell_size << "\n";
 	std::cout << "_table_size : " << _table_size.w << "x" << _table_size.h << "\n";
-	std::cout << "\n\n=======================\n\n";
+	std::cout << "\n=======================\n\n";
 }
 

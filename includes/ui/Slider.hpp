@@ -16,6 +16,7 @@ private:
 	t_size				_title_size;
 	t_pos				_title_pos;
 
+
 	t_color				*_ui_color;
 	t_color				*_ui_border_color;
 
@@ -24,9 +25,6 @@ private:
 
 	t_valueType			_value_type;
 
-	//float				_min;
-	//float				_max;
-	//float				_val;
 
 	//t_pos				_matrix_position;
 	t_pos				_cell_origin;

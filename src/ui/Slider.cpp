@@ -6,7 +6,6 @@ Slider::Slider() {
 
 Slider::~Slider() {}
 
-//void	Slider::initValues(SDL_Renderer *renderer, Theme *theme, float min, float max, float value, t_valueType value_type) {
 void	Slider::initValues(t_valueUIConf *conf) {
 	_renderer = conf->renderer;
 	_text_engine = conf->text_engine;
@@ -43,7 +42,7 @@ void	Slider::setValue(SDL_FPoint mouse) {
 	else if (_orientation == 'v')
 	{
 		px_diff = _size.h - SLIDER_PADDING * 2;
-		value = (mouse.y - _pos.y) * val_diff / px_diff;
+		value = _max - (mouse.y - _pos.y) * val_diff / px_diff;
 	}
 	else
 		return;
@@ -110,7 +109,11 @@ void	Slider::setTheme(Theme& theme) {
 
 void	Slider::_setText() {
 	std::stringstream	ss;
-	ss << _val;
+	if (_value_type == FLOAT_VALUE)
+		ss << std::setprecision(2) << _val;
+	else
+		ss << _val;
+	TTF_SetFontSize(_font, FONT_SIZE - 6);
 	_title = TTF_CreateText(_text_engine, _font, ss.str().c_str(), ss.str().size());
 	TTF_GetTextSize(_title, &_title_size.w, &_title_size.h);
 	_title_pos.x = _pos.x + SLIDER_PADDING + _rect.w / 2 - _title_size.w / 2;
@@ -121,7 +124,7 @@ void	Slider::_moveBar() {
 	if (_orientation == 'h')
 		_bar.x = _cell_origin.x + _val * _rect.w / _max - _bar.w / 2;
 	else if (_orientation == 'v')
-		_bar.y = _cell_origin.y + _val * _rect.h / _max - _bar.h / 2;
+		_bar.y = _cell_origin.y + _rect.h - _val * _rect.h / _max - _bar.h / 2;
 }
 
 

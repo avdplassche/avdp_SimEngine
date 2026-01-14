@@ -53,7 +53,8 @@ void	Application::init() {
 		//printInfos();
 	}
 	catch (std::exception &e){
-		std::cout << "Exception catched : " << e.what() << '\n';
+		std::cout << "App Init - Exception catched : " << e.what() << '\n';
+		throw ExceptionAppInit();
 	}
 }
 
@@ -149,7 +150,8 @@ int	Application::_initUIDev() {
 	config.text_engine = _text_engine;
 	config.font = _font;
 	config.isDev = true;
-	_UI_matrice_dev.setValues(config);
+	if (_UI_matrice_dev.setValues(config) == -1)
+		throw UIMatriceSpaceError();
 	return 0;
 }
 

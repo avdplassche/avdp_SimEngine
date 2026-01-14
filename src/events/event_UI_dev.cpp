@@ -37,13 +37,11 @@ void	handleUIDevEvents(SDL_Event *e, Application *app) {
 	if (flag == SDL_BUTTON_LEFT)
 	{
 		if (widget->getType() == SLIDER)
-		{
 			widget->setValue(app->getMousePos());
-		}
-		else if (widget->getType() == SPINER)
-		{
+		else if (widget->getType() == SPINNER)
 			widget->setValue(app->getMousePos());
-		}
+		else if (widget->getType() == CHECK_BOX)
+			widget->setValue(app->getMousePos());
 	}
 }
 

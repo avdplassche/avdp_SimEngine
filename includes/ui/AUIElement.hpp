@@ -4,10 +4,16 @@
 
 
 /**
- * - t_pos _pos;
- * - t_size _size;
- * - bool _hasBorder;
- * - bool _isFilled;
+ * - t_pos		_pos;
+ * - t_size		_size;
+ * - t_pos		_matrix_position;
+ * - t_size		_matrix_size
+ * - t_UIType	_type;
+ * - char		_orientation;
+ * - float		_val;
+ * - float		_min;
+ * - float		_max;
+ *
  *
  * - setPos(x, y);
  * - setSize(w, h);

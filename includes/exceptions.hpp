@@ -45,6 +45,13 @@ class ExceptionSDLFont : public std::exception {
 	}
 };
 
+class ExceptionAppInit : public std::exception {
+	public:
+	const char * what() const throw() {
+		return "Quitting Program";
+	}
+};
+
 
 class ArgumentError : public std::exception {
 	private:

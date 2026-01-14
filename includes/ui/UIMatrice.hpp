@@ -5,7 +5,8 @@
 #include "AUIElement.hpp"
 #include "Theme.hpp"
 #include "Slider.hpp"
-#include "Spiner.hpp"
+#include "Spinner.hpp"
+#include "Checkbox.hpp"
 
 class UIMatrice {
 
@@ -45,14 +46,14 @@ private:
 	void									_setTableSize();
 	void									_setTestWidgets();
 	void									_setWidgetsSize();
-	void									_setCells();
+	int										_setCells();
 
 
 public:
 	UIMatrice();
 	~UIMatrice();
 
-	void									setValues(t_uiMatriceConfig& config);
+	int										setValues(t_uiMatriceConfig& config);
 
 	void									setTheme(Theme &);
 	void									setDevSize(int w, int h);

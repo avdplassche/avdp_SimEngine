@@ -1,0 +1,10 @@
+background		#1A232E
+menu_default	#FFFFFF
+menu_hover		#E0E0E0
+menu_inactive	#546E7A
+menu_border		#FFFFFF
+menu_text		#1A232E
+ui_color		#F5F5F5
+ui_border		#455A64
+ui_box_text		#1A232E
+ui_plain_text	#FFFFFF

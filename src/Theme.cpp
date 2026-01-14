@@ -70,6 +70,10 @@ void	Theme::setTheme(std::string name) {
 			_ui_default_color = c;
 		else if (key == "ui_border")
 			_ui_border_color = c;
+		else if (key == "ui_box_text")
+			_ui_box_text_color = c;
+		else if (key == "ui_plain_text")
+			_ui_plain_text_color = c;
 		else
 			return newLog("Unable to load theme (key format error) - " + name, WARNING_LOG);
 	}
@@ -109,6 +113,14 @@ t_color&	Theme::getUIDefault() {
 
 t_color&	Theme::getUIBorder() {
 	return _ui_border_color;
+}
+
+t_color&	Theme::getUIBoxText() {
+	return _ui_box_text_color;
+}
+
+t_color&	Theme::getUIPlainText() {
+	return _ui_plain_text_color;
 }
 
 std::string	Theme::getName() const {
