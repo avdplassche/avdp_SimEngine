@@ -3,7 +3,7 @@
 void	handleUIDevEvents(SDL_Event *e, Application *app) {
 
 	float					x, y = 0;
-	SDL_MouseButtonFlags	flag = SDL_GetMouseState(&x, &y);;
+	SDL_MouseButtonFlags	button_flag = SDL_GetMouseState(&x, &y);;
 	bool					mouseInMatrice = false;
 
 	app->setMousePos(x, y);
@@ -34,13 +34,15 @@ void	handleUIDevEvents(SDL_Event *e, Application *app) {
 	if (!widget)
 		return ;
 
-	if (flag == SDL_BUTTON_LEFT)
+	if (button_flag == SDL_BUTTON_LEFT)
 	{
 		if (widget->getType() == SLIDER)
 			widget->setValue(app->getMousePos());
 		else if (widget->getType() == SPINNER)
 			widget->setValue(app->getMousePos());
 		else if (widget->getType() == CHECK_BOX)
+			widget->setValue(app->getMousePos());
+		else if (widget->getType() == TOGGLE_BOX)
 			widget->setValue(app->getMousePos());
 	}
 }

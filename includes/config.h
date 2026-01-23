@@ -67,11 +67,18 @@
 #define UI_MATRICE_TEST_W 32
 #define UI_MATRICE_TEST_H 24
 
-#define UI_MATRICE_SIM_ONE_W 48
+#define UI_MATRICE_SIM_ONE_W 32
 #define UI_MATRICE_SIM_ONE_H 64
 
 #define SLIDER_PADDING 4
 #define SLIDER_BAR_RATIO 10
+
+
+////////////////////////////////////////
+////			Sim One				////
+////////////////////////////////////////
+
+#define SIM_ONE_PADDING 32
 
 
 #endif

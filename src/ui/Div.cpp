@@ -18,17 +18,26 @@ Div::~Div() {}
 
 
 void	Div::draw(SDL_Renderer *renderer, t_color *color) {
-	if (MENU_HAS_SHADOW)
+	if (MENU_HAS_SHADOW && _state == APP_STATE_MAIN_MENU)
 	{
 		SDL_SetRenderDrawColor(renderer, 0 , 0, 0, SDL_ALPHA_OPAQUE);
 		SDL_RenderFillRect(renderer, &_shadow);
 	}
-	SDL_SetRenderDrawColor(renderer, color->r + 20 , color->g + 20, color->b + 20, SDL_ALPHA_OPAQUE);
+	if (_state == APP_STATE_MAIN_MENU)
+		SDL_SetRenderDrawColor(renderer, color->r + 20 , color->g + 20, color->b + 20, SDL_ALPHA_OPAQUE);
+	else
+		SDL_SetRenderDrawColor(renderer, color->r , color->g , color->b , SDL_ALPHA_OPAQUE);
 	if (_isFilled)
+	{
+		//std::cout <<"render1\n";
 		SDL_RenderFillRect(renderer, &_rect);
+	}
 	else if (_hasBorder)
+	{
+		//std::cout <<"render2\n";
 		SDL_RenderRect(renderer, &_rect);
-	if (_isVisibleTitle)
+	}
+	if (_isVisibleTitle && _state == APP_STATE_MAIN_MENU)
 	{
 		TTF_SetTextColor(_title, 180, 180, 180, 255);
 		TTF_DrawRendererText(_title, _title_pos.x, _title_pos.y);
@@ -83,6 +92,10 @@ void	Div::setBorders(bool b) {
 
 void	Div::setFilled(bool b) {
 	_isFilled = b;
+}
+
+void	Div::setState(t_appState state) {
+	_state = state;
 }
 
 bool	Div::hasBorder() const {

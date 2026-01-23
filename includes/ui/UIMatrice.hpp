@@ -7,6 +7,7 @@
 #include "Slider.hpp"
 #include "Spinner.hpp"
 #include "Checkbox.hpp"
+#include "Togglebox.hpp"
 
 class UIMatrice {
 
@@ -62,7 +63,7 @@ public:
 	void									setHovered(int i, int j);
 	void									setState(t_UIState& state);
 
-
+	void									newWidget(t_UIType, t_pos, t_size, float min, float max, float val);
 
 	t_size									getSize() const;
 	t_pos									getHovered() const;

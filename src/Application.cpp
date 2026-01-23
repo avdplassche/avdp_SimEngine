@@ -157,6 +157,7 @@ int	Application::_initUIDev() {
 
 int	Application::_initSimulationOne() {
 	t_uiMatriceConfig	ui_matrix_config;
+	t_simOneConfig		sim_one_config;
 
 	ui_matrix_config.renderer = _renderer;
 	ui_matrix_config.isVisible = true;
@@ -176,7 +177,14 @@ int	Application::_initSimulationOne() {
 	ui_matrix_config.font = _font;
 	ui_matrix_config.isDev = false;
 	_simulation_one.getUiMatrice().setValues(ui_matrix_config);
-	//_simulation_one.getUiMatrice().printInfos();
+
+	sim_one_config.renderer = _renderer;
+	sim_one_config.div_borders = true;
+	sim_one_config.div_filled = false;
+	sim_one_config.theme = &_theme;
+	sim_one_config.window_size.w = _window_size.w;
+	sim_one_config.window_size.h = _window_size.h;
+	_simulation_one.setValues(sim_one_config);
 	return 0;
 }
 

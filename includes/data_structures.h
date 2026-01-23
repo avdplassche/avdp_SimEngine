@@ -65,8 +65,6 @@ typedef enum e_UIState {
 }				t_UIState;
 
 
-
-
 typedef enum e_valueType {
 	INT_VALUE,
 	FLOAT_VALUE
@@ -117,19 +115,29 @@ typedef struct s_MenuScreenConfig {
 }						t_MenuScreenConfig;
 
 typedef struct s_uiMatriceConfig {
-	SDL_Renderer	*renderer;
-	t_pos			pos;
-	t_size			size;
-	float			window_ratio_w;
-	t_size			table_size;
-	t_size			cell_size;
-	char			orientation;
-	bool			isVisible;
-	Theme			*theme;
-	TTF_TextEngine	*text_engine;
-	TTF_Font		*font;
-	bool			isDev;
-}					t_uiMatriceConfig;
+	SDL_Renderer		*renderer;
+	t_pos				pos;
+	t_size				size;
+	float				window_ratio_w;
+	t_size				table_size;
+	t_size				cell_size;
+	char				orientation;
+	bool				isVisible;
+	Theme				*theme;
+	TTF_TextEngine		*text_engine;
+	TTF_Font			*font;
+	bool				isDev;
+}						t_uiMatriceConfig;
+
+typedef struct s_simOneConfig {
+	SDL_Renderer		*renderer;
+	//t_pos				pos;
+	t_pos				ui_matrix_pos;
+	t_size				window_size;
+	bool				div_borders;
+	bool				div_filled;
+	Theme				*theme;
+}						t_simOneConfig;
 
 /** Used for Spinners and Sliders
  */

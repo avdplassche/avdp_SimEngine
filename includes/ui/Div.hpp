@@ -22,6 +22,8 @@ private:
 
 	bool				_isVisibleTitle = true;
 
+	t_appState			_state;
+
 public:
 
 	Div();
@@ -36,6 +38,7 @@ public:
 	void				setTitle(TTF_TextEngine *engine, TTF_Font *font, std::string text);
 	void				setTitlePos(int x, int y);
 	void				setData(t_pos pos, t_size size);
+	void				setState(t_appState);
 
 	void				draw(SDL_Renderer *renderer, t_color *color);
 

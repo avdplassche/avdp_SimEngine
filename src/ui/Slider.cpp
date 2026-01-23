@@ -113,7 +113,7 @@ void	Slider::_setText() {
 		ss << std::setprecision(2) << _val;
 	else
 		ss << _val;
-	TTF_SetFontSize(_font, FONT_SIZE - 6);
+	//TTF_SetFontSize(_font, FONT_SIZE - 6);
 	_title = TTF_CreateText(_text_engine, _font, ss.str().c_str(), ss.str().size());
 	TTF_GetTextSize(_title, &_title_size.w, &_title_size.h);
 	_title_pos.x = _pos.x + SLIDER_PADDING + _rect.w / 2 - _title_size.w / 2;

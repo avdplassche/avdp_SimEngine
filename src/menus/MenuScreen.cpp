@@ -70,7 +70,7 @@ void	MenuScreen::_setDiv() {
 	_div.setTitle(_text_engine, _font, title);
 	_div.setTitlePos((_div.getPos().x * 2 + _div.getSize().w) / 2 - _div.getTitleSize().w / 2
 					, _div.getPos().y + MENU_TITLE_PADDING_T);
-
+	_div.setState(APP_STATE_MAIN_MENU);
 }
 
 void	MenuScreen::_setButtons() {

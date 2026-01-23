@@ -156,11 +156,39 @@ void	UIMatrice::_setTestWidgets() {
 		_v.push_back(checkbox1);
 	}
 
+		{
+		Togglebox *toggle_box1 = new Togglebox;
+		t_valueUIConf	conf;
+
+		conf.renderer = _renderer;
+		conf.text_engine = _text_engine;
+		conf.font = _font;
+		conf.theme = _theme;
+		conf.checked = false;
+		conf.title = "Togglebox";
+		t_pos	matrix_pos = {6, 7};
+		t_pos	pos = {static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->x), static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->y)};
+
+		//std::cout << pos.x << " ----- " << pos.y << '\n';
+		toggle_box1->initValues(&conf);
+		toggle_box1->setMatrixPos(matrix_pos, pos, {_cell_size, _cell_size});
+		_v.push_back(toggle_box1);
+	}
 }
 
-//void	UIMatrice::addWidget(AUIElement *element) {
-//	_v.push_back(element);
-//}
+void	UIMatrice::newWidget(t_UIType type, t_pos matrix_pos, t_size matrix_size, float min, float max, float val) {
+	t_valueUIConf	conf;
+
+	conf.renderer = _renderer;
+	conf.text_engine = _text_engine;
+	conf.font = _font;
+	conf.theme = _theme;
+	conf.checked = false;
+	conf.title = "Togglebox";
+
+
+	//_v.push_back(element);
+}
 
 
 void	UIMatrice::_setWidgetsSize() {

@@ -38,7 +38,10 @@ void	handleGeneralEvents(SDL_Event *e, Application *app) {
 		else if (app->getState() == APP_STATE_MAIN_MENU)
 			app->getMenuScreen().setWindowSize(w, h);
 		else if (app->getState() == APP_STATE_SIMULATION_ONE)
-			app->getSimulationOne().getUiMatrice().setWindowSize(w, h);
+		{
+			app->getSimulationOne().setWindowSize({w, h});
+			//app->getSimulationOne().getUiMatrice().setWindowSize(w, h);
+		}
 		return ;
 	}
 }

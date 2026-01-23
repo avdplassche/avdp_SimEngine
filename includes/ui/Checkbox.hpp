@@ -20,7 +20,6 @@ private:
 	t_color				*_ui_text_color;
 	t_color				*_ui_check_color;
 
-	//SDL_FRect			_rect;
 	SDL_FRect			_box_rect;
 	SDL_FRect			_rect_checked_true;
 
