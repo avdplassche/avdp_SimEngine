@@ -50,7 +50,7 @@ void	Application::init() {
 		_state = APP_STATE_MAIN_MENU;
 		_initUIDev();
 		_initSimulationOne();
-		//printInfos();
+		printInfos();
 	}
 	catch (std::exception &e){
 		std::cout << "App Init - Exception catched : " << e.what() << '\n';
@@ -59,8 +59,7 @@ void	Application::init() {
 }
 
 int	Application::_initWindow() {
-
-	_window = SDL_CreateWindow("GOL", WINDOW_WIDTH, WINDOW_HEIGHT,SDL_WINDOW_RESIZABLE);
+	_window = SDL_CreateWindow("SDL Window", WINDOW_WIDTH, WINDOW_HEIGHT,SDL_WINDOW_RESIZABLE);
 	if (!_window)
 	{
 		newLog(SDL_GetError(), ERROR_LOG);
@@ -160,7 +159,7 @@ int	Application::_initSimulationOne() {
 	t_simOneConfig		sim_one_config;
 
 	ui_matrix_config.renderer = _renderer;
-	ui_matrix_config.isVisible = true;
+	ui_matrix_config.isVisible = false;
 	ui_matrix_config.size.w = _window_size.w;
 	ui_matrix_config.size.h = _window_size.h;
 	ui_matrix_config.pos.x = _window_size.w;
@@ -176,9 +175,9 @@ int	Application::_initSimulationOne() {
 	ui_matrix_config.text_engine = _text_engine;
 	ui_matrix_config.font = _font;
 	ui_matrix_config.isDev = false;
-	_simulation_one.getUiMatrice().setValues(ui_matrix_config);
+    _simulation_one.setUiMatrice(ui_matrix_config);
+    // _simulation_one.getUiMatrice().setValues(ui_matrix_config);
 
-	sim_one_config.renderer = _renderer;
 	sim_one_config.div_borders = true;
 	sim_one_config.div_filled = false;
 	sim_one_config.theme = &_theme;
@@ -291,11 +290,6 @@ void	Application::switchTheme() {
 
 void Application::processInput(SDL_Event *e) {
 	(void)e;
-	//if (e->type == SDL_EVENT_KEY_DOWN && e->key.scancode == 4)
-	//{
-		//std::cout << "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n";
-
-	//}
 }
 
 void	Application::quit() {

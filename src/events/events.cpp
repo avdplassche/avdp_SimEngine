@@ -5,16 +5,13 @@ void	handleEvents(SDL_Event *e, Application *app) {
 
 	handleGeneralEvents(e, app);
 
-	int state = app->getState();
-	switch (state)
-	{
-		case APP_STATE_MAIN_MENU:
-			handleMenuScreenEvents(e, app);
-			break;
-		case APP_STATE_UI_DEV:
-			handleUIDevEvents(e, app);
-			break;
-	}
+	if (app->getState() == APP_STATE_MAIN_MENU)
+		handleMenuScreenEvents(e, app);
+	else if (app->getState() == APP_STATE_UI_DEV)
+		handleUIDevEvents(e, app, &app->getUIDevMatrice());
+	else if (app->getState() == APP_STATE_SIMULATION_ONE)
+		handleUIDevEvents(e, app, &app->getSimulationOne().getUiMatrice());
+
 }
 
 
@@ -32,16 +29,13 @@ void	handleGeneralEvents(SDL_Event *e, Application *app) {
 		if (w < 300 || h < 300)
 			newLog("Window size may be too low", WARNING_LOG);
 		ss << "Window size set to [" << std::to_string(w) << "," << std::to_string(h) << "]";
-		newLog(ss.str(), DEBUG_LOG);
+		// newLog(ss.str(), DEBUG_LOG);
 		if (app->getState() == APP_STATE_UI_DEV)
 			app->getUIDevMatrice().setDevSize(w, h);
 		else if (app->getState() == APP_STATE_MAIN_MENU)
 			app->getMenuScreen().setWindowSize(w, h);
 		else if (app->getState() == APP_STATE_SIMULATION_ONE)
-		{
 			app->getSimulationOne().setWindowSize({w, h});
-			//app->getSimulationOne().getUiMatrice().setWindowSize(w, h);
-		}
 		return ;
 	}
 }

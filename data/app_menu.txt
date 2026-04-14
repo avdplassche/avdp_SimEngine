@@ -1,7 +1,5 @@
-Game of Life
-	Classic Mode
-	Colour Mode
-Particle Simulator
+Simulator
+	Simulation 01
 Development
 	UI Matrice
 Settings

@@ -8,7 +8,6 @@
 class MenuScreen {
 
 private:
-	SDL_Renderer				*_renderer;
 	TTF_TextEngine				*_text_engine;
 	TTF_Font					*_font;
 	Theme						*_theme;
@@ -50,7 +49,7 @@ public:
 
 	void						changeCurrentMenu(t_menu *current_menu);
 
-	void						draw();
+	void						draw(SDL_Renderer *renderer);
 
 	void						setWindowSize(int w, int h);
 

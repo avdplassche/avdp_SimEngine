@@ -7,7 +7,6 @@ Slider::Slider() {
 Slider::~Slider() {}
 
 void	Slider::initValues(t_valueUIConf *conf) {
-	_renderer = conf->renderer;
 	_text_engine = conf->text_engine;
 	_font = conf->font;
 	setTheme(*conf->theme);
@@ -19,12 +18,12 @@ void	Slider::initValues(t_valueUIConf *conf) {
 	//_setData();
 }
 
-void	Slider::draw() {
-	SDL_SetRenderDrawColor(_renderer, _ui_color->r, _ui_color->g,_ui_color->b, 255);
-	SDL_RenderFillRect(_renderer, &_rect);
-	SDL_RenderFillRect(_renderer, &_bar);
-	SDL_SetRenderDrawColor(_renderer, 20, 20,20, 255);
-	SDL_RenderRect(_renderer, &_bar);
+void	Slider::draw(SDL_Renderer *renderer) {
+	SDL_SetRenderDrawColor(renderer, _ui_color->r, _ui_color->g,_ui_color->b, 255);
+	SDL_RenderFillRect(renderer, &_rect);
+	SDL_RenderFillRect(renderer, &_bar);
+	SDL_SetRenderDrawColor(renderer, 20, 20,20, 255);
+	SDL_RenderRect(renderer, &_bar);
 	TTF_SetTextColor(_title, 0, 0, 0, 255);
 	TTF_DrawRendererText(_title, _title_pos.x, _title_pos.y);
 }
@@ -33,7 +32,7 @@ void	Slider::setValue(SDL_FPoint mouse) {
 	float	value = 0;
 	float	val_diff = _max - _min;
 	float	px_diff = 0;
-
+    
 	if (_orientation == 'h')
 	{
 		px_diff = _size.w - SLIDER_PADDING * 2;
@@ -45,7 +44,9 @@ void	Slider::setValue(SDL_FPoint mouse) {
 		value = _max - (mouse.y - _pos.y) * val_diff / px_diff;
 	}
 	else
-		return;
+    {
+        return;
+    }
 	if (_value_type == INT_VALUE)
 	{
 		int a = static_cast<int>(value);
@@ -59,11 +60,11 @@ void	Slider::setValue(SDL_FPoint mouse) {
 	_setText();
 }
 
-void	Slider::setMatrixPos(t_pos matrix_pos, t_size lenght, char orient, t_pos cell_origin, t_size cell_size) {
+void	Slider::setMatrixPos(t_pos matrix_pos, t_size lenght, t_pos cell_origin, t_size cell_size) {
 	_matrix_position = matrix_pos;
 	_matrix_size.w = lenght.w;
 	_matrix_size.h = lenght.h;
-	_orientation = orient;
+	_matrix_size.h > _matrix_size.w ? _orientation = 'v' : _orientation = 'h';
 	_cell_origin = cell_origin;
 	_cell_size = cell_size;
 	_pos = cell_origin;

@@ -8,7 +8,6 @@ Checkbox::~Checkbox() {}
 
 void	Checkbox::initValues(t_valueUIConf *conf) {
 
-	_renderer = conf->renderer;
 	_text_engine = conf->text_engine;
 	_font = conf->font;
 	_checked = conf->checked;
@@ -40,7 +39,7 @@ void	Checkbox::_setData() {
 		n++;
 	_matrix_size.w = n;
 	_matrix_size.h = 1;
-	TTF_SetFontSize(_font, _cell_size.h / 2);
+	// TTF_SetFontSize(_font, _cell_size.h / 2);
 	TTF_GetTextSize(_title.text, &_title.size.w, &_title.size.h);
 	_title.pos.x = _box_rect.w + _pos.x + SLIDER_PADDING * 2;
 	_title.pos.y = _pos.y + _cell_size.h / 2 - _title.size.h / 2;
@@ -51,8 +50,8 @@ void	Checkbox::_setText(std::string title) {
 	TTF_GetTextSize(_title.text, &_title.size.w, &_title.size.h);
 }
 
-void	Checkbox::setMatrixPos(t_pos matrix_pos, t_pos cell_origin, t_size cell_size) {
-
+void	Checkbox::setMatrixPos(t_pos matrix_pos, t_size lenght, t_pos cell_origin, t_size cell_size) {
+	(void) lenght;
 	_matrix_position = matrix_pos;
 	_cell_origin = cell_origin;
 	_cell_size = cell_size;
@@ -83,15 +82,15 @@ void	Checkbox::setValue(SDL_FPoint mouse) {
 	}
 }
 
-void	Checkbox::draw() {
-	SDL_SetRenderDrawColor(_renderer, _ui_color->r, _ui_color->g,_ui_color->b, 255);
-	SDL_RenderFillRect(_renderer, &_box_rect);
+void	Checkbox::draw(SDL_Renderer *renderer) {
+	SDL_SetRenderDrawColor(renderer, _ui_color->r, _ui_color->g,_ui_color->b, 255);
+	SDL_RenderFillRect(renderer, &_box_rect);
 	TTF_SetTextColor(_title.text, _ui_text_color->r, _ui_text_color->g, _ui_text_color->b, 255);
 	TTF_DrawRendererText(_title.text, _title.pos.x, _title.pos.y);
 	if (_checked)
 	{
-		SDL_SetRenderDrawColor(_renderer, _ui_check_color->r, _ui_check_color->g,_ui_check_color->b, 255);
-		SDL_RenderFillRect(_renderer, &_rect_checked_true);
+		SDL_SetRenderDrawColor(renderer, _ui_check_color->r, _ui_check_color->g,_ui_check_color->b, 255);
+		SDL_RenderFillRect(renderer, &_rect_checked_true);
 	}
 }
 

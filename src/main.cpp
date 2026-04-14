@@ -16,8 +16,6 @@ int exitProgramm(const char *error_message, int return_value) {
 	return return_value;
 }
 
-
-
 void	print_mode() {
 	switch (DEBUG_MODE)
 	{

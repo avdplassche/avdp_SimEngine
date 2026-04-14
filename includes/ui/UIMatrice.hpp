@@ -18,7 +18,6 @@ private:
 	//std::vector<std::vector<bool>>		_room;
 
 
-	SDL_Renderer							*_renderer;
 	TTF_TextEngine							*_text_engine;
 	TTF_Font								*_font;
 
@@ -63,16 +62,22 @@ public:
 	void									setHovered(int i, int j);
 	void									setState(t_UIState& state);
 
-	void									newWidget(t_UIType, t_pos, t_size, float min, float max, float val);
+	void									newWidget(t_UIType type,
+													t_pos matrix_pos,
+													t_size matrix_size,
+													std::string title,
+													t_uiData data);
 
 	t_size									getSize() const;
+    t_size                                  getTableSize() const;
 	t_pos									getHovered() const;
 	std::vector<std::vector<t_uiCell *>>	getTable() const;
 	t_UIState								getState() const;
+	std::vector<AUIElement *>				getElements() const;
 
 	AUIElement								*getHoveredElement();
 
-	void									draw();
+	void									draw(SDL_Renderer *renderer);
 
 	void									printInfos();
 };

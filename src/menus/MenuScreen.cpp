@@ -31,7 +31,6 @@ void	MenuScreen::changeCurrentMenu(t_menu *current_menu)
 }
 
 void	MenuScreen::_setConfig(t_MenuScreenConfig &config) {
-	_renderer = config.renderer;
 	_text_engine = config.text_engine;
 	_font = config.font;
 	_window_size = config.window_size;
@@ -90,11 +89,11 @@ void	MenuScreen::_setButtons() {
 	}
 }
 
-void	MenuScreen::draw() {
+void	MenuScreen::draw(SDL_Renderer *renderer) {
 
-	_div.draw(_renderer, _background_color);
+	_div.draw(renderer, _background_color);
 	for (int i = 0; i < _nbButtons; i++) {
-		_menu_buttons[i].draw(_renderer);
+		_menu_buttons[i].draw(renderer);
 	}
 }
 

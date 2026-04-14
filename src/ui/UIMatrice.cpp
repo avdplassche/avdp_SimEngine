@@ -28,7 +28,6 @@ int	UIMatrice::setValues(t_uiMatriceConfig& config) {
 }
 
 void	UIMatrice::_setConfig(t_uiMatriceConfig& config) {
-	_renderer = config.renderer;
 	_isVisible = config.isVisible;
 	_theme = config.theme;
 	_table_size = config.table_size;
@@ -76,12 +75,10 @@ void	UIMatrice::_setTableSize() {
 }
 
 void	UIMatrice::_setTestWidgets() {
-
 	{
 		Slider *slider1 = new Slider;
 		t_valueUIConf	conf;
 
-		conf.renderer = _renderer;
 		conf.text_engine = _text_engine;
 		conf.font = _font;
 		conf.theme = _theme;
@@ -93,14 +90,13 @@ void	UIMatrice::_setTestWidgets() {
 		t_size	matrix_size = {9, 1};
 
 		slider1->initValues(&conf);
-		slider1->setMatrixPos(matrix_pos, matrix_size, 'h', {static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->x), static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->y)}, {_cell_size, _cell_size});
+		slider1->setMatrixPos(matrix_pos, matrix_size, {static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->x), static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->y)}, {_cell_size, _cell_size});
 		_v.push_back(slider1);
 	}
 	{
 		Slider *slider2 = new Slider;
 		t_valueUIConf	conf;
 
-		conf.renderer = _renderer;
 		conf.text_engine = _text_engine;
 		conf.font = _font;
 		conf.theme = _theme;
@@ -112,14 +108,13 @@ void	UIMatrice::_setTestWidgets() {
 		t_size	matrix_size = {1, 5};
 
 		slider2->initValues(&conf);
-		slider2->setMatrixPos(matrix_pos, matrix_size, 'v', {static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->x), static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->y)}, {_cell_size, _cell_size});
+		slider2->setMatrixPos(matrix_pos, matrix_size,{static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->x), static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->y)}, {_cell_size, _cell_size});
 		_v.push_back(slider2);
 	}
 	{
 		Spinner *spinner1 = new Spinner;
 		t_valueUIConf	conf;
 
-		conf.renderer = _renderer;
 		conf.text_engine = _text_engine;
 		conf.font = _font;
 		conf.theme = _theme;
@@ -134,14 +129,13 @@ void	UIMatrice::_setTestWidgets() {
 
 
 		spinner1->initValues(&conf);
-		spinner1->setMatrixPos(matrix_pos, matrix_size, 'h', pos, {_cell_size, _cell_size});
+		spinner1->setMatrixPos(matrix_pos, matrix_size, pos, {_cell_size, _cell_size});
 		_v.push_back(spinner1);
 	}
 	{
 		Checkbox *checkbox1 = new Checkbox;
 		t_valueUIConf	conf;
 
-		conf.renderer = _renderer;
 		conf.text_engine = _text_engine;
 		conf.font = _font;
 		conf.theme = _theme;
@@ -152,15 +146,14 @@ void	UIMatrice::_setTestWidgets() {
 
 		//std::cout << pos.x << " ----- " << pos.y << '\n';
 		checkbox1->initValues(&conf);
-		checkbox1->setMatrixPos(matrix_pos, pos, {_cell_size, _cell_size});
+		checkbox1->setMatrixPos(matrix_pos, {0, 0}, pos, {_cell_size, _cell_size});
 		_v.push_back(checkbox1);
 	}
 
-		{
+    {
 		Togglebox *toggle_box1 = new Togglebox;
 		t_valueUIConf	conf;
 
-		conf.renderer = _renderer;
 		conf.text_engine = _text_engine;
 		conf.font = _font;
 		conf.theme = _theme;
@@ -171,23 +164,48 @@ void	UIMatrice::_setTestWidgets() {
 
 		//std::cout << pos.x << " ----- " << pos.y << '\n';
 		toggle_box1->initValues(&conf);
-		toggle_box1->setMatrixPos(matrix_pos, pos, {_cell_size, _cell_size});
+		toggle_box1->setMatrixPos(matrix_pos, {0, 0}, pos, {_cell_size, _cell_size});
 		_v.push_back(toggle_box1);
 	}
 }
 
-void	UIMatrice::newWidget(t_UIType type, t_pos matrix_pos, t_size matrix_size, float min, float max, float val) {
+void	UIMatrice::newWidget(t_UIType type,
+							t_pos matrix_pos,
+							t_size matrix_size,
+							std::string title,
+							t_uiData data) {
 	t_valueUIConf	conf;
+	AUIElement		*element = nullptr;
+	t_pos	pos = {static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->x),
+					static_cast<int>(_table[matrix_pos.y][matrix_pos.x]->rect->y)};
 
-	conf.renderer = _renderer;
 	conf.text_engine = _text_engine;
 	conf.font = _font;
 	conf.theme = _theme;
 	conf.checked = false;
-	conf.title = "Togglebox";
-
-
-	//_v.push_back(element);
+	conf.title = title;
+	conf.max = data.max;
+	conf.min = data.min;
+	conf.value = data.val;
+	switch (type)
+	{
+	case SLIDER:
+        conf.value_type = data.type;
+		element = new Slider;
+		break;
+	case CHECK_BOX:
+		element = new Checkbox;
+		break;
+	case TOGGLE_BOX:
+		element = new Togglebox;
+		break;
+	default:
+		break;
+	}
+	element->initValues(&conf);
+	element->setMatrixPos(matrix_pos, matrix_size, pos, {_cell_size, _cell_size});
+	_v.push_back(element);
+    _setCells();
 }
 
 
@@ -210,8 +228,9 @@ int	UIMatrice::_setCells() {
 		{
 			for (int y = 0; y < _v[i]->getMatrixSize().h; y++)
 			{
-				if (_table[_v[i]->getMatrixPos().y + y][_v[i]->getMatrixPos().x + x]->widget != nullptr)
-					return -1;
+				// if (_table[_v[i]->getMatrixPos().y + y][_v[i]->getMatrixPos().x + x]->widget != nullptr)
+				//                 return -1;
+				//             }
 				_table[_v[i]->getMatrixPos().y + y][_v[i]->getMatrixPos().x + x]->widget = _v[i];
 			}
 		}
@@ -220,7 +239,7 @@ int	UIMatrice::_setCells() {
 }
 
 
-void	UIMatrice::draw() {
+void	UIMatrice::draw(SDL_Renderer *renderer) {
 
 
 	////	Draw matrice (maybe it will become invisible in the future)
@@ -229,10 +248,10 @@ void	UIMatrice::draw() {
 		for (int j = 0; j < _table_size.w; j++)
 		{
 			if (i == _hoveredCell.y && j == _hoveredCell.x)
-				SDL_SetRenderDrawColor(_renderer, 155, 155, 155, 155);
+				SDL_SetRenderDrawColor(renderer, 155, 155, 155, 155);
 			else
-				SDL_SetRenderDrawColor(_renderer, _ui_matrice_color.r, _ui_matrice_color.g, _ui_matrice_color.b, 255);
-			SDL_RenderRect(_renderer,  _table[i][j]->rect);
+				SDL_SetRenderDrawColor(renderer, _ui_matrice_color.r, _ui_matrice_color.g, _ui_matrice_color.b, 255);
+			SDL_RenderRect(renderer,  _table[i][j]->rect);
 		}
 	}
 
@@ -240,7 +259,7 @@ void	UIMatrice::draw() {
 
 	for (size_t i = 0; i < _v.size(); i++)
 	{
-		_v.at(i)->draw();
+		_v.at(i)->draw(renderer);
 	}
 
 }
@@ -299,6 +318,10 @@ t_size	UIMatrice::getSize() const {
 	return _size;
 }
 
+t_size	UIMatrice::getTableSize() const {
+	return _table_size;
+}
+
 t_pos	UIMatrice::getHovered() const {
 	return _hoveredCell;
 }
@@ -309,6 +332,11 @@ std::vector<std::vector<t_uiCell *>>	UIMatrice::getTable() const {
 
 t_UIState	UIMatrice::getState() const {
 	return _state;
+}
+
+
+std::vector<AUIElement *>	UIMatrice::getElements() const {
+    return _v;
 }
 
 AUIElement	*UIMatrice::getHoveredElement() {

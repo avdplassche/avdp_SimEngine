@@ -9,7 +9,7 @@
 # define DEBUG_MODE 0
 #endif
 
-#define PRINT_DEBUG_LOG 0
+#define PRINT_DEBUG_LOG 1
 
 
 
@@ -18,15 +18,15 @@
  * 	SimulationOne 	2
  *  GOL_MENU  		3
  */
-#define STARTING_STATE 1
+#define STARTING_STATE 0
 
 ////////////////////////////////////////
 ////			GRAPHIC				////
 ////////////////////////////////////////
 
 
-#define WINDOW_WIDTH 1280
-#define WINDOW_HEIGHT 720
+#define WINDOW_WIDTH 1920
+#define WINDOW_HEIGHT 1200
 
 #define	MENU_BUTTON_WIDTH 200
 #define	MENU_BUTTON_HEIGHT 32
@@ -67,8 +67,8 @@
 #define UI_MATRICE_TEST_W 32
 #define UI_MATRICE_TEST_H 24
 
-#define UI_MATRICE_SIM_ONE_W 32
-#define UI_MATRICE_SIM_ONE_H 64
+#define UI_MATRICE_SIM_ONE_W 10
+#define UI_MATRICE_SIM_ONE_H 10
 
 #define SLIDER_PADDING 4
 #define SLIDER_BAR_RATIO 10

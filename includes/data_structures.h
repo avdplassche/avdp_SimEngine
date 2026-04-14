@@ -130,8 +130,6 @@ typedef struct s_uiMatriceConfig {
 }						t_uiMatriceConfig;
 
 typedef struct s_simOneConfig {
-	SDL_Renderer		*renderer;
-	//t_pos				pos;
 	t_pos				ui_matrix_pos;
 	t_size				window_size;
 	bool				div_borders;
@@ -142,7 +140,6 @@ typedef struct s_simOneConfig {
 /** Used for Spinners and Sliders
  */
 typedef struct s_valueUIConf {
-	SDL_Renderer	*renderer;
 	Theme			*theme;
 	TTF_TextEngine	*text_engine;
 	TTF_Font		*font;
@@ -174,10 +171,15 @@ typedef struct s_uiCell {
 	AUIElement		*widget;
 }				t_uiCell;
 
+/** min
+ * max
+ * val
+*/
 typedef struct s_uiData {
 	float			min;
 	float			max;
 	float			val;
+	t_valueType		type;
 }				t_uiData;
 
 

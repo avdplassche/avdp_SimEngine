@@ -4,7 +4,6 @@
 #include "Theme.hpp"
 #include "MenuTree.hpp"
 #include "MenuScreen.hpp"
-#include "UI.hpp"
 #include "SimulationOne.hpp"
 
 class Application {
@@ -69,7 +68,6 @@ public:
 	//void				recalculateData(); // used if resolution is changed
 
 	t_size				getWindowSize() const;
-	//t_size				getMonitorResolution() const;
 
 	SDL_Window			*getWindow() const;
 	SDL_Renderer		*getRenderer() const;

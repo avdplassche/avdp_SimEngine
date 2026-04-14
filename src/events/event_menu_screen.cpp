@@ -50,6 +50,16 @@ void	handleMenuScreenEvents(SDL_Event *e, Application *app) {
 							app->setState(APP_STATE_UI_DEV);
 							newLog("TEST - Entered UI Dev State", INFO_LOG);
 						}
+                        else if (it->getMenu()->content == "Simulation 01")
+                        {
+                            int					w,h;
+                            std::stringstream	ss;
+		                    SDL_GetWindowSize(app->getWindow(), &w, &h);
+                            app->getSimulationOne().setWindowSize({w, h});
+                            app->getSimulationOne().updateWidgetValues();
+                            app->setState(APP_STATE_SIMULATION_ONE);
+                            newLog("TEST - Entered Sim one", INFO_LOG);
+                        }
 						return ;
 					case MENU_QUIT:
 						app->quit();

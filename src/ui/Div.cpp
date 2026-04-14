@@ -29,12 +29,10 @@ void	Div::draw(SDL_Renderer *renderer, t_color *color) {
 		SDL_SetRenderDrawColor(renderer, color->r , color->g , color->b , SDL_ALPHA_OPAQUE);
 	if (_isFilled)
 	{
-		//std::cout <<"render1\n";
 		SDL_RenderFillRect(renderer, &_rect);
 	}
 	else if (_hasBorder)
 	{
-		//std::cout <<"render2\n";
 		SDL_RenderRect(renderer, &_rect);
 	}
 	if (_isVisibleTitle && _state == APP_STATE_MAIN_MENU)

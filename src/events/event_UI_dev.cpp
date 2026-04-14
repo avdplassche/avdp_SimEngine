@@ -1,6 +1,6 @@
 #include "events.h"
 
-void	handleUIDevEvents(SDL_Event *e, Application *app) {
+void	handleUIDevEvents(SDL_Event *e, Application *app, UIMatrice *uiMatrix) {
 
 	float					x, y = 0;
 	SDL_MouseButtonFlags	button_flag = SDL_GetMouseState(&x, &y);;
@@ -11,26 +11,34 @@ void	handleUIDevEvents(SDL_Event *e, Application *app) {
 
 	if (e->type == SDL_EVENT_MOUSE_MOTION)
 	{
-		for (size_t i = 0; i < app->getUIDevMatrice().getTable().size(); i++)
+		for (size_t i = 0; i < uiMatrix->getTable().size(); i++)
 		{
-			for (size_t j = 0; j < app->getUIDevMatrice().getTable()[i].size(); j++)
+			for (size_t j = 0; j < uiMatrix->getTable()[i].size(); j++)
 			{
-				SDL_FRect *r = app->getUIDevMatrice().getTable()[i][j]->rect;
-				if (SDL_PointInRectFloat(&point, r))
+				if (SDL_PointInRectFloat(&point, uiMatrix->getTable()[i][j]->rect))
 				{
-					app->getUIDevMatrice().setHovered(i, j);
+					uiMatrix->setHovered(i, j);
 					mouseInMatrice = true;
+					break ;
 				}
 			}
+			if (mouseInMatrice)
+				break ;
 		}
 		if (mouseInMatrice == false)
 		{
-			app->getUIDevMatrice().setHovered(-1, -1);
+			uiMatrix->setHovered(-1, -1);
+            
 		}
 	}
 
-	AUIElement *widget = app->getUIDevMatrice().getHoveredElement();
-
+    AUIElement *widget = nullptr;
+    if (app->getState() == APP_STATE_SIMULATION_ONE) {
+        widget = uiMatrix->getHoveredElement();
+    }
+    else {
+        widget = app->getUIDevMatrice().getHoveredElement();
+    }
 	if (!widget)
 		return ;
 
@@ -44,6 +52,7 @@ void	handleUIDevEvents(SDL_Event *e, Application *app) {
 			widget->setValue(app->getMousePos());
 		else if (widget->getType() == TOGGLE_BOX)
 			widget->setValue(app->getMousePos());
+        app->getSimulationOne().updateWidgetValues();
 	}
 }
 

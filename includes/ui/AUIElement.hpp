@@ -43,6 +43,10 @@ public:
 	void					setSize(int width, int height);
 	virtual void			setPosSize(t_pos pos, t_size size) = 0;
 
+	virtual void			initValues(t_valueUIConf *conf) = 0;
+	virtual void			setMatrixPos(t_pos matrix_pos, t_size lenght, t_pos cell_origin, t_size cell_size) = 0;
+
+
 	virtual void			setValue(SDL_FPoint mouse) = 0;
 	virtual void			setTheme(Theme&) = 0;
 	//virtual void			setValue(int) = 0;
@@ -61,7 +65,7 @@ public:
 	float					getMin() const;
 
 
-	virtual void			draw() = 0;
+	virtual void			draw(SDL_Renderer *renderer) = 0;
 };
 
 

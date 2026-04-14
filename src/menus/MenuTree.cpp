@@ -25,7 +25,7 @@ void	MenuTree::load(std::string menu_filename, std::vector<std::string> *theme_l
 	_fillNodes(ifstream, root);
 	_finalizeTypes(root, theme_list);
 	_menu_tree = *root;
-	printMenu(root->sub, true);
+	//printMenu(root->sub, true);
 }
 
 void MenuTree::_fillNodes(std::ifstream& ifstream, t_menu* root) {

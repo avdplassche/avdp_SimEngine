@@ -8,7 +8,6 @@
 class Spinner : public AUIElement {
 
 private:
-	SDL_Renderer		*_renderer;
 	TTF_TextEngine		*_text_engine;
 	TTF_Font			*_font;
 	t_text				_title;
@@ -40,14 +39,14 @@ public:
 	Spinner();
 	~Spinner();
 
-	void				draw();
+	void				draw(SDL_Renderer *renderer);
 
 	void				initValues(t_valueUIConf *conf);
 	void				setValue(SDL_FPoint mouse);
 	void				increaseValue();
 	void				decreaseValue();
 
-	void				setMatrixPos(t_pos pos, t_size lenght, char orient, t_pos cell_origin, t_size cell_size);
+	void				setMatrixPos(t_pos pos, t_size lenght, t_pos cell_origin, t_size cell_size);
 	void				setPosSize(t_pos pos, t_size size);
 	void				setTheme(Theme&);
 	void				printDatas();

@@ -6,13 +6,14 @@
 
 #include "Div.hpp"
 #include "Theme.hpp"
+#include <SDL3/SDL_pixels.h>
+#include <SDL3/SDL_rect.h>
 
 
 class SimulationOne {
 
 private:
 
-	SDL_Renderer			*_renderer;
 	//TTF_TextEngine		*_text_engine;
 	//TTF_Font				*_font;
 
@@ -29,20 +30,24 @@ private:
 	void					_setConfig(t_simOneConfig& );
 	void					_setWidgets();
 
+    SDL_FRect               _rect;
+    SDL_Color               _rectColor = {100, 50, 200, 100};
+
 public:
 
 	SimulationOne();
 	~SimulationOne();
 
-
+    
 	void					setValues(t_simOneConfig& );
 	void					setWindowSize(t_size);
 	void					setUiMatrice(t_uiMatriceConfig&);
 	void					setTheme(Theme &);
+    void                    updateWidgetValues();
 
 	UIMatrice&				getUiMatrice();
 
-	void					draw();
+	void					draw(SDL_Renderer *renderer);
 	void					printInfos();
 };
 
